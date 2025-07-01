@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import About from './components/About';
 import Projects from './components/Projects';
@@ -12,6 +12,7 @@ const App = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+    console.log('isMenuOpen:', !isMenuOpen); // Log the new state
   };
 
   const scrollToContact = () => {
@@ -44,11 +45,12 @@ const App = () => {
       {isMenuOpen && (
         <AnimatePresence>
           <motion.div
+            key="menu-overlay"
             className="menu-overlay"
-            initial={{ y: "-100%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: "-100%", opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            initial={{ y: "-100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           >
             
             <button className="menu-button open" onClick={toggleMenu} style={{ position: 'absolute', top: '50px', left: '50%', transform: 'translateX(-50%)', color: '#000' }}>
@@ -56,8 +58,11 @@ const App = () => {
             </button>
             <nav className="mobile-nav">
               <a href="#hero" onClick={toggleMenu}>Home</a>
-              <a href="#about" onClick={toggleMenu}>About us</a>
-              <a href="#projects" onClick={toggleMenu}>Our projects</a>
+              <a href="#about" onClick={toggleMenu}>About</a>
+              <a href="#projects" onClick={toggleMenu}>Projects</a>
+              <a href="#skills" onClick={toggleMenu}>Skills</a>
+              <a href="#certifications" onClick={toggleMenu}>Certifications</a>
+              <a href="#contact" onClick={toggleMenu}>Contact</a>
             </nav>
           </motion.div>
         </AnimatePresence>

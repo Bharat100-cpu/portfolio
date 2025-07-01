@@ -19,6 +19,8 @@ header {
 .logo {
   font-size: 1.5em;
   font-weight: bold;
+  position: relative;
+  z-index: 1001; /* Ensure it's above the menu overlay */
 }
 
 .header-right-content {
@@ -102,8 +104,8 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: #FFFFFF; /* White background */
   display: flex;
   flex-direction: column;
@@ -126,21 +128,15 @@ header {
   text-decoration: none;
   font-size: 3em; /* Increased font size */
   font-weight: bold;
+  color: #A0A0A0; /* Light grey for visibility on white background */
   transition: color 0.4s ease-in-out; /* Smooth transition for text color */
 }
 
 .mobile-nav a:hover {
-  color: #0E1E2E !important; /* Dark blue on hover, with increased specificity */
+  color: #000000 !important; /* Change to black on hover */
 }
 
-.mobile-nav a:nth-child(1) {
-  color: #0E1E2E; /* Dark blue for Home */
-}
 
-.mobile-nav a:nth-child(2),
-.mobile-nav a:nth-child(3) {
-  color: #B0B0B0; /* Lighter gray for other links */
-}
 
 .mobile-nav a:hover {
   color: #0E1E2E; /* Ensure hover color overrides specific link colors */
@@ -163,9 +159,16 @@ main {
 .hero-section .bio-text {
   font-size: 1.2em;
   max-width: 1200px; /* Adjust as needed */
-  margin: 0 auto;
+  margin: 0 auto 20px auto; /* Added margin-bottom */
   text-align: center;
   color: #fff;
+}
+
+.hero-section .tagline-text {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 20px;
 }
 
 .hero-section .highlight {
