@@ -30,9 +30,11 @@ const App = () => {
           transition={{ type: "spring", stiffness: 120 }}
         >
           <div className="logo"><img src="/Salesforce.com_logo.svg.png" alt="Salesforce Logo" style={{ height: '75px' }} /></div>
-          <button className="menu-button" onClick={toggleMenu}>
-            <span className="menu-icon"></span> MENU
-          </button>
+          {!isMenuOpen && (
+            <button className="menu-button" onClick={toggleMenu}>
+              <span className="menu-icon"></span> MENU
+            </button>
+          )}
           <div className="header-right-content">
             <button className="reach-out-button" onClick={scrollToContact}>Reach out</button>
           </div>
@@ -48,14 +50,10 @@ const App = () => {
             exit={{ y: "-100%", opacity: 0, transition: { duration: 0.4, ease: "easeInOut" } }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <div className="menu-overlay-header">
-              <button className="close-menu-button" onClick={toggleMenu}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18 6L6 18M6 6L18 18" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                CLOSE MENU
-              </button>
-            </div>
+            
+            <button className="menu-button open" onClick={toggleMenu} style={{ position: 'absolute', top: '50px', left: '50%', transform: 'translateX(-50%)', color: '#000' }}>
+              <span className="menu-icon"></span> CLOSE MENU
+            </button>
             <nav className="mobile-nav">
               <a href="#hero" onClick={toggleMenu}>Home</a>
               <a href="#about" onClick={toggleMenu}>About us</a>

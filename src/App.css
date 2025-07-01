@@ -39,14 +39,16 @@ header {
   align-items: center;
   gap: 5px;
   border-radius: 0;
+  transition: color 0.4s ease-in-out; /* Smooth transition for text color */
 }
 
 .menu-icon {
   width: 24px; /* Increased width */
   height: 2px;
-  background-color: #fff;
+  background-color: transparent; /* Hide the middle bar by default */
   position: relative;
   margin-bottom: 4px; /* Space between icon and text */
+  transition: background-color 0.3s ease; /* Smooth transition for middle bar */
 }
 
 .menu-icon::before,
@@ -57,6 +59,7 @@ header {
   background-color: #fff;
   position: absolute;
   left: 0;
+  transition: transform 0.4s ease-in-out, top 0.4s ease-in-out; /* Smooth transition for lines */
 }
 
 .menu-icon::before {
@@ -67,8 +70,21 @@ header {
   top: 5px;
 }
 
-.menu-button .menu-icon {
-  background-color: transparent; /* Hide the middle bar */
+/* Animation for menu-icon when menu is open */
+
+
+.menu-button.open .menu-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+  background-color: #000; /* Change to black for visibility on white background */
+  transition: transform 0.4s ease-in-out, top 0.4s ease-in-out, background-color 0.4s ease-in-out;
+}
+
+.menu-button.open .menu-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+  background-color: #000; /* Change to black for visibility on white background */
+  transition: transform 0.4s ease-in-out, top 0.4s ease-in-out, background-color 0.4s ease-in-out;
 }
 
 .reach-out-button {
@@ -96,32 +112,9 @@ header {
   z-index: 1000;
 }
 
-.menu-overlay-header {
-  position: absolute;
-  top: 20px;
-  left: 20px; /* Adjusted for logo */
-  width: calc(100% - 40px); /* Adjusted for padding */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.menu-overlay-header .logo {
-  color: #000; /* Dark color for logo */
-}
 
-.close-menu-button {
-  background: none;
-  border: none;
-  color: #000; /* Dark color for text */
-  padding: 0;
-  cursor: pointer;
-  font-size: 1em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-}
+
 
 .mobile-nav {
   display: flex;
@@ -133,6 +126,11 @@ header {
   text-decoration: none;
   font-size: 3em; /* Increased font size */
   font-weight: bold;
+  transition: color 0.4s ease-in-out; /* Smooth transition for text color */
+}
+
+.mobile-nav a:hover {
+  color: #0E1E2E !important; /* Dark blue on hover, with increased specificity */
 }
 
 .mobile-nav a:nth-child(1) {
@@ -142,6 +140,10 @@ header {
 .mobile-nav a:nth-child(2),
 .mobile-nav a:nth-child(3) {
   color: #B0B0B0; /* Lighter gray for other links */
+}
+
+.mobile-nav a:hover {
+  color: #0E1E2E; /* Ensure hover color overrides specific link colors */
 }
 
 main {
