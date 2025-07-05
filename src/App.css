@@ -10,7 +10,7 @@
 }
 
 .App {
-  background-color: var(--background-dark);
+  background-color: transparent; /* Make App background transparent to show body background */
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
@@ -102,8 +102,8 @@ header {
 }
 
 .reach-out-button {
-  background: linear-gradient(90deg, var(--accent-color), #FFC107);
-  color: var(--text-dark);
+  background: var(--accent-color); /* Use accent color */
+  color: var(--background-dark); /* Text on accent color */
   border: none;
   padding: 12px 25px;
   border-radius: 8px;
@@ -112,11 +112,12 @@ header {
   font-weight: 600;
   font-family: var(--font-family);
   transition: all 0.3s ease;
+  box-shadow: none; /* Remove shadow */
 }
 
 .reach-out-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 15px rgba(255, 183, 77, 0.4);
+  transform: translateY(-2px); /* Subtle lift */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
 }
 
 .menu-overlay {
@@ -125,7 +126,7 @@ header {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: var(--background-light);
+  background-color: var(--background-light); /* Use light background */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -144,17 +145,17 @@ header {
   text-decoration: none;
   font-size: 3.5em;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-dark); /* Dark text on light background */
   transition: color 0.3s ease;
 }
 
 .mobile-nav a:hover {
-  color: var(--primary-color);
+  color: var(--primary-color); /* Primary color on hover */
 }
 
 .about-section {
   padding: 100px 20px;
-  background-color: var(--background-dark);
+  background-color: transparent; /* Make about section background transparent */
   color: var(--text-light);
   text-align: center;
 }
@@ -168,7 +169,7 @@ header {
   font-size: 3em;
   margin-bottom: 40px;
   font-weight: 700;
-  color: var(--accent-color);
+  color: var(--primary-color); /* Use primary color for headings */
 }
 
 .about-summary {
@@ -176,7 +177,7 @@ header {
   max-width: 800px;
   margin: 0 auto 50px auto;
   line-height: 1.8;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-dark); /* Dark text on light background */
   text-align: center;
 }
 
@@ -184,7 +185,7 @@ header {
   font-size: 1.8em;
   margin-top: 40px;
   margin-bottom: 15px;
-  color: var(--primary-color);
+  color: var(--primary-color); /* Use primary color for headings */
   font-weight: 600;
 }
 
@@ -193,7 +194,7 @@ header {
   max-width: 700px;
   margin: 0 auto;
   line-height: 1.7;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-dark); /* Dark text on light background */
 }
 
 /* Media Queries */
@@ -253,4 +254,71 @@ header {
   .mobile-nav a {
     font-size: 2em;
   }
+}
+
+.btn-primary, .btn-secondary {
+  padding: 18px 35px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: none; /* Remove shadow */
+}
+
+.btn-primary {
+  background: var(--accent-color); /* Use accent color */
+  color: var(--background-dark); /* Text on accent color */
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px); /* Subtle lift */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.btn-secondary {
+  background-color: transparent; /* Transparent background */
+  color: var(--primary-color); /* Primary color for text */
+  border: 1px solid var(--primary-color); /* Primary color for border */
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color); /* Primary color on hover */
+  color: var(--background-dark); /* Text on primary color */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 50px;
+  background: transparent; /* Make hero section background transparent to show body background */
+  color: var(--text-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: none; /* Remove background animation */
+  pointer-events: none;
+}
+
+.contact-section {
+  background-color: transparent; /* Make contact section background transparent */
+  color: var(--text-dark);
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.section-green {
+  background-color: transparent; /* Make section-green transparent */
 }

@@ -16,16 +16,16 @@ const Hero = () => {
       <div className="hero-content-wrapper">
         <div className="hero-left-column">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.9, ease: [0.17, 0.67, 0.83, 0.67], delay: 0.2 }}
           >
             Salesforce Developer &<br /> Experience Cloud Expert
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ duration: 0.8, ease: [0.17, 0.67, 0.83, 0.67], delay: 0.4 }}
             className="hero-description"
           >
             I build scalable and engaging solutions on the Salesforce platform. Let's create something amazing together.
@@ -33,7 +33,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 100, damping: 10 }}
             className="hero-buttons"
           >
             <button className="btn-primary">View Projects</button>
@@ -42,21 +42,21 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
+            transition={{ duration: 0.8, delay: 0.8, staggerChildren: 0.1 }}
             className="hero-stats"
           >
-            <div className="stat-item">
+            <motion.div className="stat-item" variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }}>
               <span className="stat-number">3+</span>
               <span className="stat-label">years experience</span>
-            </div>
-            <div className="stat-item">
+            </motion.div>
+            <motion.div className="stat-item" variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }}>
               <span className="stat-number">4</span>
               <span className="stat-label">projects success</span>
-            </div>
-            <div className="stat-item">
+            </motion.div>
+            <motion.div className="stat-item" variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }}>
               <span className="stat-number">98%</span>
               <span className="stat-label">satisfied rate</span>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
         
