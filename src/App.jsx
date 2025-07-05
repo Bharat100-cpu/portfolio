@@ -34,9 +34,9 @@ const App = () => {
   return (
     <div className="App">
       <header>
-        <div className="logo"><img src="/Salesforce.com_logo.svg.png" alt="Salesforce Logo" /></div>
+        <div className="logo"><span>Portfolio</span></div>
         <div className="header-right-content">
-          <button className="reach-out-button" onClick={() => scrollToSection('contact-section')}>Reach out</button>
+          <button className="reach-out-button" onClick={() => scrollToSection('contact')}>Reach out</button>
           <button className={`menu-button ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
             <span className="menu-icon"></span>
           </button>
@@ -90,7 +90,6 @@ const App = () => {
                 transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 100, damping: 10 }}
                 className="hero-buttons"
               >
-                <button className="btn-primary">View Projects</button>
                 <button className="btn-secondary" onClick={handleDownload}>Download Resume</button>
               </motion.div>
               <motion.div

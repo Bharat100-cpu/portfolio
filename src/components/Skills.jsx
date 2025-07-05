@@ -83,9 +83,9 @@ const Skills = () => {
                 whileHover={{
                   scale: 1.15,
                   zIndex: 1,
-                  boxShadow: '0 0 25px rgba(255, 183, 77, 0.8)',
-                  backgroundColor: 'var(--accent-color)',
-                  color: 'var(--background-dark)'
+                  boxShadow: '0 0 25px rgba(0, 0, 0, 0.8)',
+                  backgroundColor: '#000000',
+                  color: '#FFFFFF'
                 }}
                 style={{
                   position: 'absolute',
