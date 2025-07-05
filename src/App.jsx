@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Projects from './components/Projects';
-import Footer from './components/Footer';
+
 import Contact from './components/Contact';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
@@ -200,7 +200,7 @@ const App = () => {
         <Superbadges />
         <Contact />
       </main>
-      <Footer />
+      
     </div>
   );
 };
