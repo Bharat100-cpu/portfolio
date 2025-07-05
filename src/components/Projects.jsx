@@ -1,4 +1,5 @@
 import React from 'react';
+import { Fade } from 'react-awesome-reveal';
 
 const projects = [
   {
@@ -30,17 +31,19 @@ const projects = [
 const Projects = () => {
   return (
     <section id="projects">
-      <h2>My Projects</h2>
-      <div className="projects-grid">
-        {projects.map((project) => (
-          <div key={project.id} className="project-card">
-            <h3>{project.title}</h3>
-            <p className="project-technologies"><strong>Technologies:</strong> {project.technologies}</p>
-            <p className="project-description">{project.description}</p>
-            <button className="view-project-button">View Project</button>
-          </div>
-        ))}
-      </div>
+      <Fade cascade damping={0.1}>
+        <h2>My Projects</h2>
+        <div className="projects-grid">
+          {projects.map((project) => (
+            <div key={project.id} className="project-card">
+              <h3>{project.title}</h3>
+              <p className="project-technologies"><strong>Technologies:</strong> {project.technologies}</p>
+              <p className="project-description">{project.description}</p>
+              <button className="view-project-button">View Project</button>
+            </div>
+          ))}
+        </div>
+      </Fade>
     </section>
   );
 };

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
+import Certifications from './components/Certifications';
+import Superbadges from './components/Superbadges';
 import './App.css';
 
 const App = () => {
@@ -159,6 +162,13 @@ const App = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.5 }}
                   transition={{ duration: 0.6, delay: 0.7 }}
+                  >
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
                 >
                   Mathura, Uttar Pradesh
                 </motion.p>
@@ -185,6 +195,9 @@ const App = () => {
         <Projects />
         <Skills />
         <Experience />
+        
+        <Certifications />
+        <Superbadges />
         <Contact />
       </main>
       <Footer />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaLinkedin, FaEnvelope, FaTwitter, FaInstagram } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaTwitter, FaInstagram, FaSalesforce } from 'react-icons/fa';
 
 const Contact = () => {
   return (
@@ -22,6 +22,7 @@ const Contact = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <h3>Our Social Media</h3>
+          <a href="https://www.salesforce.com/trailblazer/bharatkumar2002" target="_blank" rel="noopener noreferrer"><FaSalesforce /> Trailhead Profile</a>
           <a href="https://www.linkedin.com/in/bharat-kumar77" target="_blank" rel="noopener noreferrer"><FaLinkedin /> LinkedIn</a>
           <a href="https://twitter.com/KumarBharat1005" target="_blank" rel="noopener noreferrer"><FaTwitter /> Twitter</a>
           <a href="https://www.instagram.com/kumar_bharat667" target="_blank" rel="noopener noreferrer"><FaInstagram /> Instagram</a>

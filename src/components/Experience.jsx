@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const experienceData = [
   {
     title: "Fexle Services Private Limited - Salesforce Developer",
-      duration: "Jaipur, Rajasthan | May 2022 – 30th June 2025",
+      duration: "Jaipur, Rajasthan | May 2022 – June 2025",
     responsibilities: [
       "Developed and optimized Apex classes, triggers, and Lightning Web Components (LWC) to support scalable and high-performance Salesforce solutions.",
       "Converted intricate business needs into custom Salesforce implementations, improving workflow automation and system usability.",

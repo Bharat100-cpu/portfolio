@@ -180,10 +180,10 @@ header {
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); /* Gradient to blue on hover */
-  color: white;
-  box-shadow: 0 8px 20px rgba(0, 112, 210, 0.4); /* More prominent blue shadow */
-  transform: translateY(-3px) scale(1.02); /* More noticeable lift and scale */
+  background-color: rgba(0, 112, 210, 0.1); /* Subtle background fill on hover */
+  color: var(--primary-color);
+  box-shadow: 0 6px 15px rgba(0, 112, 210, 0.3); /* More pronounced shadow on hover */
+  transform: translateY(-2px); /* Slight lift */
 }
 
 .hero-stats {
@@ -205,17 +205,6 @@ header {
 
 .stat-item:hover .stat-number {
   color: var(--secondary-color); /* Darker blue for number on hover */
-}
-
-.stat-number {
-  font-size: 2em;
-  font-weight: bold;
-  color: var(--primary-color);
-}
-
-.stat-label {
-  font-size: 0.9em;
-  color: #777;
 }
 
 /* About Section (Right Column) Styles */
@@ -388,7 +377,7 @@ header {
 .contact-section {
   padding: 60px 20px;
   text-align: center;
-  background-color: var(--light-gray);
+  background-color: var(--background-color);
 }
 
 .contact-section h2 {
@@ -402,7 +391,7 @@ header {
   flex-wrap: wrap;
   justify-content: center;
   gap: 40px;
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -489,6 +478,57 @@ header {
   font-size: 1.5em;
 }
 
+/* Certifications Section Styles */
+.certifications-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: var(--background-color);
+}
+
+.certifications-section h2 {
+  font-size: 2.5em;
+  color: var(--text-color);
+  margin-bottom: 40px;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.certification-item {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.certification-item:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.certification-logo {
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.certification-name {
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .hero-content-wrapper {
@@ -507,7 +547,8 @@ header {
   .hero-section,
   #projects,
   .experience-section,
-  .contact-section {
+  .contact-section,
+  .certifications-section {
     padding: 20px 30px;
   }
 
@@ -532,7 +573,8 @@ header {
     font-size: 2em;
   }
 
-  .projects-grid {
+  .projects-grid,
+  .certifications-grid {
     grid-template-columns: 1fr;
   }
 
@@ -546,7 +588,8 @@ header {
   .hero-section,
   #projects,
   .experience-section,
-  .contact-section {
+  .contact-section,
+  .certifications-section {
     padding: 15px 20px;
   }
 
