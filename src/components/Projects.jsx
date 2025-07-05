@@ -39,7 +39,7 @@ const Projects = () => {
               <h3>{project.title}</h3>
               <p className="project-technologies"><strong>Technologies:</strong> {project.technologies}</p>
               <p className="project-description">{project.description}</p>
-              <button className="view-project-button">View Project</button>
+              
             </div>
           ))}
         </div>

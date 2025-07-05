@@ -22,7 +22,7 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['warn', { varsIgnorePattern: '^(React|motion|App|Projects|Footer|Contact|Skills|Experience|Certifications|AnimatePresence|Fade|FaLinkedin|FaEnvelope|FaTwitter|FaInstagram|FaGithub)$' }],
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^(React|motion|App|Projects|Footer|Contact|Skills|Experience|Certifications|AnimatePresence|Fade|FaLinkedin|FaEnvelope|FaTwitter|FaInstagram|FaGithub|FaSalesforce)$' }],
     },
   },
 ]);

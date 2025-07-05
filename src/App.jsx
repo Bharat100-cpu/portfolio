@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 import Projects from './components/Projects';
-
 import Contact from './components/Contact';
 import Skills from './components/Skills';
 import Experience from './components/Experience';
@@ -12,9 +12,32 @@ import './App.css';
 
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark-mode', !isDarkMode);
+  };
+
+  const shareProfile = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Bharat Kumar - Portfolio',
+          text: 'Check out Bharat Kumar\'s portfolio!',
+          url: window.location.href,
+        });
+        console.log('Profile shared successfully');
+      } catch (error) {
+        console.error('Error sharing profile:', error);
+      }
+    } else {
+      alert('Web Share API is not supported in your browser. You can copy the URL: ' + window.location.href);
+    }
   };
 
   const scrollToSection = (id) => {
@@ -39,6 +62,9 @@ const App = () => {
       <header>
         <div className="logo"><span>Portfolio</span></div>
         <div className="header-right-content">
+          <button className="theme-toggle-button" onClick={toggleTheme}>
+            {isDarkMode ? <FaSun /> : <FaMoon />}
+          </button>
           <button className="reach-out-button" onClick={() => scrollToSection('contact')}>Reach out</button>
           <button className={`menu-button ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
             <span className="menu-icon"></span>
@@ -63,6 +89,7 @@ const App = () => {
               <a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a>
               <a href="#experience" onClick={() => scrollToSection('experience')}>Experience</a>
               <a href="#contact" onClick={() => scrollToSection('contact-section')}>Contact</a>
+              <a href="#" onClick={shareProfile}>Share Profile</a>
             </nav>
           </motion.div>
         )}
@@ -93,7 +120,7 @@ const App = () => {
                 transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 100, damping: 10 }}
                 className="hero-buttons"
               >
-                <button className="btn-secondary" onClick={handleDownload}>Download Resume</button>
+                <button className="reach-out-button" onClick={handleDownload}>Download Resume</button>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

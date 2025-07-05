@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Fade } from 'react-awesome-reveal';
 
 const certifications = [
   { id: 1, name: 'Salesforce Certified Associate', image: '/Associate.png' },
@@ -21,6 +22,7 @@ const Certifications = () => {
         My Certifications
       </motion.h2>
       <div className="certifications-grid">
+        <Fade cascade damping={0.1}>
         {certifications.map((cert) => (
           <motion.div
             key={cert.id}
@@ -34,6 +36,7 @@ const Certifications = () => {
             <p className="certification-name">{cert.name}</p>
           </motion.div>
         ))}
+        </Fade>
       </div>
     </section>
   );

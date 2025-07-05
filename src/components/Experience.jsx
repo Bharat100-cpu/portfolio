@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Fade } from 'react-awesome-reveal';
 
 const experienceData = [
   {
@@ -28,6 +29,7 @@ const Experience = () => {
         My Experience
       </motion.h2>
       <div className="experience-container">
+        <Fade cascade damping={0.1}>
         {experienceData.map((item, index) => (
           <motion.div
             className="experience-item"
@@ -46,6 +48,7 @@ const Experience = () => {
             </ul>
           </motion.div>
         ))}
+        </Fade>
       </div>
     </section>
   );

@@ -12,7 +12,7 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #ffffff; /* Explicitly set body background to white */
+  background-color: var(--background-color); /* Use CSS variable */
   color: var(--text-color);
   line-height: 1.6;
 }
@@ -21,7 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #ffffff; /* Explicitly set App background to white */
+  background-color: var(--background-color); /* Use CSS variable */
 }
 
 /* Header Styles */
@@ -102,8 +102,160 @@ header {
   top: -10px;
 }
 
-.menu-icon::after {
-  top: 10px;
+.menu-button.open .menu-icon {
+  background-color: transparent;
+}
+
+.menu-button.open .menu-icon::before {
+  transform: translateY(10px) rotate(45deg);
+}
+
+.menu-button.open .menu-icon::after {
+  transform: translateY(-10px) rotate(-45deg);
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  text-align: center;
+}
+
+.mobile-nav a {
+  color: white;
+  font-size: 1.8em;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.mobile-nav a:hover {
+  color: var(--primary-color);
+}
+
+.mobile-nav a:hover {
+  color: var(--primary-color);
+}
+
+.theme-toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--light-gray);
+}
+
+/* Dark Mode Styles */
+html.dark-mode {
+  --primary-color: #52b788; /* A green shade for dark mode */
+  --secondary-color: #2d6a4f; /* Darker green */
+  --text-color: #f0f0f0; /* Light text */
+  --background-color: #1a1a1a; /* Dark background */
+  --light-gray: #333333;
+  --border-color: #555555;
+}
+
+html.dark-mode .logo span {
+  color: var(--primary-color);
+}
+
+html.dark-mode .reach-out-button {
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  box-shadow: 0 4px 10px rgba(82, 183, 136, 0.2);
+}
+
+html.dark-mode .reach-out-button:hover {
+  background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+  box-shadow: 0 8px 20px rgba(82, 183, 136, 0.4);
+}
+
+html.dark-mode .btn-secondary {
+  background: linear-gradient(45deg, #333333, #444444);
+  color: var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .btn-secondary:hover {
+  background-color: rgba(82, 183, 136, 0.1);
+  color: var(--primary-color);
+  box-shadow: 0 6px 15px rgba(82, 183, 136, 0.3);
+}
+
+html.dark-mode .stat-item:hover {
+  color: var(--primary-color);
+}
+
+html.dark-mode .stat-item:hover .stat-number {
+  color: var(--secondary-color);
+}
+
+html.dark-mode .about-right h2,
+html.dark-mode .project-card h3,
+html.dark-mode .experience-item h3,
+html.dark-mode .contact-form button,
+html.dark-mode .social-media h3,
+html.dark-mode .certifications-section h2 {
+  color: var(--primary-color);
+}
+
+html.dark-mode .project-card,
+html.dark-mode .experience-item,
+html.dark-mode .contact-form,
+html.dark-mode .social-media,
+html.dark-mode .certification-item {
+  background-color: #2a2a2a;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .project-card:hover,
+html.dark-mode .experience-item:hover,
+html.dark-mode .contact-form:hover,
+html.dark-mode .social-media:hover,
+html.dark-mode .certification-item:hover {
+  background-color: var(--light-gray);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+}
+
+html.dark-mode .contact-form input,
+html.dark-mode .contact-form textarea {
+  background-color: #3a3a3a;
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+html.dark-mode .social-media a:hover {
+  background-color: var(--light-gray);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+html.dark-mode .theme-toggle-button {
+  color: var(--text-color);
+}
+
+html.dark-mode .theme-toggle-button:hover {
+  background-color: var(--light-gray);
 }
 
 /* Hero Section Styles */
@@ -140,7 +292,7 @@ header {
 .hero-description {
   font-size: 1.2em;
   margin-bottom: 30px;
-  color: #555;
+  color: var(--text-color);
 }
 
 .hero-buttons {
@@ -207,6 +359,14 @@ header {
   color: var(--secondary-color); /* Darker blue for number on hover */
 }
 
+.stat-number {
+  color: var(--text-color);
+}
+
+.stat-label {
+  color: var(--text-color);
+}
+
 /* About Section (Right Column) Styles */
 .about-right {
   flex: 1;
@@ -224,7 +384,7 @@ header {
 .about-summary {
   font-size: 1.1em;
   margin-bottom: 30px;
-  color: #444;
+  color: var(--text-color);
 }
 
 .about-details h3 {
@@ -236,14 +396,14 @@ header {
 
 .about-details p {
   font-size: 1em;
-  color: #666;
+  color: var(--text-color);
 }
 
 /* Projects Section Styles */
 #projects {
   padding: 60px 20px;
   text-align: center;
-  background-color: #ffffff;
+  background-color: var(--background-color);
 }
 
 #projects h2 {
@@ -285,13 +445,13 @@ header {
 
 .project-card .project-technologies {
   font-size: 0.9em;
-  color: #777;
+  color: var(--text-color);
   margin-bottom: 15px;
 }
 
 .project-card .project-description {
   font-size: 1em;
-  color: #555;
+  color: var(--text-color);
   margin-bottom: 20px;
   flex-grow: 1;
 }
@@ -359,7 +519,7 @@ header {
 
 .experience-item .experience-duration {
   font-size: 1em;
-  color: #777;
+  color: var(--text-color);
   margin-bottom: 15px;
 }
 
@@ -370,7 +530,7 @@ header {
 
 .experience-item .experience-responsibilities li {
   margin-bottom: 8px;
-  color: #555;
+  color: var(--text-color);
 }
 
 /* Contact Section Styles */

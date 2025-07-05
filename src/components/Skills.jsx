@@ -12,7 +12,7 @@ const Skills = () => {
   const angleIncrement = (2 * Math.PI) / skillsData.length;
 
   return (
-    <section id="skills" style={{ padding: '150px 20px', backgroundColor: 'var(--background-dark)', position: 'relative', overflow: 'hidden' }}>
+    <section id="skills" style={{ padding: '150px 20px', backgroundColor: 'var(--background-color)', position: 'relative', overflow: 'hidden' }}>
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -84,18 +84,19 @@ const Skills = () => {
                   scale: 1.15,
                   zIndex: 1,
                   boxShadow: '0 0 25px rgba(0, 0, 0, 0.8)',
-                  backgroundColor: '#000000',
-                  color: '#FFFFFF'
+                  backgroundColor: 'var(--light-gray)',
+                  color: 'var(--primary-color)'
                 }}
                 style={{
                   position: 'absolute',
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  backgroundColor: 'var(--light-gray)',
                   padding: '15px 25px',
                   borderRadius: '10px',
                   cursor: 'pointer',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  border: '1px solid var(--border-color)',
                   backdropFilter: 'blur(5px)',
                   whiteSpace: 'nowrap',
+                  color: 'var(--text-color)',
                 }}
               >
                 {skill}
