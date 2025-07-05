@@ -18,14 +18,15 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience">
+    <section id="experience" className="section-green">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.6 }}
+        style={{ textAlign: 'center', fontSize: '3em', marginBottom: '50px' }}
       >
-        Experience
+        My Experience
       </motion.h2>
       <div className="section-content">
         {experienceData.map((item, index) => (
@@ -38,7 +39,7 @@ const Experience = () => {
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
             <h3>{item.title}</h3>
-            <p>{item.duration}</p>
+            <p><strong>{item.duration}</strong></p>
             <ul>
               {item.responsibilities.map((resp, idx) => (
                 <li key={idx}>{resp}</li>

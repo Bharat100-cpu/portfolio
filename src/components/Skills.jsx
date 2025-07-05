@@ -9,18 +9,19 @@ const skillsData = [
 
 const Skills = () => {
   return (
-    <section id="skills">
+    <section id="skills" style={{ padding: '100px 20px', backgroundColor: 'var(--background-dark)' }}>
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.6 }}
+        style={{ textAlign: 'center', fontSize: '3em', marginBottom: '50px', color: 'var(--accent-color)' }}
       >
-        Skills
+        My Skills
       </motion.h2>
       <motion.ul
         className="section-content"
-        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '15px' }}
+        style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', listStyle: 'none', padding: 0 }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -34,6 +35,7 @@ const Skills = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3 }}
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', padding: '15px 25px', borderRadius: '8px' }}
           >
             {skill}
           </motion.li>

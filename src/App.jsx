@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import About from './components/About';
 import Projects from './components/Projects';
 import Hero from './components/Hero';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
+import About from './components/About';
+import Skills from './components/Skills';
+import Experience from './components/Experience';
 import './App.css';
 
 const App = () => {
@@ -12,92 +14,59 @@ const App = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    console.log('isMenuOpen:', !isMenuOpen); // Log the new state
   };
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact-section');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
     }
+    toggleMenu();
   };
 
   return (
     <div className="App">
-      <div className="container">
-        <motion.header
-          initial={{ y: -100 }}
-          animate={{ y: 0 }}
-          transition={{ type: "spring", stiffness: 120 }}
-        >
-          <div className="logo"><img src="/Salesforce.com_logo.svg.png" alt="Salesforce Logo" style={{ height: '75px' }} /></div>
-          {!isMenuOpen && (
-            <button className="menu-button" onClick={toggleMenu}>
-              <span className="menu-icon"></span> MENU
-            </button>
-          )}
-          <div className="header-right-content">
-            <button className="reach-out-button" onClick={scrollToContact}>Reach out</button>
-          </div>
-        </motion.header>
-      </div>
+      <header>
+        <div className="logo"><img src="/Salesforce.com_logo.svg.png" alt="Salesforce Logo" /></div>
+        <div className="header-right-content">
+          <button className="reach-out-button" onClick={() => scrollToSection('contact-section')}>Reach out</button>
+          <button className={`menu-button ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            <span className="menu-icon"></span>
+          </button>
+        </div>
+      </header>
 
-      {isMenuOpen && (
-        <AnimatePresence>
+      <AnimatePresence>
+        {isMenuOpen && (
           <motion.div
             key="menu-overlay"
             className="menu-overlay"
-            initial={{ y: "-100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            
-            <button className="menu-button open" onClick={toggleMenu} style={{ position: 'absolute', top: '50px', left: '50%', transform: 'translateX(-50%)', color: '#000' }}>
-              <span className="menu-icon"></span> CLOSE MENU
-            </button>
             <nav className="mobile-nav">
-              <a href="#hero" onClick={toggleMenu}>Home</a>
-              <a href="#about" onClick={toggleMenu}>About</a>
-              <a href="#projects" onClick={toggleMenu}>Projects</a>
-              <a href="#skills" onClick={toggleMenu}>Skills</a>
-              <a href="#certifications" onClick={toggleMenu}>Certifications</a>
-              <a href="#contact" onClick={toggleMenu}>Contact</a>
+              <a href="#hero" onClick={() => scrollToSection('hero')}>Home</a>
+              <a href="#about" onClick={() => scrollToSection('about')}>About</a>
+              <a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a>
+              <a href="#skills" onClick={() => scrollToSection('skills')}>Skills</a>
+              <a href="#experience" onClick={() => scrollToSection('experience')}>Experience</a>
+              <a href="#contact" onClick={() => scrollToSection('contact-section')}>Contact</a>
             </nav>
           </motion.div>
-        </AnimatePresence>
-      )}
+        )}
+      </AnimatePresence>
 
       <main>
         <Hero />
-        {/* <motion.section
-          id="about"
-          className="section-yellow"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
-        >
-          <About />
-        </motion.section>
-        <motion.section
-          id="projects"
-          className="section-green"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <Projects />
-        </motion.section>
-        <Contact /> */}
+        <About />
+        <Projects />
+        <Skills />
+        <Experience />
+        <Contact />
       </main>
-      {/* <div className="container">
-        <Footer />
-      </div> */}
-      {/* <div className="container">
-        <Footer />
-      </div> */}
+      <Footer />
     </div>
   );
 };

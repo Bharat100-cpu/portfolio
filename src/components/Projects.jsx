@@ -26,16 +26,17 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects">
+    <section id="projects" className="section-green">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 0.6 }}
+        style={{ textAlign: 'center', fontSize: '3em', marginBottom: '50px' }}
       >
-        Projects
+        My Projects
       </motion.h2>
-      <div className="section-content">
+      <div className="section-content" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
         {projectsData.map((item, index) => (
           <motion.div
             className="card project-item"
@@ -48,6 +49,7 @@ const Projects = () => {
             <h3>{item.title}</h3>
             <p><strong>Technologies:</strong> {item.technologies}</p>
             <p>{item.description}</p>
+            <button className="btn-secondary" style={{ marginTop: '20px' }}>View Project</button>
           </motion.div>
         ))}
       </div>
