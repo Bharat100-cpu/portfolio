@@ -5,15 +5,7 @@ const About = () => {
   return (
     <section id="about" className="about-section">
       <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '80px' }}>
-        <motion.div 
-          className="about-left"
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.8 }}
-        >
-          <img src="/hero_section.webp" alt="About Me" style={{ width: '100%', borderRadius: '20px' }} />
-        </motion.div>
+        
         <motion.div 
           className="about-right"
           initial={{ opacity: 0, x: 50 }}
