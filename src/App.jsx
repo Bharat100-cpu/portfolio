@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon, FaTimes } from 'react-icons/fa';
 
 import Projects from './components/Projects';
 import Contact from './components/Contact';
@@ -88,7 +88,7 @@ const App = () => {
           </button>
           <button className="reach-out-button" onClick={() => scrollToSection('contact')}>Reach out</button>
           <button className={`menu-button ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
-            <span className="menu-icon"></span>
+            {isMenuOpen ? <FaTimes className="close-icon" /> : <span className="menu-icon"></span>}
           </button>
         </div>
       </header>
@@ -98,12 +98,13 @@ const App = () => {
           <motion.div
             key="menu-overlay"
             className="menu-overlay"
+            onClick={toggleMenu}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <nav className="mobile-nav">
+            <nav className="mobile-nav" onClick={(e) => e.stopPropagation()}>
               <a href="#hero" onClick={() => scrollToSection('hero')}>Home</a>
               <a href="#about" onClick={() => scrollToSection('about')}>About</a>
               <a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a>

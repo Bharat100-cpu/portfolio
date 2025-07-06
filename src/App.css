@@ -92,7 +92,8 @@ header.hidden {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 15px;
+  z-index: 1001;
 }
 
 .menu-icon {
@@ -101,6 +102,7 @@ header.hidden {
   background-color: var(--text-color);
   position: relative;
   display: block;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .menu-icon::before,
@@ -111,22 +113,24 @@ header.hidden {
   background-color: var(--text-color);
   position: absolute;
   left: 0;
+  transition: transform 0.3s ease-in-out;
 }
 
 .menu-icon::before {
   top: -10px;
 }
 
+.menu-icon::after {
+  top: 10px;
+}
+
 .menu-button.open .menu-icon {
   background-color: transparent;
 }
 
-.menu-button.open .menu-icon::before {
-  transform: translateY(10px) rotate(45deg);
-}
-
-.menu-button.open .menu-icon::after {
-  transform: translateY(-10px) rotate(-45deg);
+.close-icon {
+  font-size: 2em;
+  color: white;
 }
 
 .menu-overlay {
