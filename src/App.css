@@ -24,6 +24,10 @@ body {
   background-color: var(--background-color); /* Use CSS variable */
 }
 
+main {
+  padding-top: 80px; /* Adjust this value to match your header's height */
+}
+
 /* Header Styles */
 header {
   display: flex;
@@ -31,6 +35,17 @@ header {
   align-items: center;
   padding: 20px 50px;
   border-bottom: 1px solid var(--light-gray);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background-color);
+  z-index: 1000;
+  transition: top 0.3s ease-in-out;
+}
+
+header.hidden {
+  top: -100px; /* or height of the header */
 }
 
 .logo span {
@@ -667,7 +682,7 @@ html.dark-mode .theme-toggle-button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -679,7 +694,8 @@ html.dark-mode .theme-toggle-button:hover {
 
 .certification-logo {
   width: 100px; /* Adjust size as needed */
-  height: auto;
+  height: 100px;
+  object-fit: contain;
   margin-bottom: 10px;
 }
 
@@ -687,6 +703,11 @@ html.dark-mode .theme-toggle-button:hover {
   font-size: 1em;
   font-weight: 600;
   color: var(--text-color);
+}
+
+.ai-associate-fix .certification-logo {
+  height: 100px;
+  width: 100px;
 }
 
 /* Responsive Adjustments */
