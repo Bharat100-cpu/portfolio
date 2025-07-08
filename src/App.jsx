@@ -20,10 +20,8 @@ const App = () => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY.current) {
-        // Scrolling down
         setIsHeaderVisible(false);
       } else {
-        // Scrolling up
         setIsHeaderVisible(true);
       }
       lastScrollY.current = currentScrollY;

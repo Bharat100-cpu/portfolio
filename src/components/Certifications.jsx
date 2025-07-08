@@ -31,7 +31,7 @@ const Certifications = () => {
         {certifications.map((cert) => (
           <motion.div
             key={cert.id}
-            // className="certification-item"
+            
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}

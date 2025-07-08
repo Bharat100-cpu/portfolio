@@ -15,7 +15,7 @@ const Contact = () => {
       </motion.h2>
       <div className="contact-content">
         <motion.div 
-          // className="social-media"
+          
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.5 }}
