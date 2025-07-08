@@ -1,10 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Resume from '../assets/Resume.pdf';
 
 const Hero = () => {
   const handleDownload = () => {
     const link = document.createElement('a');
-    link.href = '/Resume.pdf';
+    link.href = Resume;
     link.download = 'Resume.pdf';
     document.body.appendChild(link);
     link.click();

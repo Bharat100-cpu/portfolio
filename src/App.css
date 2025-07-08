@@ -451,7 +451,8 @@ html.dark-mode .theme-toggle-button:hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.card-hover-effect:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
