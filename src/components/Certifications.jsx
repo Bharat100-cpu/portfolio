@@ -31,14 +31,16 @@ const Certifications = () => {
         {certifications.map((cert) => (
           <motion.div
             key={cert.id}
-            className="certification-item card-hover-effect"
+            // className="certification-item"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
           >
-            <img src={cert.image} alt={cert.name} className="certification-logo" />
-            <p className="certification-name">{cert.name}</p>
+            <div className="certification-item">
+              <img src={cert.image} alt={cert.name} className="certification-logo" />
+              <p className="certification-name">{cert.name}</p>
+            </div>
           </motion.div>
         ))}
         </Fade>

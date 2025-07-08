@@ -32,7 +32,7 @@ const Experience = () => {
         <Fade cascade damping={0.1}>
         {experienceData.map((item, index) => (
           <motion.div
-            className="experience-item card-hover-effect"
+            className="experience-item"
             key={index}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -27,14 +27,16 @@ const Superbadges = () => {
         {superbadges.map((badge) => (
           <motion.div
             key={badge.id}
-            className="certification-item card-hover-effect"
+            // className="certification-item"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
           >
-            <img src={badge.image} alt={badge.name} className="certification-logo" />
-            <p className="certification-name">{badge.name}</p>
+            <div className="certification-item">
+              <img src={badge.image} alt={badge.name} className="certification-logo" />
+              <p className="certification-name">{badge.name}</p>
+            </div>
           </motion.div>
         ))}
       </div>
