@@ -586,7 +586,7 @@ html.dark-mode .theme-toggle-button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 30px;
   flex: 1;
-  min-width: 300px;
+  min-width: 950px; /* Increased min-width */
   text-align: left;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -694,6 +694,7 @@ html.dark-mode .theme-toggle-button:hover {
   justify-content: space-between;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 220px; /* Set a fixed height */
 }
 
 .certification-item:hover {
