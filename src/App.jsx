@@ -66,7 +66,9 @@ const App = () => {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
-    toggleMenu();
+    if (isMenuOpen) {
+      toggleMenu();
+    }
   };
 
   const handleDownload = () => {
