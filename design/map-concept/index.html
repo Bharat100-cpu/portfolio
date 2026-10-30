@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas of Bharat Kumar · concept mockup</title>
+<style>
+:root{
+  --paper:#f4ecd8; --paper2:#eadfc3; --ink:#14213d; --mute:#5b6478; --line:#14213d22;
+  --apex:#6c4fe0; --lwc:#1a9e96; --integ:#d6336c; --auto:#f2b705; --cloud:#ff6b35;
+  --rx:58deg; --rz:-38deg; --zoom:1; --tx:0px; --ty:0px;
+  --u:84px;
+  font-family:'Inter',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--paper);color:var(--ink)}
+body{background:
+  radial-gradient(1200px 700px at 70% 10%,#fff6 ,transparent 60%),
+  repeating-linear-gradient(0deg,transparent 0 39px,var(--line) 39px 40px),
+  repeating-linear-gradient(90deg,transparent 0 39px,var(--line) 39px 40px),var(--paper);touch-action:none;user-select:none}
+/* ---- 3D scene ---- */
+.stage{position:fixed;inset:0;perspective:2200px;perspective-origin:50% 40%;cursor:grab}
+.stage:active{cursor:grabbing}
+.camera{position:absolute;left:50%;top:52%;width:0;height:0;transform-style:preserve-3d;
+  transform:scale(var(--zoom)) rotateX(var(--rx)) rotateZ(var(--rz)) translate(var(--tx),var(--ty));
+  transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.camera.drag{transition:none}
+.world{position:absolute;left:calc(var(--u)*-7);top:calc(var(--u)*-5);width:calc(var(--u)*14);height:calc(var(--u)*10);transform-style:preserve-3d}
+.ground{position:absolute;inset:-60px;background:
+  repeating-linear-gradient(0deg,transparent 0 calc(var(--u) - 1px),#14213d18 calc(var(--u) - 1px) var(--u)),
+  repeating-linear-gradient(90deg,transparent 0 calc(var(--u) - 1px),#14213d18 calc(var(--u) - 1px) var(--u)),#efe4c8;
+  border:3px solid var(--ink);border-radius:14px;box-shadow:0 0 0 10px #f4ecd8,0 0 0 12px var(--ink),40px 60px 80px -20px #14213d55;transform:translateZ(-2px)}
+.water{position:absolute;left:calc(var(--u)*9.2);top:calc(var(--u)*5.2);width:calc(var(--u)*4.6);height:calc(var(--u)*4.4);border-radius:40% 60% 50% 50%;background:#bfe3e0;border:2px solid var(--ink);transform:translateZ(0)}
+.park{position:absolute;background:#cfe0a8;border:2px dashed #14213d66;border-radius:12px}
+/* metro-style roads: one ribbon per skill category */
+.road{position:absolute;height:9px;border-radius:9px;background:var(--c);transform:translateZ(1px);box-shadow:0 0 0 2px var(--ink)}
+.road.v{width:9px;height:auto}
+.road::after{content:"";position:absolute;inset:3px 6px;border-top:2px dashed #fff9}
+.road.v::after{border-top:0;border-left:2px dashed #fff9;inset:6px 3px}
+/* box primitive */
+.bx{position:absolute;transform-style:preserve-3d;transition:transform .35s cubic-bezier(.3,1.6,.5,1);cursor:pointer}
+.bx:hover,.bx:focus-visible,.bx.on{transform:translateZ(22px);outline:none}
+.bx>i{position:absolute;display:block;backface-visibility:visible}
+.bx .t{width:100%;height:100%;transform:translateZ(var(--h));background:var(--c);border:2px solid var(--ink)}
+.bx .s{left:0;top:100%;width:100%;height:var(--h);transform-origin:0 0;transform:rotateX(90deg);
+  background:linear-gradient(0deg,#0003,#0000 30%),repeating-linear-gradient(90deg,transparent 0 14px,#fff5 14px 17px),color-mix(in srgb,var(--c) 70%,#14213d);border:2px solid var(--ink)}
+.bx .e{left:100%;top:0;width:var(--h);height:100%;transform-origin:0 0;transform:rotateY(-90deg);
+  background:linear-gradient(90deg,#0003,#0000 30%),repeating-linear-gradient(0deg,transparent 0 14px,#fff4 14px 17px),color-mix(in srgb,var(--c) 52%,#14213d);border:2px solid var(--ink)}
+.bx .n{left:0;top:0;width:100%;height:var(--h);transform-origin:0 0;transform:rotateX(90deg);background:color-mix(in srgb,var(--c) 60%,#14213d);border:2px solid var(--ink)}
+.bx .w{left:0;top:0;width:var(--h);height:100%;transform-origin:0 0;transform:rotateY(-90deg);background:color-mix(in srgb,var(--c) 46%,#14213d);border:2px solid var(--ink)}
+.bx .t::after{content:"";position:absolute;inset:18%;border:2px solid #14213d55;border-radius:4px}
+.bx.hq .t{background:repeating-linear-gradient(45deg,var(--c) 0 10px,color-mix(in srgb,var(--c) 80%,#fff) 10px 20px)}
+/* billboards face the camera */
+.bb{position:absolute;left:50%;top:50%;transform-style:preserve-3d;transform:translateZ(var(--h)) rotateZ(calc(var(--rz) * -1)) rotateX(calc(var(--rx) * -1)) translate(-50%,-100%);pointer-events:none;white-space:nowrap}
+.pin{display:inline-block;padding:5px 10px;border:2px solid var(--ink);border-radius:8px;background:#fffaf0;font:700 12px/1 'Space Grotesk',system-ui,sans-serif;box-shadow:3px 3px 0 var(--ink);margin-bottom:10px;position:relative}
+.pin::after{content:"";position:absolute;left:50%;bottom:-11px;width:2px;height:10px;background:var(--ink)}
+.district{position:absolute;transform-style:preserve-3d}
+.district .dn{position:absolute;left:0;top:0;transform:translateZ(6px) rotateZ(calc(var(--rz) * -1)) rotateX(calc(var(--rx) * -1)) translateY(-6px);font:700 11px 'JetBrains Mono',ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);background:var(--paper);border:2px solid var(--ink);padding:3px 8px;border-radius:99px;white-space:nowrap}
+/* ---- HUD ---- */
+.hud{position:fixed;z-index:5}
+.title{left:22px;top:20px;max-width:min(420px,calc(100vw - 44px))}
+.title small{display:block;font:600 11px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--cloud)}
+.title h1{margin:6px 0 6px;font:700 clamp(30px,5.2vw,58px)/.95 'Space Grotesk',system-ui,sans-serif;letter-spacing:-.03em}
+.title h1 em{font-style:normal;background:linear-gradient(90deg,var(--cloud),var(--integ),var(--apex));-webkit-background-clip:text;background-clip:text;color:transparent}
+.title p{margin:0;color:var(--mute);font-size:14px;max-width:34ch}
+.card{background:#fffaf0;border:2px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+.legend{right:22px;top:20px;padding:12px 14px;font-size:12px}
+.legend b{display:block;font:700 11px 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;margin-bottom:8px}
+.legend div{display:flex;align-items:center;gap:8px;padding:2px 0}
+.legend i{width:26px;height:8px;border-radius:8px;border:2px solid var(--ink);background:var(--c)}
+.dock{left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:6px;padding:6px;max-width:calc(100vw - 20px);overflow-x:auto}
+.dock button{border:2px solid transparent;background:none;padding:9px 14px;border-radius:10px;font:700 13px 'Space Grotesk',system-ui,sans-serif;color:var(--ink);cursor:pointer;white-space:nowrap}
+.dock button:hover,.dock button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.tip{pointer-events:none;width:min(300px,calc(100vw - 30px));padding:14px 16px;opacity:0;transform:translateY(8px);transition:.18s;z-index:9}
+.tip.show{opacity:1;transform:none}
+.tip small{font:600 10px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.tip h3{margin:4px 0 6px;font:700 20px/1.05 'Space Grotesk',system-ui,sans-serif}
+.tip p{margin:0 0 8px;font-size:13px;color:var(--mute)}
+.tip .ch{display:flex;flex-wrap:wrap;gap:5px}
+.tip .ch span{font:600 10.5px 'JetBrains Mono',monospace;padding:3px 7px;border:2px solid var(--ink);border-radius:99px;background:color-mix(in srgb,var(--c) 28%,#fffaf0)}
+.hint{right:22px;bottom:22px;font:600 11px 'JetBrains Mono',monospace;color:var(--mute);letter-spacing:.08em;text-align:right}
+.compass{left:22px;bottom:22px;width:64px;height:64px;border:2px solid var(--ink);border-radius:50%;background:#fffaf0;display:grid;place-items:center;font:700 11px 'JetBrains Mono',monospace}
+.compass span{position:absolute;inset:6px;border-radius:50%;border:1px dashed var(--ink)}
+.compass b{position:absolute;top:2px;font-size:10px}
+.needle{position:absolute;width:3px;height:26px;background:linear-gradient(var(--cloud) 50%,var(--ink) 50%);transform:rotate(calc(var(--rz) * -1 - 45deg));border-radius:3px}
+@media (max-width:640px){.legend{display:none}.hint{display:none}.compass{bottom:78px}.title p{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* accessible fallback list (also what a recruiter or screen reader gets) */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="hud title">
+  <small>Atlas · Salesforce Developer</small>
+  <h1>Bharat Kumar,<br><em>mapped in 3D.</em></h1>
+  <p>Drag to orbit, scroll to zoom. Every building is a role, a project or a credential.</p>
+</div>
+
+<aside class="hud legend card" aria-label="Map legend">
+  <b>Lines · skill families</b>
+  <div style="--c:var(--apex)"><i></i>Apex &amp; async</div>
+  <div style="--c:var(--lwc)"><i></i>LWC / Aura</div>
+  <div style="--c:var(--integ)"><i></i>Integration</div>
+  <div style="--c:var(--auto)"><i></i>Automation</div>
+  <div style="--c:var(--cloud)"><i></i>Clouds</div>
+</aside>
+
+<div class="stage" id="stage" aria-hidden="true">
+  <div class="camera" id="cam"><div class="world" id="world"></div></div>
+</div>
+
+<nav class="hud dock card" id="dock" aria-label="Fly to">
+  <button data-fly="all" aria-pressed="true">Overview</button>
+  <button data-fly="pcgi">Now · PCGI</button>
+  <button data-fly="fexle">Fexle Quarter</button>
+  <button data-fly="hill">Certification Hill</button>
+  <button data-fly="works">Tooling Works</button>
+  <button data-fly="air">Contact</button>
+</nav>
+<div class="hud compass" aria-hidden="true"><span></span><b>N</b><div class="needle"></div></div>
+<div class="hud hint">DRAG ORBIT · SCROLL ZOOM · CLICK A BUILDING</div>
+<div class="hud card tip" id="tip" role="status"></div>
+
+<ul class="sr" id="list"></ul>
+
+<script>
+const U = 84;
+// Truthful content only (names, stacks and roles come from the portfolio data).
+const D = {
+  pcgi:  { name:'PCGI · Now',            x:1,  y:1,  w:4, d:3 },
+  fexle: { name:'Fexle Quarter',         x:6,  y:0.6, w:5, d:3.4 },
+  hill:  { name:'Certification Hill',    x:1,  y:5.6, w:4, d:3.4 },
+  works: { name:'Tooling Works',         x:6,  y:5.2, w:3, d:3.6 },
+  air:   { name:'Contact Airfield',      x:9.4,y:1.4, w:0,d:0 }
+};
+const B = [
+  // d: district key, gx/gy grid offset inside the world (units), w/dd footprint, h px, cat, text
+  {k:'pcgi', t:'MNK',x:1.6,y:1.6,w:1.6,dd:1.4,h:230,c:'apex',hq:1,
+   s:'Healthcare · PCGI · Current', p:'PA Re-Auth Hub and Outbound Fax Analysis: a weekly batch and queueable chain surfaced in a real-time LWC dashboard.', ch:['Batch Apex','Queueable','Scheduled Jobs','LWC']},
+  {k:'pcgi', t:'Role',x:3.5,y:1.5,w:1,dd:1,h:110,c:'lwc',
+   s:'Salesforce Developer · Dec 2025 – Present', p:'LWC design-system kit, in-browser Excel generator, Apex error-logging framework, Agentforce prototypes.', ch:['Apex','LWC','Copado']},
+  {k:'fexle',t:'Assurant',x:6.6,y:1.0,w:1.2,dd:1.2,h:170,c:'cloud',
+   s:'Insurance · Fexle', p:'Migrated 50+ Visualforce pages to LWC and Aura in an 18-member global architecture team.', ch:['Service Cloud','LWC','Aura','Visualforce']},
+  {k:'fexle',t:'CleverTap',x:8.2,y:1.0,w:1,dd:1.2,h:130,c:'apex',
+   s:'Customer engagement · Fexle', p:'Batch Apex and Scheduled Jobs backend for high-volume records, plus a Quip integration through Connected Apps.', ch:['Batch Apex','Scheduled Jobs','Connected Apps']},
+  {k:'fexle',t:'Pinterest',x:6.7,y:2.7,w:1.1,dd:1,h:110,c:'cloud',
+   s:'Digital advertising · Fexle', p:'Custom LWC for Sales Cloud, Order and Quote management; Process Builder replaced with Flows.', ch:['Sales Cloud','LWC','Flows']},
+  {k:'fexle',t:'Robotex',x:8.3,y:2.7,w:.9,dd:.9,h:84,c:'integ',
+   s:'Real estate · Fexle', p:'Secure REST integrations between Salesforce and the ClearTax GST Portal.', ch:['REST API','Apex','LWC']},
+  {k:'hill', t:'Platform Dev I',x:1.4,y:6.6,w:.9,dd:.9,h:70,c:'cloud',s:'Salesforce Certified',p:'Platform Developer I.',ch:['Certification']},
+  {k:'hill', t:'AI Specialist',x:2.6,y:6.9,w:.9,dd:.9,h:100,c:'apex',s:'Salesforce Certified',p:'AI Specialist.',ch:['Certification']},
+  {k:'hill', t:'AI Associate',x:3.8,y:6.5,w:.9,dd:.9,h:130,c:'lwc',s:'Salesforce Certified',p:'AI Associate.',ch:['Certification']},
+  {k:'hill', t:'Associate',x:2.1,y:8.0,w:.9,dd:.9,h:55,c:'auto',s:'Salesforce Certified',p:'Associate.',ch:['Certification']},
+  {k:'hill', t:'Superbadges',x:3.5,y:8.0,w:1.3,dd:.9,h:160,c:'integ',hq:1,s:'Trailhead',p:'Apex Specialist and LWC Specialist superbadges, plus Apex Web Services and Named Credentials units.',ch:['Apex','LWC','REST API']},
+  {k:'works',t:'Transaction Inspector',x:6.5,y:6.1,w:1.2,dd:1.2,h:190,c:'apex',hq:1,s:'Reusable solution · Apex + LWC',p:'An in-org profiler for what a record save really runs: SOQL, DML, flows, triggers, callouts and async jobs with governor-limit usage.',ch:['Apex','Queueable','LWC','REST API']},
+  {k:'works',t:'Scheduled Jobs Manager',x:8.1,y:6.4,w:1.1,dd:1.2,h:150,c:'auto',hq:1,s:'Reusable solution · Apex + LWC',p:'One orchestrator and console for every scheduled job, with an allow-listed launcher and a cron explainer.',ch:['Batch Apex','Scheduled Jobs','LWC']},
+  {k:'air',  t:'Say hello',x:9.9,y:2.4,w:2.4,dd:1.1,h:12,c:'cloud',s:'Open to Salesforce roles',p:'Land here to send a message. Email is the fastest route.',ch:['bharatmtr2002@gmail.com'],air:1}
+];
+const world = document.getElementById('world');
+const px = v => (v*U)+'px';
+let html = '<div class="ground"></div><div class="water"></div>'
+ + `<div class="park" style="left:${px(5.15)};top:${px(4.2)};width:${px(1.6)};height:${px(1.4)}"></div>`
+ + `<div class="park" style="left:${px(9.2)};top:${px(3.4)};width:${px(2.6)};height:${px(1.5)};opacity:.7"></div>`;
+// five parallel "metro" ribbons between districts, one per skill family
+const lines = [['apex',4.35],['lwc',4.55],['integ',4.75],['auto',4.95],['cloud',5.15]];
+lines.forEach(([c,y])=>{ html += `<div class="road" style="--c:var(--${c});left:${px(1)};top:${px(y-0.55)};width:${px(10.4)}"></div>`; });
+[['apex',5.5],['lwc',5.7]].forEach(([c,x])=>{ html += `<div class="road v" style="--c:var(--${c});left:${px(x-0.55)};top:${px(.8)};height:${px(8.4)}"></div>`; });
+Object.entries(D).forEach(([k,v])=>{
+  html += `<div class="district" style="left:${px(v.x)};top:${px(v.y)}"><span class="dn">${v.name}</span></div>`;
+});
+B.forEach((b,i)=>{
+  html += `<div class="bx${b.hq?' hq':''}" tabindex="0" role="button" aria-label="${b.t}" data-i="${i}" data-k="${b.k}"
+   style="--c:var(--${b.c});--h:${b.h}px;left:${px(b.x)};top:${px(b.y)};width:${px(b.w)};height:${px(b.dd)}">
+   <i class="t"></i><i class="s"></i><i class="e"></i><i class="n"></i><i class="w"></i>
+   <div class="bb" style="--h:${b.h}px"><span class="pin">${b.air?'✈ ':''}${b.t}</span></div></div>`;
+});
+world.innerHTML = html;
+document.getElementById('list').innerHTML = B.map(b=>`<li>${b.t}: ${b.s}. ${b.p}</li>`).join('');
+
+// ---- camera ----
+const root = document.documentElement, cam = document.getElementById('cam'), stage = document.getElementById('stage');
+let rx = 58, rz = -38, zoom = innerWidth < 700 ? .5 : .72, tx = 0, ty = 0, dragging = false, px0, py0;
+const cx = k => k==='all' ? [0,0,innerWidth<700?.5:.72] :
+  (()=>{const v=D[k]; return [ -(v.x + (v.w||2)/2 - 7)*U, -(v.y + (v.d||1.5)/2 - 5)*U, innerWidth<700?.85:1.35 ]})();
+const apply = () => { root.style.setProperty('--rx',rx+'deg'); root.style.setProperty('--rz',rz+'deg'); root.style.setProperty('--zoom',zoom); root.style.setProperty('--tx',tx+'px'); root.style.setProperty('--ty',ty+'px'); };
+const fly = k => { const [x,y,z] = cx(k); tx=x; ty=y; zoom=z; apply();
+  document.querySelectorAll('#dock button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fly===k))); };
+stage.addEventListener('pointerdown',e=>{dragging=true;px0=e.clientX;py0=e.clientY;cam.classList.add('drag');stage.setPointerCapture(e.pointerId)});
+stage.addEventListener('pointermove',e=>{ if(!dragging) return; rz += (e.clientX-px0)*.35; rx = Math.max(25,Math.min(75,rx-(e.clientY-py0)*.25)); px0=e.clientX;py0=e.clientY; apply(); });
+stage.addEventListener('pointerup',()=>{dragging=false;cam.classList.remove('drag')});
+stage.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.4,Math.min(2.2,zoom*(e.deltaY>0?.92:1.08)));apply()},{passive:false});
+document.getElementById('dock').addEventListener('click',e=>{const b=e.target.closest('[data-fly]'); if(b) fly(b.dataset.fly)});
+// idle drift so the first five seconds feel alive
+let t0=performance.now(), idle=true;
+['pointerdown','wheel','keydown'].forEach(ev=>addEventListener(ev,()=>idle=false,{once:true}));
+(function loop(t){ if(idle && !matchMedia('(prefers-reduced-motion: reduce)').matches){ rz = -38 + Math.sin((t-t0)/4200)*10; rx = 58 + Math.sin((t-t0)/5300)*3; apply(); } requestAnimationFrame(loop); })(t0);
+apply();
+
+// ---- tooltip ----
+const tip = document.getElementById('tip');
+const show = (i,ev) => { const b=B[i]; tip.style.setProperty('--c',`var(--${b.c})`);
+  tip.innerHTML = `<small>${b.s}</small><h3>${b.t}</h3><p>${b.p}</p><div class="ch">${b.ch.map(c=>`<span>${c}</span>`).join('')}</div>`;
+  tip.classList.add('show'); place(ev); };
+const place = ev => { if(!ev) return; const w=tip.offsetWidth, h=tip.offsetHeight; let x=ev.clientX+18,y=ev.clientY+18;
+  if(x+w>innerWidth-10) x=ev.clientX-w-18; if(y+h>innerHeight-80) y=ev.clientY-h-18; tip.style.left=Math.max(10,x)+'px'; tip.style.top=Math.max(10,y)+'px'; };
+world.addEventListener('pointerover',e=>{const b=e.target.closest('.bx'); if(b) show(+b.dataset.i,e)});
+world.addEventListener('pointermove',e=>{ if(tip.classList.contains('show')) place(e) });
+world.addEventListener('pointerout',e=>{ if(!e.relatedTarget||!e.relatedTarget.closest||!e.relatedTarget.closest('.bx')) tip.classList.remove('show') });
+world.addEventListener('click',e=>{const b=e.target.closest('.bx'); if(!b) return; fly(b.dataset.k); if(b.dataset.k==='air') location.href='mailto:bharatmtr2002@gmail.com?subject=Salesforce%20opportunity';});
+</script>
+</body>
+</html>
