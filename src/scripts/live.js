@@ -136,7 +136,7 @@ function initConsole() {
   const D = JSON.parse(dc.dataset.json);
   const win = $('.dc-win', dc), log = $('[data-dc-log]', dc), input = $('[data-dc-in]', dc);
   const hist = []; let hi = 0, last = null, welcomed = false;
-  const THEMES = ['lightning', 'dreamforce', 'trailhead'];
+  const THEMES = ['space', 'lightning', 'dreamforce', 'trailhead'];
   const clock = () => new Date().toTimeString().slice(0, 8);
 
   function row(ev, text, cls = '', href) {
@@ -196,7 +196,7 @@ function initConsole() {
     if (cmd === 'theme') {
       const t = (rest[0] || '').toLowerCase();
       if (THEMES.includes(t)) { window.dispatchEvent(new CustomEvent('set-theme', { detail: t })); row('USER_DEBUG', `Theme set to ${t}`, 'ok'); }
-      else row('COMPILE_ERROR', `Invalid theme '${rest[0] || ''}'. Use: theme lightning | dreamforce | trailhead`, 'err');
+      else row('COMPILE_ERROR', `Invalid theme '${rest[0] || ''}'. Use: theme space | lightning | dreamforce | trailhead`, 'err');
       return;
     }
     if ((m = line.match(/^System\.debug\s*\(\s*(?:(?:LoggingLevel\.\w+)\s*,\s*)?(.*)\)$/i))) {

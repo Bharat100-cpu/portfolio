@@ -41,11 +41,11 @@ const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['wo
   <head>
     <meta charset="UTF-8" />
     <script is:inline>if(location.hostname.endsWith('github.io'))addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NZNLNPV2')},1500)});</script>
-    <script is:inline>(function(d){d.classList.add('js');var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dreamforce':'lightning';d.dataset.theme=t})(document.documentElement)</script>
+    <script is:inline>(function(d){d.classList.add('js');var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t||t==="dreamforce"&&0)t="space";d.dataset.theme=t})(document.documentElement)</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0176d3" />
+    <meta name="theme-color" content="#000000" />
     <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href={site} />
     <link rel="icon" href={`${base}favicon.png`} type="image/png" />
@@ -71,6 +71,7 @@ const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['wo
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZNLNPV2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <canvas id="stars" aria-hidden="true"></canvas>
     <a class="skip" href="#main">Skip to content</a>
     <header class="gnav">
       <span class="launcher" aria-hidden="true">{Array.from({ length: 9 }).map(() => <i />)}</span>
@@ -81,6 +82,7 @@ const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['wo
       <div class="gtools">
         <button class="gbtn" type="button" data-open-console aria-label="Open Apex console"><span>Search or run Apex…</span><kbd>⌘K</kbd></button>
         <div class="themes" role="group" aria-label="Theme">
+          <button type="button" data-set-theme="space" aria-pressed="false" title="Space (black)">Space</button>
           <button type="button" data-set-theme="lightning" aria-pressed="false" title="Lightning (light)">Lightning</button>
           <button type="button" data-set-theme="dreamforce" aria-pressed="false" title="Dreamforce (dark)">Dreamforce</button>
           <button type="button" data-set-theme="trailhead" aria-pressed="false" title="Trailhead (playful)">Trailhead</button>

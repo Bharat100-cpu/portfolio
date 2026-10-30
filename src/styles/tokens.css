@@ -1,5 +1,13 @@
 /* Three themes. html[data-theme] = lightning | dreamforce | trailhead. Category hues are fixed, tones adapt. */
-:root, html[data-theme="lightning"] {
+/* Space: true black, white ink, starlight accents. Default theme. */
+:root, html[data-theme="space"] {
+  --bg:#000000; --bg2:#05060a; --panel:rgba(6,7,12,.78); --panel2:rgba(255,255,255,.045); --ink:#ffffff; --mute:#9aa0b4; --line:rgba(255,255,255,.16);
+  --brand:#ffffff; --brand2:#a9c4ff; --pop:#ffe9a8; --ok:#8affc1; --shadow:0 0 0 1px rgba(255,255,255,.04), 0 24px 60px -24px rgba(120,150,255,.25);
+  --c-apex:#c8b6ff; --c-lwc:#9be7ff; --c-integ:#a6ffd2; --c-auto:#ffe29a; --c-cloud:#a9c4ff;
+  --hero-grad:linear-gradient(110deg,#ffffff 20%,#cfdcff 55%,#ffe9a8);
+  color-scheme: dark;
+}
+html[data-theme="lightning"] {
   --bg:#dbeafe; --bg2:#eef6ff; --panel:#ffffff; --panel2:#f4f8ff; --ink:#0b1b3a; --mute:#4a5d82; --line:#c3d4ef;
   --brand:#0176d3; --brand2:#5a1ba9; --pop:#ff538a; --ok:#2e844a; --shadow:0 2px 0 #0b1b3a14, 0 12px 30px -12px #0b3a8a40;
   --c-apex:#7c3aed; --c-lwc:#0891b2; --c-integ:#059669; --c-auto:#d97706; --c-cloud:#0176d3;
