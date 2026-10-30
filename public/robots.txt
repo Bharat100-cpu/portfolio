@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bharat100-cpu.github.io/portfolio/sitemap.xml
