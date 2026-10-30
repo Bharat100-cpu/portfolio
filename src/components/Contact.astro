@@ -1,32 +1,33 @@
 ---
-import '../styles/rest.css';
-import { links, profile } from '../data/site.js';
-const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const ext = [
-  ['LinkedIn', links.linkedin],
-  ['Trailhead', links.trailhead],
-  ['GitHub', links.github],
-];
+import '../styles/record.css';
+import { links } from '../data/site.js';
+const items = [['LinkedIn', links.linkedin], ['Trailhead', links.trailhead], ['GitHub', links.github]];
 ---
-<section id="contact" class="sec" aria-labelledby="contact-h">
-  <header class="sec-head rv">
-    <span class="sec-num" aria-hidden="true">05</span>
-    <h2 id="contact-h" class="sec-ttl">Contact</h2>
-  </header>
-
-  <p class="big rv">Let's build something great on Salesforce.</p>
-
-  <div class="cta rv">
-    <a class="btn-primary" href={`mailto:${links.email}`}>Email {links.email}</a>
-    <button type="button" class="copy" data-copy={links.email} aria-label="Copy email address">Copy email</button>
+<section id="contact" class="panel ct rv" aria-labelledby="ct-h" data-composer data-to={links.email}>
+  <header class="rc-hd"><h2 id="ct-h"><span class="rc-ico" aria-hidden="true">✉</span>Email</h2></header>
+  <div class="ct-form">
+    <div class="ct-line"><span>To</span><a href={`mailto:${links.email}`}>{links.email}</a></div>
+    <div class="ct-line"><span>Subject</span><b>Salesforce opportunity</b></div>
+    <label class="sr-only" for="ct-body">Message</label>
+    <textarea id="ct-body" rows="5" placeholder="Hi Bharat, we have a Salesforce role…"></textarea>
+    <div class="ct-bar">
+      <a class="rh-btn rh-btn-primary" data-send href={`mailto:${links.email}?subject=Salesforce%20opportunity`}>Send</a>
+      <button type="button" class="copy rh-btn" data-copy={links.email}>Copy email</button>
+    </div>
   </div>
-
-  <ul class="links rv">
-    {ext.map(([label, href]) => (
-      <li><a href={href} target="_blank" rel="noopener noreferrer">{label}<span aria-hidden="true"> ↗</span></a></li>
-    ))}
-    <li><a href={`${base}Resume.pdf`} target="_blank" rel="noopener noreferrer">Résumé<span aria-hidden="true"> ↗</span></a></li>
+  <ul class="ct-links">
+    {items.map(([l, u]) => <li><a href={u} target="_blank" rel="noopener noreferrer">{l}<span aria-hidden="true"> ↗</span><span class="sr-only"> (opens in new tab)</span></a></li>)}
   </ul>
-
-  <p class="foot">© {new Date().getFullYear()} {profile.name} · {profile.role} · {profile.location}</p>
 </section>
+
+<script>
+  document.querySelectorAll('[data-composer]').forEach((c) => {
+    const ta = c.querySelector('textarea');
+    const a = c.querySelector('[data-send]');
+    const upd = () => {
+      a.href = `mailto:${c.dataset.to}?subject=${encodeURIComponent('Salesforce opportunity')}&body=${encodeURIComponent(ta.value)}`;
+    };
+    ta.addEventListener('input', upd);
+    a.addEventListener('click', upd);
+  });
+</script>

@@ -1,50 +1,48 @@
 ---
-import '../styles/rest.css';
+import '../styles/related.css';
 import { skills, skillCat, categories, skillGroups } from '../data/site.js';
-const order = Object.keys(categories);
-const grouped = order
-  .map((k) => ({ key: k, label: categories[k].label, items: skills.filter((s) => skillCat[s] === k) }))
-  .filter((g) => g.items.length);
-let n = 0;
+const cats = Object.entries(categories).map(([k, v]) => ({ key: k, label: v.label, items: skills.filter((s) => skillCat[s] === k) }));
 ---
-<section id="skills" class="sec" aria-labelledby="skills-h">
-  <header class="sec-head rv">
-    <span class="sec-num" aria-hidden="true">03</span>
-    <h2 id="skills-h" class="sec-ttl">Skills</h2>
-  </header>
-
-  <ul class="legend rv" aria-label="Skill categories">
-    {order.map((k) => (
-      <li data-cat={k}><i aria-hidden="true"></i>{categories[k].label}</li>
-    ))}
-  </ul>
-
-  <div class="ptable">
-    {grouped.map((g) => (
-      <div class="pt-group rv" data-cat={g.key} role="group" aria-label={g.label}>
-        <h3 class="pt-label">{g.label}</h3>
-        <ul class="pt-tiles">
-          {g.items.map((s) => {
-            n += 1;
-            return (
-              <li class="tile" data-cat={g.key} data-skill={s}>
-                <span class="tile-n" aria-hidden="true">{String(n).padStart(2, '0')}</span>
-                <span class="tile-sym" aria-hidden="true">{s.replace(/[^A-Za-z]/g, '').slice(0, 2)}</span>
-                <span class="tile-name">{s}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    ))}
+<section id="skills" class="panel rel rv" aria-labelledby="sk-h">
+  <div class="rel-h">
+    <span class="rel-ic" aria-hidden="true">✦</span>
+    <h2 id="sk-h">Skills</h2>
+    <small>{skills.length} core skills</small>
   </div>
-
-  <ul class="sg-grid">
-    {skillGroups.map(([title, body]) => (
-      <li class="sg glass rv">
-        <h3>{title}</h3>
-        <p>{body}</p>
-      </li>
-    ))}
-  </ul>
+  <div class="sk-wrap" data-f="all">
+    <div class="sk-filter" role="group" aria-label="Filter skills by category">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      {cats.map((c) => <button type="button" data-f={c.key} data-cat={c.key} aria-pressed="false">{c.label}</button>)}
+    </div>
+    <div class="sk-sets">
+      {cats.map((c) => (
+        <fieldset class="sk-set" data-cat={c.key}>
+          <legend>{c.label}</legend>
+          <ul class="chips">{c.items.map((s) => <li class="chip" data-cat={c.key}>{s}</li>)}</ul>
+        </fieldset>
+      ))}
+    </div>
+  </div>
+  <h3 class="rel-sub">Everything else <span>(by area)</span></h3>
+  <dl class="sk-groups">
+    {skillGroups.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+  </dl>
 </section>
+<script>
+  const sec = document.getElementById('skills');
+  const wrap = sec?.querySelector<HTMLElement>('.sk-wrap');
+  if (sec && wrap) {
+    const btns = [...sec.querySelectorAll<HTMLButtonElement>('.sk-filter button')];
+    btns.forEach((b) => b.addEventListener('click', () => {
+      const f = b.dataset.f!;
+      const next = b.getAttribute('aria-pressed') === 'true' ? 'all' : f;
+      wrap.dataset.f = next;
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.f === next)));
+    }));
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      sec.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sec.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+</script>

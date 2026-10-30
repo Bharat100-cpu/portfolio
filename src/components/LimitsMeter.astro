@@ -1,0 +1,35 @@
+---
+import '../styles/live.css';
+import { projects, links } from '../data/site.js';
+const meters = [
+  ['sections', 'Sections viewed', 6],
+  ['projects', 'Projects opened', projects.length],
+  ['themes', 'Themes tried', 3],
+  ['commands', 'Console commands', 5],
+];
+---
+<section class="panel lim" id="limits" aria-labelledby="lim-t" data-limits data-email={links.email}>
+  <header class="lv-h">
+    <span class="lv-ic" aria-hidden="true">◔</span>
+    <div>
+      <h2 id="lim-t">Governor Limits</h2>
+      <p class="lv-sub">Your session · counted in this browser only</p>
+    </div>
+  </header>
+  <ul class="meters">
+    {meters.map(([key, label, max]) => (
+      <li class="meter" data-meter={key} data-max={max}>
+        <div class="mrow"><span id={`lim-${key}`}>{label}</span><b data-val>0/{max}</b></div>
+        <div class="bar" role="meter" aria-labelledby={`lim-${key}`} aria-valuemin="0" aria-valuemax={max} aria-valuenow="0" aria-valuetext={`0 of ${max}`}><i></i></div>
+      </li>
+    ))}
+  </ul>
+  <p class="lim-open">
+    Try the <button type="button" class="lv-link" data-open-console>Apex console</button> to fill the last meter.
+  </p>
+  <div class="lim-done" data-lim-done hidden role="status">
+    <strong>System.LimitException: LIMIT.EXCEEDED</strong>
+    <p>You have seen it all: every section, every project, every theme, and the console. No real limits were harmed. Next step is an email.</p>
+    <a class="lv-btn pri" href={`mailto:${links.email}?subject=${encodeURIComponent('Limit reached on your portfolio')}`}>Email Bharat</a>
+  </div>
+</section>
