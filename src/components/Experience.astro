@@ -1,0 +1,35 @@
+---
+import '../styles/work.css';
+import { roles, skillCat, categories } from '../data/site.js';
+---
+<section id="experience" class="sec" aria-labelledby="experience-title">
+  <header class="sec-head rv">
+    <span class="sec-num" aria-hidden="true">01</span>
+    <h2 id="experience-title" class="sec-title">Experience</h2>
+  </header>
+
+  <ol class="timeline">
+    {roles.map((r, i) => (
+      <li class="tl-item rv" style={`--d:${i * 90}ms`}>
+        <span class="tl-node" aria-hidden="true"></span>
+        <article class="card glass role">
+          <div class="role-top">
+            <h3 class="role-co">{r.company}</h3>
+            <span class="role-when">{r.when}</span>
+          </div>
+          <p class="role-title">{r.title}</p>
+          <ul class="chips" aria-label="Technologies">
+            {r.stack.map((s) => (
+              <li class="chip" data-cat={skillCat[s]} title={categories[skillCat[s]]?.label}>
+                <i class="dot" aria-hidden="true"></i>{s}
+              </li>
+            ))}
+          </ul>
+          <ul class="points">
+            {r.points.map((p) => <li>{p}</li>)}
+          </ul>
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>

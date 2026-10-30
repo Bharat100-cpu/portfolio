@@ -1,0 +1,50 @@
+---
+import '../styles/rest.css';
+import { skills, skillCat, categories, skillGroups } from '../data/site.js';
+const order = Object.keys(categories);
+const grouped = order
+  .map((k) => ({ key: k, label: categories[k].label, items: skills.filter((s) => skillCat[s] === k) }))
+  .filter((g) => g.items.length);
+let n = 0;
+---
+<section id="skills" class="sec" aria-labelledby="skills-h">
+  <header class="sec-head rv">
+    <span class="sec-num" aria-hidden="true">03</span>
+    <h2 id="skills-h" class="sec-ttl">Skills</h2>
+  </header>
+
+  <ul class="legend rv" aria-label="Skill categories">
+    {order.map((k) => (
+      <li data-cat={k}><i aria-hidden="true"></i>{categories[k].label}</li>
+    ))}
+  </ul>
+
+  <div class="ptable">
+    {grouped.map((g) => (
+      <div class="pt-group rv" data-cat={g.key} role="group" aria-label={g.label}>
+        <h3 class="pt-label">{g.label}</h3>
+        <ul class="pt-tiles">
+          {g.items.map((s) => {
+            n += 1;
+            return (
+              <li class="tile" data-cat={g.key} data-skill={s}>
+                <span class="tile-n" aria-hidden="true">{String(n).padStart(2, '0')}</span>
+                <span class="tile-sym" aria-hidden="true">{s.replace(/[^A-Za-z]/g, '').slice(0, 2)}</span>
+                <span class="tile-name">{s}</span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  <ul class="sg-grid">
+    {skillGroups.map(([title, body]) => (
+      <li class="sg glass rv">
+        <h3>{title}</h3>
+        <p>{body}</p>
+      </li>
+    ))}
+  </ul>
+</section>

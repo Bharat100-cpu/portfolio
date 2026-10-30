@@ -1,0 +1,16 @@
+:root {
+  --bg: #04060d; --bg2: #0a0f1d; --ink: #eaf0ff; --mute: #8a97b8; --line: rgba(160,180,255,.14);
+  --glass: rgba(14,20,38,.55);
+  --h-apex: 262; --h-lwc: 190; --h-integ: 155; --h-auto: 42; --h-cloud: 215;
+  --c-apex: hsl(262 90% 72%); --c-lwc: hsl(190 95% 62%); --c-integ: hsl(155 75% 58%);
+  --c-auto: hsl(42 95% 62%); --c-cloud: hsl(215 95% 68%);
+  --grad: linear-gradient(110deg, var(--c-lwc), var(--c-cloud) 40%, var(--c-apex) 75%, #f472b6);
+  --f-head: 'Space Grotesk', system-ui, sans-serif; --f-body: 'Inter', system-ui, sans-serif; --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --r: 18px;
+}
+/* Any element with data-cat="apex|lwc|integ|auto|cloud" exposes --c (solid) and --cg (soft glow). */
+[data-cat="apex"] { --c: var(--c-apex); --cg: hsl(262 90% 72% / .28); }
+[data-cat="lwc"] { --c: var(--c-lwc); --cg: hsl(190 95% 62% / .28); }
+[data-cat="integ"] { --c: var(--c-integ); --cg: hsl(155 75% 58% / .28); }
+[data-cat="auto"] { --c: var(--c-auto); --cg: hsl(42 95% 62% / .28); }
+[data-cat="cloud"] { --c: var(--c-cloud); --cg: hsl(215 95% 68% / .28); }

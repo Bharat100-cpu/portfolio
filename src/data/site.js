@@ -194,3 +194,19 @@ export const solutions = [
     ],
   },
 ];
+
+// Colour code: every skill belongs to one category, and the category owns one hue site-wide.
+export const categories = {
+  apex: { label: 'Apex & async', hue: 262 },
+  lwc: { label: 'UI · LWC / Aura', hue: 190 },
+  integ: { label: 'Integration', hue: 155 },
+  auto: { label: 'Automation', hue: 42 },
+  cloud: { label: 'Clouds', hue: 215 },
+};
+export const skillCat = {
+  'Apex': 'apex', 'Batch Apex': 'apex', 'Queueable': 'apex', 'Scheduled Jobs': 'apex',
+  'LWC': 'lwc', 'Aura': 'lwc', 'Visualforce': 'lwc',
+  'Flows': 'auto',
+  'REST API': 'integ', 'Connected Apps': 'integ',
+  'Service Cloud': 'cloud', 'Sales Cloud': 'cloud',
+};
