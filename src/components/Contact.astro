@@ -1,0 +1,32 @@
+---
+import '../styles/rest.css';
+import { links, profile } from '../data/site.js';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const ext = [
+  ['LinkedIn', links.linkedin],
+  ['Trailhead', links.trailhead],
+  ['GitHub', links.github],
+];
+---
+<section id="contact" class="sec" aria-labelledby="contact-h">
+  <header class="sec-head rv">
+    <span class="sec-num" aria-hidden="true">05</span>
+    <h2 id="contact-h" class="sec-ttl">Contact</h2>
+  </header>
+
+  <p class="big rv">Let's build something great on Salesforce.</p>
+
+  <div class="cta rv">
+    <a class="btn-primary" href={`mailto:${links.email}`}>Email {links.email}</a>
+    <button type="button" class="copy" data-copy={links.email} aria-label="Copy email address">Copy email</button>
+  </div>
+
+  <ul class="links rv">
+    {ext.map(([label, href]) => (
+      <li><a href={href} target="_blank" rel="noopener noreferrer">{label}<span aria-hidden="true"> ↗</span></a></li>
+    ))}
+    <li><a href={`${base}Resume.pdf`} target="_blank" rel="noopener noreferrer">Résumé<span aria-hidden="true"> ↗</span></a></li>
+  </ul>
+
+  <p class="foot">© {new Date().getFullYear()} {profile.name} · {profile.role} · {profile.location}</p>
+</section>

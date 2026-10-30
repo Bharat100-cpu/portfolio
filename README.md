@@ -21,13 +21,13 @@ All copy and data live in `src/data/site.js`. Edit that file; the page in `src/p
 ## Layout
 
 ```
-src/data/site.js      content
-src/pages/index.astro page markup
-src/scripts/morph.js  morph stage logic
-src/styles/global.css styles
-public/               static assets
-astro.config.mjs      site + base ('/portfolio')
-.github/workflows/    CI and deploy
+src/data/site.js        content, plus the skill -> category colour map
+src/pages/index.astro   page shell (meta, nav, sections)
+src/components/         Hero, Experience, Work, Skills, Credentials, Contact
+src/styles/tokens.css   colour tokens; data-cat="apex|lwc|integ|auto|cloud" sets --c
+src/styles/*.css        global + per-section styles
+src/scripts/            app.js (reveal, progress, nav), hero.js (org-graph canvas)
+public/                 static assets
 ```
 
 ## Deployment
@@ -36,4 +36,4 @@ astro.config.mjs      site + base ('/portfolio')
 
 ## Design notes
 
-On desktop, sections are presented on a single morph stage that transitions between states. On phones and when the user prefers reduced motion, the site falls back to a stacked, scrollable layout with no morphing.
+Dark aurora base with a colour code used site-wide: purple for Apex and async, cyan for UI (LWC, Aura), green for integration, amber for automation and blue for clouds. The hero draws the skills as an interactive org graph in those colours. Animation pauses offscreen and is disabled under `prefers-reduced-motion`.

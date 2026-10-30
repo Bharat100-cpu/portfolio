@@ -1,0 +1,88 @@
+---
+import '../styles/work.css';
+import { projects, solutions, skillCat, categories } from '../data/site.js';
+
+// Dominant (and runner-up) category of a stack, by count; ties keep first-seen order.
+const cats = (stack) => {
+  const n = {};
+  stack.forEach((s) => { const c = skillCat[s]; if (c) n[c] = (n[c] || 0) + 1; });
+  return Object.entries(n).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+};
+---
+<section id="work" class="sec" aria-labelledby="work-title">
+  <header class="sec-head rv">
+    <span class="sec-num" aria-hidden="true">02</span>
+    <h2 id="work-title" class="sec-title">Work</h2>
+  </header>
+
+  <h3 class="sub rv">Client projects</h3>
+  <div class="bento">
+    {projects.map((p, i) => {
+      const [c1] = cats(p.stack);
+      return (
+        <article class={`card glass spot proj rv${i === 0 ? ' proj-lead' : ''}`} data-cat={c1} style={`--d:${i * 70}ms`}>
+          <p class="kicker">{p.kicker}</p>
+          <h4 class="proj-title">{p.title}</h4>
+          <p class="proj-head">{p.headline}</p>
+          <p class="proj-short">{p.short}</p>
+          <ul class="chips" aria-label="Technologies">
+            {p.stack.map((s) => (
+              <li class="chip" data-cat={skillCat[s]} title={categories[skillCat[s]]?.label}>
+                <i class="dot" aria-hidden="true"></i>{s}
+              </li>
+            ))}
+          </ul>
+          <details class="more">
+            <summary>Full details</summary>
+            <ul class="points">{p.points.map((pt) => <li>{pt}</li>)}</ul>
+          </details>
+        </article>
+      );
+    })}
+  </div>
+
+  <h3 class="sub rv">Reusable solutions I built</h3>
+  <div class="features">
+    {solutions.map((s, i) => {
+      const [c1, c2] = cats(s.stack);
+      const isTx = s.title === 'Transaction Inspector';
+      return (
+        <article class="card glass spot feat rv" data-cat={c1} data-cat2={c2 || c1} style={`--d:${i * 100}ms`}>
+          <div class="viz" aria-hidden="true">
+            {isTx ? (
+              <div class="tx">
+                <span class="tx-n tx-root"></span>
+                <span class="tx-n tx-a"></span><span class="tx-n tx-b"></span><span class="tx-n tx-c"></span>
+                <span class="tx-n tx-a1"></span><span class="tx-n tx-b1"></span><span class="tx-n tx-b2"></span><span class="tx-n tx-c1"></span>
+                <span class="tx-bar"><i></i><i></i><i></i></span>
+              </div>
+            ) : (
+              <div class="cron">
+                <span class="cron-expr">0 0 * * * ?</span>
+                <div class="cron-ticks">
+                  {Array.from({ length: 24 }).map((_, k) => <i class={k % 6 === 0 ? 'on' : ''}></i>)}
+                </div>
+                <div class="cron-rows"><b></b><b></b><b></b></div>
+              </div>
+            )}
+          </div>
+          <p class="kicker">{s.kicker}</p>
+          <h4 class="feat-title">{s.title}</h4>
+          <p class="proj-head">{s.headline}</p>
+          <p class="proj-short">{s.short}</p>
+          <ul class="chips" aria-label="Technologies">
+            {s.stack.map((t) => (
+              <li class="chip" data-cat={skillCat[t]} title={categories[skillCat[t]]?.label}>
+                <i class="dot" aria-hidden="true"></i>{t}
+              </li>
+            ))}
+          </ul>
+          <details class="more">
+            <summary>How it works</summary>
+            <ul class="points">{s.points.map((pt) => <li>{pt}</li>)}</ul>
+          </details>
+        </article>
+      );
+    })}
+  </div>
+</section>
