@@ -1,16 +1,29 @@
-:root {
-  --bg: #04060d; --bg2: #0a0f1d; --ink: #eaf0ff; --mute: #8a97b8; --line: rgba(160,180,255,.14);
-  --glass: rgba(14,20,38,.55);
-  --h-apex: 262; --h-lwc: 190; --h-integ: 155; --h-auto: 42; --h-cloud: 215;
-  --c-apex: hsl(262 90% 72%); --c-lwc: hsl(190 95% 62%); --c-integ: hsl(155 75% 58%);
-  --c-auto: hsl(42 95% 62%); --c-cloud: hsl(215 95% 68%);
-  --grad: linear-gradient(110deg, var(--c-lwc), var(--c-cloud) 40%, var(--c-apex) 75%, #f472b6);
-  --f-head: 'Space Grotesk', system-ui, sans-serif; --f-body: 'Inter', system-ui, sans-serif; --f-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --r: 18px;
+/* Three themes. html[data-theme] = lightning | dreamforce | trailhead. Category hues are fixed, tones adapt. */
+:root, html[data-theme="lightning"] {
+  --bg:#dbeafe; --bg2:#eef6ff; --panel:#ffffff; --panel2:#f4f8ff; --ink:#0b1b3a; --mute:#4a5d82; --line:#c3d4ef;
+  --brand:#0176d3; --brand2:#5a1ba9; --pop:#ff538a; --ok:#2e844a; --shadow:0 2px 0 #0b1b3a14, 0 12px 30px -12px #0b3a8a40;
+  --c-apex:#7c3aed; --c-lwc:#0891b2; --c-integ:#059669; --c-auto:#d97706; --c-cloud:#0176d3;
+  --hero-grad:linear-gradient(120deg,#0176d3,#5a1ba9 60%,#ff538a);
+  color-scheme: light;
 }
-/* Any element with data-cat="apex|lwc|integ|auto|cloud" exposes --c (solid) and --cg (soft glow). */
-[data-cat="apex"] { --c: var(--c-apex); --cg: hsl(262 90% 72% / .28); }
-[data-cat="lwc"] { --c: var(--c-lwc); --cg: hsl(190 95% 62% / .28); }
-[data-cat="integ"] { --c: var(--c-integ); --cg: hsl(155 75% 58% / .28); }
-[data-cat="auto"] { --c: var(--c-auto); --cg: hsl(42 95% 62% / .28); }
-[data-cat="cloud"] { --c: var(--c-cloud); --cg: hsl(215 95% 68% / .28); }
+html[data-theme="dreamforce"] {
+  --bg:#020b24; --bg2:#06143a; --panel:#0b1c4d; --panel2:#0e2260; --ink:#f2f6ff; --mute:#9db0e0; --line:#24408f;
+  --brand:#4bc0ff; --brand2:#b46bff; --pop:#ff7ac6; --ok:#4be3a0; --shadow:0 0 0 1px #4bc0ff22, 0 20px 50px -20px #000;
+  --c-apex:#b79bff; --c-lwc:#5ee7ff; --c-integ:#5ff0b0; --c-auto:#ffcb5c; --c-cloud:#6db8ff;
+  --hero-grad:linear-gradient(120deg,#4bc0ff,#b46bff 55%,#ff7ac6);
+  color-scheme: dark;
+}
+html[data-theme="trailhead"] {
+  --bg:#fff2cf; --bg2:#ffe9b0; --panel:#fffdf6; --panel2:#fff6dc; --ink:#2a1a05; --mute:#7a5a24; --line:#2a1a05;
+  --brand:#2e844a; --brand2:#ff6a00; --pop:#e5337a; --ok:#2e844a; --shadow:5px 5px 0 #2a1a05;
+  --c-apex:#8a3ffc; --c-lwc:#007d9c; --c-integ:#2e844a; --c-auto:#e66a00; --c-cloud:#1b5de0;
+  --hero-grad:linear-gradient(120deg,#2e844a,#ff6a00 60%,#e5337a);
+  color-scheme: light;
+}
+:root {
+  --f-head:'Space Grotesk',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif; --f-mono:'JetBrains Mono',ui-monospace,monospace;
+  --r:14px; --gap:clamp(12px,1.6vw,22px);
+}
+/* data-cat="apex|lwc|integ|auto|cloud" exposes --c; use color-mix for tints and borders. */
+[data-cat="apex"]{--c:var(--c-apex)} [data-cat="lwc"]{--c:var(--c-lwc)} [data-cat="integ"]{--c:var(--c-integ)}
+[data-cat="auto"]{--c:var(--c-auto)} [data-cat="cloud"]{--c:var(--c-cloud)}

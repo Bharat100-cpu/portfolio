@@ -1,35 +1,55 @@
 ---
-import '../styles/work.css';
-import { roles, skillCat, categories } from '../data/site.js';
+import '../styles/related.css';
+import { roles, skillCat } from '../data/site.js';
+const icons = ['★', '⚑'];
 ---
-<section id="experience" class="sec" aria-labelledby="experience-title">
-  <header class="sec-head rv">
-    <span class="sec-num" aria-hidden="true">01</span>
-    <h2 id="experience-title" class="sec-title">Experience</h2>
-  </header>
-
-  <ol class="timeline">
+<section id="experience" class="panel rel rv" aria-labelledby="exp-h">
+  <div class="rel-h">
+    <span class="rel-ic" aria-hidden="true">⏱</span>
+    <h2 id="exp-h">Activity</h2>
+    <small>Past &amp; current roles</small>
+  </div>
+  <ol class="tl">
     {roles.map((r, i) => (
-      <li class="tl-item rv" style={`--d:${i * 90}ms`}>
-        <span class="tl-node" aria-hidden="true"></span>
-        <article class="card glass role">
-          <div class="role-top">
-            <h3 class="role-co">{r.company}</h3>
-            <span class="role-when">{r.when}</span>
+      <li class="tl-item">
+        <span class="tl-ic" aria-hidden="true">{icons[i % icons.length]}</span>
+        <div class="tl-card">
+          <div class="tl-top">
+            <h3>{r.company}</h3>
+            <span class="date-chip">{r.when}</span>
           </div>
-          <p class="role-title">{r.title}</p>
-          <ul class="chips" aria-label="Technologies">
-            {r.stack.map((s) => (
-              <li class="chip" data-cat={skillCat[s]} title={categories[skillCat[s]]?.label}>
-                <i class="dot" aria-hidden="true"></i>{s}
-              </li>
-            ))}
+          <p class="tl-kind">{r.title}</p>
+          <ul class="chips" aria-label={`Stack at ${r.company}`}>
+            {r.stack.map((s) => <li class="chip" data-cat={skillCat[s]}>{s}</li>)}
           </ul>
-          <ul class="points">
-            {r.points.map((p) => <li>{p}</li>)}
-          </ul>
-        </article>
+          <button type="button" class="xbtn" aria-expanded="true" aria-controls={`exp-d${i}`} data-x>
+            <span class="xl">Hide details</span>
+          </button>
+          <div id={`exp-d${i}`}>
+            <ul class="pts">{r.points.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </div>
       </li>
     ))}
   </ol>
 </section>
+<script>
+  const sec = document.getElementById('experience');
+  if (sec) {
+    sec.querySelectorAll<HTMLButtonElement>('[data-x]').forEach((b, i) => {
+      const t = document.getElementById(b.getAttribute('aria-controls')!)!;
+      const set = (open: boolean) => {
+        b.setAttribute('aria-expanded', String(open));
+        t.hidden = !open;
+        b.querySelector('.xl')!.textContent = open ? 'Hide details' : 'Show details';
+      };
+      set(i === 0);
+      b.addEventListener('click', () => set(b.getAttribute('aria-expanded') !== 'true'));
+    });
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      sec.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sec.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+</script>

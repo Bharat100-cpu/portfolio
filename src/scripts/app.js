@@ -1,48 +1,40 @@
 const root = document.documentElement;
-const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const toast = document.querySelector('.toast');
+const say = (t) => { toast.textContent = t; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 1800); };
+window.addEventListener('toast', (e) => say(e.detail));
 
-// Reveal on scroll.
+// Theme: lightning | dreamforce | trailhead. Also settable from the console via a 'set-theme' event.
+const themeBtns = [...document.querySelectorAll('[data-set-theme]')];
+const setTheme = (t) => {
+  if (!['lightning', 'dreamforce', 'trailhead'].includes(t)) return;
+  root.dataset.theme = t;
+  try { localStorage.setItem('theme', t); } catch {}
+  themeBtns.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setTheme === t)));
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(root).getPropertyValue('--brand').trim());
+  window.dispatchEvent(new CustomEvent('theme-changed', { detail: t }));
+};
+themeBtns.forEach((b) => b.addEventListener('click', () => setTheme(b.dataset.setTheme)));
+addEventListener('set-theme', (e) => setTheme(e.detail));
+setTheme(root.dataset.theme);
+
+// Reveal on scroll (.rv -> .in).
 const io = new IntersectionObserver(
   (es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
-  { threshold: 0.1 },
+  { threshold: 0.08 },
 );
 document.querySelectorAll('.rv').forEach((el) => io.observe(el));
 
-// Cursor spotlight and per-card glow.
-if (!reduce) {
-  addEventListener('pointermove', (e) => {
-    root.style.setProperty('--mx', e.clientX + 'px');
-    root.style.setProperty('--my', e.clientY + 'px');
-  }, { passive: true });
-  document.querySelectorAll('.card, .spot').forEach((c) => c.addEventListener('pointermove', (e) => {
-    const r = c.getBoundingClientRect();
-    c.style.setProperty('--cx', e.clientX - r.left + 'px');
-    c.style.setProperty('--cy', e.clientY - r.top + 'px');
-  }));
-}
-
-// Scroll progress bar.
-const onScroll = () => {
-  const h = root.scrollHeight - innerHeight;
-  root.style.setProperty('--p', h > 0 ? Math.min(1, scrollY / h) : 0);
-};
-addEventListener('scroll', onScroll, { passive: true });
-onScroll();
-
-// Nav highlight for the section in view.
+// Nav highlight for the section in view (desktop nav and mobile tab bar).
 const links = [...document.querySelectorAll('[data-nav]')];
 const secs = [...new Set(links.map((l) => l.dataset.nav))].map((id) => document.getElementById(id)).filter(Boolean);
 const navIo = new IntersectionObserver((es) => es.forEach((e) => {
   if (e.isIntersecting) links.forEach((l) => l.classList.toggle('act', l.dataset.nav === e.target.id));
-}), { rootMargin: '-40% 0px -55% 0px' });
+}), { rootMargin: '-30% 0px -60% 0px' });
 secs.forEach((s) => navIo.observe(s));
 
-// Copy email.
-const toast = document.querySelector('.toast');
-document.querySelector('.copy')?.addEventListener('click', async (e) => {
-  const b = e.currentTarget;
-  try { await navigator.clipboard.writeText(b.dataset.copy); toast.textContent = 'Email copied'; }
-  catch { toast.textContent = b.dataset.copy; }
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 1800);
+// Copy email: any button.copy[data-copy].
+document.addEventListener('click', async (e) => {
+  const b = e.target.closest?.('.copy');
+  if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); say('Email copied'); } catch { say(b.dataset.copy); }
 });
