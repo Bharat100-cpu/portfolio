@@ -5,7 +5,7 @@ Personal portfolio site, live at https://bharat100-cpu.github.io/portfolio/
 ## Stack
 
 - Astro 6, static output
-- Vanilla JavaScript for the morph stage (`src/scripts/morph.js`); no framework runtime
+- Vanilla JavaScript for the interactions (`src/scripts/app.js`); no framework runtime
 - Plain CSS (`src/styles/global.css`)
 
 ## Editing content

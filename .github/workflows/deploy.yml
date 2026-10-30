@@ -48,3 +48,7 @@ jobs:
           publish_branch: gh-pages
           keep_files: false
           enable_jekyll: false
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: '41898282+github-actions[bot]@users.noreply.github.com'
+          full_commit_message: Deploy site

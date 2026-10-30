@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
-import { profile, links, stats, tokens, skillGroups, projects, roles, tiles } from '../data/site.js';
+import {
+  profile, links, skills, roles, projects, solutions, skillGroups, certifications, superbadges, education,
+} from '../data/site.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const site = 'https://bharat100-cpu.github.io/portfolio/';
@@ -8,7 +10,6 @@ const title = 'Bharat Kumar · Salesforce Developer';
 const description =
   'Salesforce Developer with 4 years across Experience, Sales and Service Cloud. Apex, LWC, integrations and automation for Pinterest, Assurant, CleverTap and more.';
 const resume = `${base}Resume.pdf`;
-const tileHref = (h) => (h === 'RESUME' ? resume : h);
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -18,26 +19,38 @@ const ld = {
   url: site,
   address: { '@type': 'PostalAddress', addressLocality: 'Mathura', addressRegion: 'Uttar Pradesh', addressCountry: 'IN' },
   sameAs: [links.linkedin, links.trailhead, links.github],
-  knowsAbout: tokens.map((t) => t.name),
+  knowsAbout: skills,
+  hasCredential: certifications.map((c) => ({ '@type': 'EducationalOccupationalCredential', name: `Salesforce Certified ${c.name}` })),
   alumniOf: [
     { '@type': 'CollegeOrUniversity', name: 'Chandigarh University' },
     { '@type': 'CollegeOrUniversity', name: 'Bon Maharaj Institute of Management & Technology' },
   ],
 };
+const nav = [
+  ['about', 'About'],
+  ['experience', 'Experience'],
+  ['work', 'Work'],
+  ['skills', 'Skills'],
+  ['credentials', 'Credentials'],
+  ['contact', 'Contact'],
+];
+const ext = { target: '_blank', rel: 'noopener noreferrer' };
+const all = skills.join('|');
 ---
 <!doctype html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NZNLNPV2');</script>
+    <script is:inline>if(location.hostname.endsWith('github.io'))addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NZNLNPV2')},1500)});</script>
     <script is:inline>document.documentElement.classList.add('js')</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#04060d" />
+    <meta name="theme-color" content="#05070d" />
+    <meta name="color-scheme" content="dark" />
     <link rel="canonical" href={site} />
     <link rel="icon" href={`${base}favicon.png`} type="image/png" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={site} />
@@ -52,96 +65,180 @@ const ld = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${site}og.png`} />
-    <meta name="color-scheme" content="dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZNLNPV2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a class="skip" href="#main">Skip to content</a>
-    <div class="nebula" aria-hidden="true"></div>
-    <nav aria-label="Primary">
-      <span class="logo" aria-hidden="true">BK.</span>
-      <a href="#hero" data-s="0" class="hide-m">Home</a>
-      <a href="#skills" data-s="1" class="hide-m">Skills</a>
-      <a href="#work" data-s="2" class="hide-m">Work</a>
-      <a href="#experience" data-s="3" class="hide-m">Experience</a>
-      <a href="#credentials" data-s="4" class="hide-m">Credentials</a>
-      <a href={resume} class="btn" download aria-label="Download résumé (PDF)">Résumé</a>
-      <a href="#contact" data-s="5" class="cta">Let's talk</a>
-    </nav>
+    <div class="spot" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
 
-    <main class="static" id="main">
-      <section id="hero" class="blk" aria-labelledby="hero-h"><div class="wrap">
-        <p class="kick rv">Portfolio</p>
-        <h1 id="hero-h" class="rv">Hi, I'm<br /><em>{profile.name}</em></h1>
-        <p class="role rv">&gt; {profile.role} · Experience Cloud</p>
-        <p class="lede rv">{profile.longSummary}</p>
-        <div class="btns rv"><a class="b p" href="#work">View my work</a><a class="b" href={resume} download>Download résumé</a></div>
-        <div class="statrow rv">{stats.map(([n, l]) => <div><b>{n}</b><span>{l}</span></div>)}</div>
-      </div></section>
-
-      <section id="skills" class="blk" aria-labelledby="skills-h"><div class="wrap">
-        <p class="kick rv">Skills</p>
-        <h2 id="skills-h" class="rv">Twelve tools, <em>one platform</em></h2>
-        <div class="chips rv">{tokens.map((t) => <span>{t.name}</span>)}</div>
-        <div class="groups" style="margin-top:22px">{skillGroups.map(([h, p]) => <div class="group rv"><h3>{h}</h3><p>{p}</p></div>)}</div>
-      </div></section>
-
-      <section id="work" class="blk" aria-labelledby="work-h"><div class="wrap">
-        <p class="kick rv">Selected work</p>
-        <h2 id="work-h" class="rv">Work that <em>shipped</em></h2>
-        <div class="cards">{projects.map((p) => (
-          <article class="cardx rv"><div class="k">{p.kicker}</div><h3>{p.title}</h3>
-            <ul>{p.points.map((x) => <li>{x}</li>)}</ul>
-            <div class="env">{p.env}</div></article>
-        ))}</div>
-      </div></section>
-
-      <section id="experience" class="blk" aria-labelledby="experience-h"><div class="wrap">
-        <p class="kick rv">Experience</p>
-        <h2 id="experience-h" class="rv">Where I've <em>built</em></h2>
-        {roles.map((r) => (
-          <div class="role-blk rv"><h3>{r.title} · {r.company}</h3><div class="when">{r.when}</div>
-            <ul>{r.points.map((x) => <li>{x}</li>)}</ul></div>
-        ))}
-      </div></section>
-
-      <section id="credentials" class="blk" aria-labelledby="credentials-h"><div class="wrap">
-        <p class="kick rv">Credentials</p>
-        <h2 id="credentials-h" class="rv">Certified &amp; <em>proven</em></h2>
-        <div class="tiles">{tiles.map((t) => {
-          const inner = (<>
-            {t.img ? <img src={`${base}img/${t.img}`} alt="" loading="lazy" /> : <div class="big">{t.big}</div>}
-            <div>{t.name}<small>{t.sub}</small></div></>);
-          return t.href
-            ? <a class="tile rv" href={tileHref(t.href)} target={t.href === 'RESUME' ? undefined : '_blank'} rel="noopener">{inner}</a>
-            : <div class="tile rv">{inner}</div>;
-        })}</div>
-      </div></section>
-
-      <section id="contact" class="blk" aria-labelledby="contact-h"><div class="wrap">
-        <p class="kick rv">Contact</p>
-        <h2 id="contact-h" class="rv">Let's build <em>something great</em></h2>
-        <p class="lede rv">Open to new Salesforce roles. Based in {profile.location}.</p>
-        <div class="linkrow rv">
-          <a href={`mailto:${links.email}`}>Email<span>{links.email}</span></a>
-          <a href={links.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn<span>in/kumar-bharat</span></a>
-          <a href={links.trailhead} target="_blank" rel="noopener noreferrer">Trailhead<span>trailblazer/bharatkumar2002</span></a>
-          <a href={links.github} target="_blank" rel="noopener noreferrer">GitHub<span>Bharat100-cpu</span></a>
-          <a href={resume} download>Résumé<span>download PDF</span></a>
+    <div class="shell">
+      <header class="rail">
+        <div class="rail-top">
+          <p class="status"><span class="dot"></span>Open to Salesforce roles</p>
+          <h1><a href="#top">{profile.name}</a></h1>
+          <p class="role">{profile.role}</p>
+          <p class="pitch">{profile.pitch}</p>
+          <nav class="nav" aria-label="Sections">
+            {nav.map(([id, label], i) => (
+              <a href={`#${id}`} data-nav={id}><span class="n">0{i + 1}</span><span class="bar"></span>{label}</a>
+            ))}
+          </nav>
         </div>
-        <footer class="foot">© 2026 {profile.name} · {profile.location}</footer>
-      </div></section>
-    </main>
+
+        <div class="stack" aria-label="Skills used in the section in view">
+          <p class="stack-h"><span>Stack in view</span><b class="stack-ctx" aria-live="polite">Everything</b></p>
+          <ul class="tiles">{skills.map((s) => <li class="tile on" data-skill={s}>{s}</li>)}</ul>
+        </div>
+
+        <div class="rail-foot">
+          <a class="btn primary" href={resume} download>Résumé <span aria-hidden="true">↓</span></a>
+          <a class="icon" href={links.linkedin} {...ext} aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.5c0-1.3-.02-3-1.83-3-1.83 0-2.1 1.43-2.1 2.9V21H9z"/></svg>
+          </a>
+          <a class="icon" href={links.trailhead} {...ext} aria-label="Trailhead profile">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 19H6.6A4.6 4.6 0 0 1 6 9.85 6 6 0 0 1 17.6 8.5 5.25 5.25 0 0 1 17.5 19z"/></svg>
+          </a>
+          <a class="icon" href={links.github} {...ext} aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.4-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          </a>
+          <a class="icon" href={`mailto:${links.email}`} aria-label="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L4.4 7H4v.6l8 5.5 8-5.5V7h-.4z"/></svg>
+          </a>
+        </div>
+      </header>
+
+      <nav class="mnav" aria-label="Sections (mobile)">
+        {nav.map(([id, label]) => <a href={`#${id}`} data-nav={id}>{label}</a>)}
+      </nav>
+
+      <main id="main">
+        <span id="top"></span>
+        <section id="about" data-stack={all} data-ctx="Everything" aria-labelledby="about-h">
+          <h2 id="about-h" class="sec-h"><span>01</span>About</h2>
+          <div class="about">
+            {profile.about.map((p) => <p>{p}</p>)}
+          </div>
+          <dl class="facts">
+            {profile.facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+          </dl>
+        </section>
+
+        <section id="experience" aria-labelledby="experience-h">
+          <h2 id="experience-h" class="sec-h"><span>02</span>Experience</h2>
+          <ol class="timeline">
+            {roles.map((r) => (
+              <li class="job card rv" data-stack={r.stack.join('|')} data-ctx={r.company}>
+                <p class="when">{r.when}</p>
+                <div>
+                  <h3>{r.title} <span class="at">· {r.company}</span></h3>
+                  <ul class="pts">{r.points.slice(0, 3).map((x) => <li>{x}</li>)}</ul>
+                  {r.points.length > 3 && (
+                    <details><summary>More from this role</summary>
+                      <ul class="pts">{r.points.slice(3).map((x) => <li>{x}</li>)}</ul>
+                    </details>
+                  )}
+                  <ul class="chips" aria-label="Stack">{r.stack.map((s) => <li>{s}</li>)}</ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section id="work" aria-labelledby="work-h">
+          <h2 id="work-h" class="sec-h"><span>03</span>Selected work</h2>
+          <p class="sub-h rv">Client projects</p>
+          <div class="grid">
+            {projects.map((p) => (
+              <article class="proj card rv" data-stack={p.stack.join('|')} data-ctx={p.title}>
+                <p class="kicker">{p.kicker}</p>
+                <h3>{p.title}</h3>
+                <p class="headline">{p.headline}</p>
+                <p>{p.short}</p>
+                <details><summary>Read the details</summary><ul class="pts">{p.points.map((x) => <li>{x}</li>)}</ul></details>
+                <ul class="chips" aria-label="Stack">{p.stack.map((s) => <li>{s}</li>)}</ul>
+              </article>
+            ))}
+          </div>
+          {solutions.length > 0 && (
+            <>
+              <p class="sub-h rv">Reusable solutions I built</p>
+              <div class="grid two">
+                {solutions.map((p) => (
+                  <article class="proj card feature rv" data-stack={p.stack.join('|')} data-ctx={p.title}>
+                    <p class="kicker">{p.kicker}</p>
+                    <h3>{p.title}</h3>
+                    <p class="headline">{p.headline}</p>
+                    <p>{p.short}</p>
+                    <details><summary>How it works</summary><ul class="pts">{p.points.map((x) => <li>{x}</li>)}</ul></details>
+                    <ul class="chips" aria-label="Stack">{p.stack.map((s) => <li>{s}</li>)}</ul>
+                  </article>
+                ))}
+              </div>
+            </>
+          )}
+        </section>
+
+        <section id="skills" data-stack={all} data-ctx="Everything" aria-labelledby="skills-h">
+          <h2 id="skills-h" class="sec-h"><span>04</span>Skills</h2>
+          <div class="groups">
+            {skillGroups.map(([h, p]) => <div class="group rv"><h3>{h}</h3><p>{p}</p></div>)}
+          </div>
+        </section>
+
+        <section id="credentials" data-stack="Apex|LWC|REST API|Connected Apps|Queueable|Batch Apex|Scheduled Jobs" data-ctx="Superbadges" aria-labelledby="credentials-h">
+          <h2 id="credentials-h" class="sec-h"><span>05</span>Credentials</h2>
+          <p class="sub-h rv">Salesforce certifications</p>
+          <div class="badges">
+            {certifications.map((c) => (
+              <a class="badge card rv" href={links.trailhead} {...ext}>
+                <img src={`${base}img/${c.img}`} alt="" width="72" height="72" loading="lazy" decoding="async" />
+                <span><b>{c.name}</b><small>Salesforce Certified</small></span>
+              </a>
+            ))}
+          </div>
+          <p class="sub-h rv">Superbadges</p>
+          <div class="badges">
+            {superbadges.map((c) => (
+              <a class="badge card rv" href={links.trailhead} {...ext}>
+                <img src={`${base}img/${c.img}`} alt="" width="72" height="72" loading="lazy" decoding="async" />
+                <span><b>{c.name}</b><small>{c.sub}</small></span>
+              </a>
+            ))}
+          </div>
+          <p class="verify rv"><a href={links.trailhead} {...ext}>Verify all of these on my Trailhead profile ↗</a></p>
+          <p class="sub-h rv">Education</p>
+          <ul class="edu">
+            {education.map((e) => <li class="rv"><b>{e.degree}</b><span>{e.school}</span><small>{e.when}</small></li>)}
+          </ul>
+        </section>
+
+        <section id="contact" data-stack={all} data-ctx="Everything" aria-labelledby="contact-h">
+          <h2 id="contact-h" class="sec-h"><span>06</span>Contact</h2>
+          <p class="big rv">Let's build something <em>great on Salesforce.</em></p>
+          <p class="lede rv">I'm open to new Salesforce developer roles. The fastest way to reach me is email.</p>
+          <div class="cta rv">
+            <a class="btn primary lg" href={`mailto:${links.email}`}>Email me</a>
+            <button class="btn lg copy" type="button" data-copy={links.email}><span class="mono">{links.email}</span><span class="copy-l">Copy</span></button>
+          </div>
+          <ul class="links rv">
+            <li><a href={links.linkedin} {...ext}>LinkedIn <span>in/kumar-bharat ↗</span></a></li>
+            <li><a href={links.trailhead} {...ext}>Trailhead <span>bharatkumar2002 ↗</span></a></li>
+            <li><a href={links.github} {...ext}>GitHub <span>Bharat100-cpu ↗</span></a></li>
+            <li><a href={resume} download>Résumé <span>PDF ↓</span></a></li>
+          </ul>
+          <footer class="foot">© 2026 {profile.name} · {profile.location} · Built with Astro</footer>
+        </section>
+      </main>
+    </div>
+    <div class="toast" role="status" aria-live="polite"></div>
 
     <script>
-      import '../scripts/morph.js';
-      // Reveal-on-scroll for the stacked layout (phones, reduced motion, no stage).
-      const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.12 });
-      document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+      import '../scripts/app.js';
     </script>
   </body>
 </html>

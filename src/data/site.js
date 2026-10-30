@@ -3,10 +3,20 @@ export const profile = {
   name: 'Bharat Kumar',
   role: 'Salesforce Developer',
   location: 'Mathura, Uttar Pradesh, India',
-  summary:
-    'Salesforce Developer with 4 years across Experience, Sales and Service Cloud. I build production-grade Apex and LWC, integrations, and the automation that replaces manual work.',
-  longSummary:
-    '4 years architecting scalable Experience Cloud, Sales Cloud and Service Cloud solutions for global clients including Pinterest, Assurant and CleverTap. Builds production-grade Apex and LWC applications with REST/SOAP integrations, and turns manual, error-prone processes into reusable LWC component libraries and orchestrated batch and queueable job chains.',
+  pitch: 'I build production-grade Apex and LWC, integrations, and the automation that replaces manual work.',
+  about: [
+    'Salesforce Developer with 4 years architecting scalable Experience Cloud, Sales Cloud and Service Cloud solutions for global clients including Pinterest, Assurant and CleverTap.',
+    'I build production-grade Apex and LWC applications with REST/SOAP integrations, and I turn manual, error-prone processes into reusable LWC component libraries and orchestrated batch and queueable job chains. I also work with Salesforce DX, GitHub Actions basics and Copado-based release management.',
+    'I hold 4 active Salesforce certifications and I am pursuing an MCA in Artificial Intelligence.',
+  ],
+  facts: [
+    ['Experience', '4 years on Salesforce'],
+    ['Clouds', 'Experience · Sales · Service'],
+    ['Certified', 'Platform Developer I, AI Specialist, AI Associate, Associate'],
+    ['Clients', 'Pinterest, Assurant, CleverTap'],
+    ['Studying', 'MCA in Artificial Intelligence'],
+    ['Based in', 'Mathura, India'],
+  ],
 };
 
 export const links = {
@@ -16,36 +26,108 @@ export const links = {
   github: 'https://github.com/Bharat100-cpu',
 };
 
-export const stats = [
-  ['4+', 'years on Salesforce'],
-  ['5', 'client projects'],
-  ['4', 'certifications'],
-  ['>90%', 'test coverage'],
-  ['50+', 'pages to LWC'],
+// The 12 skill tiles. They stay in the sidebar and light up for whatever is in view.
+export const skills = [
+  'Apex', 'Batch Apex', 'Queueable', 'Scheduled Jobs',
+  'LWC', 'Aura', 'Visualforce', 'Flows',
+  'REST API', 'Connected Apps', 'Service Cloud', 'Sales Cloud',
 ];
 
-// The 12 skill tiles that persist and flow through every scene.
-export const tokens = [
-  { name: 'Apex', ring: 0, project: 4, exp: 1 },
-  { name: 'Batch Apex', ring: 0, project: 0, exp: 0 },
-  { name: 'Queueable', ring: 0, project: 0, exp: 0 },
-  { name: 'Scheduled Jobs', ring: 0, project: 2, exp: 1 },
-  { name: 'LWC', ring: 1, project: 0, exp: 0 },
-  { name: 'Aura', ring: 1, project: 1, exp: 2 },
-  { name: 'Visualforce', ring: 1, project: 1, exp: 2 },
-  { name: 'Flows', ring: 1, project: 3, exp: 3 },
-  { name: 'REST API', ring: 2, project: 4, exp: 4 },
-  { name: 'Connected Apps', ring: 2, project: 2, exp: 4 },
-  { name: 'Service Cloud', ring: 2, project: 1, exp: 2 },
-  { name: 'Sales Cloud', ring: 2, project: 3, exp: 3 },
+export const roles = [
+  {
+    company: 'PCGI',
+    title: 'Salesforce Developer',
+    when: 'Dec 2025 – Present',
+    stack: ['Apex', 'Batch Apex', 'Queueable', 'Scheduled Jobs', 'LWC'],
+    points: [
+      'Built a reusable LWC design-system kit and a dependency-free in-browser Excel (.xlsx) generator adopted across multiple production dashboards, plus an Apex error-logging framework for async batch and queueable jobs.',
+      "Implemented business-day logic that aligns the team's IST hours with the client's US business calendar, so scheduled batch jobs and SLA timing run on the correct day.",
+      'Audit and optimize complex Salesforce processes with code reviews, governor limit analysis and SOQL query tuning to improve platform throughput.',
+      'Work with international stakeholders across time zones to turn requirements into Jira user stories and scalable Apex/LWC architectures.',
+      'Manage project tracking and production deployments across sandboxes with Change Sets and Copado.',
+      'Implemented Agentforce to prototype AI agents for business process automation.',
+    ],
+  },
+  {
+    company: 'Fexle Services',
+    title: 'Salesforce Developer',
+    when: 'May 2022 – Jun 2025',
+    stack: ['Apex', 'LWC', 'Aura', 'Visualforce', 'Flows', 'REST API'],
+    points: [
+      'Led an enterprise-wide migration from Salesforce Classic to Lightning Experience, improving UI responsiveness and daily active user adoption.',
+      'Built high-performance solutions with LWC, Apex classes and triggers, following governor limits and bulkification best practices for large global user bases.',
+      'Maintained above 90% test coverage across all deployments with comprehensive Apex test classes.',
+      'Root-caused high-priority production bugs with structured debugging and regression testing to reduce downtime.',
+      'Supported CI/CD with Salesforce DX and Git workflows, and contributed to design reviews that reduced deployment cycle times.',
+    ],
+  },
 ];
 
-export const legend = [
-  'Inner ring · backend Apex',
-  'Middle ring · UI and automation',
-  'Outer ring · integration and clouds',
-  'Closer to core = used daily',
-  'Toolbox · DX, Git, Copado, Jira',
+export const projects = [
+  {
+    kicker: 'Healthcare · PCGI · Current',
+    title: 'MNK',
+    headline: 'PA Re-Auth Hub and Outbound Fax Analysis',
+    short:
+      'A weekly batch and queueable chain finds Prior Authorizations expiring within 40 days, opens Reimbursement cases, runs eBV and syncs to ARMory, all surfaced in a real-time LWC dashboard.',
+    stack: ['Batch Apex', 'Queueable', 'Scheduled Jobs', 'LWC', 'Apex'],
+    points: [
+      'PA Re-Auth Hub: a weekly batch-and-queueable job chain that identifies patients whose Prior Authorization expires within 40 days, auto-creates Reimbursement cases, triggers electronic benefit verification (eBV) and syncs results to the ARMory system.',
+      'Outbound Fax Analysis engine that classifies the daily fax queue and auto-generates downloadable Excel workbooks and draft overview emails, eliminating manual report compilation.',
+      'Redesigned Daily Data Checks into one actionable to-do list with one-click auto-fix actions, plus an hourly Batch Orchestrator tab for scheduled job health.',
+      "Authored developer architecture documentation and end-user guides adopted as the team's reference.",
+    ],
+  },
+  {
+    kicker: 'Insurance · Fexle',
+    title: 'Assurant',
+    headline: 'Visualforce to LWC modernization',
+    short:
+      'In an 18-member global architecture team, migrated 50+ complex Visualforce pages to LWC and Aura and automated Service Cloud case routing and SLA tracking.',
+    stack: ['Service Cloud', 'LWC', 'Aura', 'Visualforce'],
+    points: [
+      'Scaled a highly customized enterprise insurance platform on Service Cloud within an 18-member global architecture team.',
+      'Migrated 50+ complex Visualforce pages to LWC and Aura, improving page load times and cross-browser compatibility.',
+      'Optimized Service Cloud workflows with automated case routing, escalation rules and SLA tracking.',
+    ],
+  },
+  {
+    kicker: 'Customer engagement · Fexle',
+    title: 'CleverTap',
+    headline: 'High-volume async processing and Quip integration',
+    short:
+      'Batch Apex and Scheduled Jobs backend for high-volume records within governor limits, plus a secure Quip integration through Connected Apps.',
+    stack: ['Batch Apex', 'Scheduled Jobs', 'Connected Apps', 'Apex'],
+    points: [
+      'Built a scalable backend data-processing architecture with Batch Apex and Scheduled Jobs in a 7-member cross-functional pod.',
+      'Integrated Salesforce with Quip via Connected Apps for secure document sharing and real-time collaboration.',
+      'Kept data integrity strong with test classes above 90% code coverage.',
+    ],
+  },
+  {
+    kicker: 'Digital advertising · Fexle',
+    title: 'Pinterest',
+    headline: 'Sales Cloud quoting and automation',
+    short:
+      'Custom LWC interfaces for Sales Cloud, Order and Quote management, and deprecated Process Builder automations replaced with Flows.',
+    stack: ['Sales Cloud', 'LWC', 'Flows'],
+    points: [
+      'Built responsive Sales Cloud interfaces with custom LWC in a 10-member delivery pod.',
+      'Implemented Order and Quote management that streamlined the digital ad sales lifecycle and reduced quoting errors.',
+      'Replaced deprecated Process Builder automations with declarative Flows to cut technical debt.',
+    ],
+  },
+  {
+    kicker: 'Real estate · Fexle',
+    title: 'Robotex',
+    headline: 'GST portal integration',
+    short: 'Secure REST integrations between Salesforce and the ClearTax GST Portal to automate financial reporting.',
+    stack: ['REST API', 'Apex', 'LWC'],
+    points: [
+      'Automated financial reporting by building secure REST API integrations between Salesforce and the ClearTax GST Portal.',
+      'Developed Apex backend logic and LWC frontend enhancements to scale a real estate management platform.',
+    ],
+  },
 ];
 
 export const skillGroups = [
@@ -56,147 +138,59 @@ export const skillGroups = [
   ['Integration', 'REST / SOAP API, Connected Apps, OAuth 2.0, Quip, ClearTax GST Portal'],
   ['DevOps', 'Salesforce DX, Git, GitHub, GitHub Actions (basic), Copado, Apache ANT, Change Sets, Workbench, Jira'],
   ['Languages and data', 'JavaScript, SOQL/SOSL, MongoDB (NoSQL), XML'],
+  ['AI', 'Agentforce, Einstein AI'],
   ['Ways of working', 'Agile (Scrum), sprint planning, technical design reviews, requirement gathering'],
-  ['AI and data', 'Salesforce AI Specialist, Agentforce, Einstein AI'],
 ];
 
-export const projects = [
-  {
-    kicker: 'Healthcare · PCGI · Current',
-    title: 'MNK',
-    short:
-      'PA Re-Auth Hub: a weekly batch and queueable chain finds Prior Authorizations expiring in 40 days, opens Reimbursement cases, runs eBV and syncs to ARMory, all in a live LWC dashboard. Plus an Outbound Fax Analysis engine that builds Excel reports and draft emails automatically.',
-    points: [
-      'PA Re-Auth Hub: a weekly batch-and-queueable job chain that identifies patients whose Prior Authorization expires within 40 days, auto-creates Reimbursement cases, triggers electronic benefit verification (eBV) and syncs results to the ARMory system, surfaced in a real-time LWC dashboard.',
-      'Outbound Fax Analysis engine that classifies the daily fax queue and auto-generates downloadable Excel workbooks and draft overview emails, eliminating manual report compilation.',
-      'Redesigned Daily Data Checks into one actionable to-do list with one-click auto-fix actions, plus an hourly Batch Orchestrator tab for scheduled job health.',
-      'Authored developer architecture documentation and end-user guides adopted as the team reference.',
-    ],
-    env: 'Batch Apex, Queueable Apex, LWC',
-  },
-  {
-    kicker: 'Insurance · Fexle',
-    title: 'Assurant',
-    short:
-      'In an 18-member architecture team: migrated 50+ Visualforce pages to LWC and automated case routing and SLA tracking.',
-    points: [
-      'Collaborated within an 18-member global architecture team to scale an enterprise insurance platform on Service Cloud.',
-      'Modernized a Visualforce-heavy UI by migrating 50+ complex pages to LWC and Aura, improving load times and cross-browser compatibility.',
-      'Optimized Service Cloud workflows with automated case routing, escalation rules and SLA tracking.',
-    ],
-    env: 'Service Cloud, LWC, Aura, Visualforce',
-  },
-  {
-    kicker: 'Customer engagement · Fexle',
-    title: 'CleverTap',
-    short:
-      'Batch Apex and scheduled-job backend for high-volume records within governor limits, plus a Quip integration via Connected Apps.',
-    points: [
-      'Built a scalable backend data-processing architecture with Batch Apex and Scheduled Jobs in a 7-member cross-functional pod.',
-      'Integrated Salesforce with Quip via Connected Apps for secure document sharing and real-time collaboration.',
-      'Kept data integrity strong with test classes above 90% coverage across deployments.',
-    ],
-    env: 'Batch Apex, Scheduled Jobs, Connected Apps, Quip',
-  },
-  {
-    kicker: 'Digital advertising · Fexle',
-    title: 'Pinterest',
-    short: 'Custom LWC for Sales Cloud, Order and Quote management, and Process Builder replaced by declarative Flows.',
-    points: [
-      'Built responsive Sales Cloud interfaces with custom LWC in a 10-member delivery pod.',
-      'Implemented Order and Quote management that streamlined the digital ad sales lifecycle and reduced quoting errors.',
-      'Replaced deprecated Process Builder automations with declarative Flows to cut technical debt.',
-    ],
-    env: 'Sales Cloud, LWC, Salesforce Flow',
-  },
-  {
-    kicker: 'Real estate · Fexle',
-    title: 'Robotex',
-    short: 'Secure REST integrations with the ClearTax GST portal, plus Apex and LWC enhancements.',
-    points: [
-      'Automated financial reporting by building secure REST API integrations between Salesforce and the ClearTax GST Portal.',
-      'Developed Apex backend logic and LWC frontend enhancements to scale a real estate management platform.',
-    ],
-    env: 'Apex, LWC, REST API, ClearTax GST Portal',
-  },
+export const certifications = [
+  { img: 'Platform-Developer-I.png', name: 'Platform Developer I' },
+  { img: 'ai-specialist.png', name: 'AI Specialist' },
+  { img: 'ai-associate.png', name: 'AI Associate' },
+  { img: 'Associate.png', name: 'Associate' },
 ];
 
-// Experience blocks shown in the morph stage (5 blocks across 2 roles).
-export const blocks = [
-  ['PCGI · Dec 2025 – Now', 'Built a reusable LWC design-system kit, an in-browser Excel generator and an Apex error-logging framework for async jobs.'],
-  ['PCGI · Dec 2025 – Now', "Business-day logic aligns IST schedules with the client's US calendar so batch jobs and SLA timing run on the right day."],
-  ['Fexle · May 2022 – Jun 2025', 'Led the Classic to Lightning migration, lifting UI responsiveness and daily active adoption.'],
-  ['Fexle · May 2022 – Jun 2025', 'Shipped global Sales Cloud features with Flows and kept test coverage above 90% on every deployment.'],
-  ['Fexle · May 2022 – Jun 2025', 'Integrations and CI/CD: REST APIs, Connected Apps, Salesforce DX and Git workflows.'],
-];
-
-export const roles = [
-  {
-    company: 'PCGI',
-    title: 'Salesforce Developer',
-    when: 'Dec 2025 – Present',
-    points: [
-      'Audit and optimize complex Salesforce processes with code reviews, governor limit analysis and SOQL query tuning to improve platform throughput.',
-      'Work with international stakeholders across time zones to turn requirements into Jira user stories and scalable Apex/LWC architectures.',
-      'Built a reusable LWC design-system kit and a dependency-free in-browser Excel (.xlsx) generator adopted across multiple production dashboards, plus an Apex error-logging framework for async batch and queueable jobs.',
-      "Implemented business-day logic to align the team's IST hours with the client's US business calendar for scheduled batch jobs and SLA timing.",
-      'Manage project tracking and production deployments across sandboxes with Change Sets and Copado.',
-      'Implemented Agentforce to prototype AI agents for business process automation.',
-    ],
-  },
-  {
-    company: 'Fexle Services Private Limited',
-    title: 'Salesforce Developer',
-    when: 'May 2022 – Jun 2025',
-    points: [
-      'Built high-performance solutions with LWC, Apex classes and triggers, adhering to governor limits and bulkification for large global user bases.',
-      'Led an enterprise-wide migration from Salesforce Classic to Lightning Experience, improving UI responsiveness and daily active user adoption.',
-      'Root-caused high-priority production bugs with structured debugging and regression testing to reduce downtime.',
-      'Supported CI/CD with Salesforce DX and Git workflows, and contributed to design reviews that reduced deployment cycle times.',
-      'Maintained above 90% test coverage across all deployments with comprehensive Apex test classes.',
-    ],
-  },
-];
-
-// Credential tiles (12, matching the 12 skill tiles). `href` makes a tile a link.
-export const tiles = [
-  { img: 'Platform-Developer-I.png', name: 'Platform Developer I', sub: 'Certification' },
-  { img: 'ai-specialist.png', name: 'AI Specialist', sub: 'Certification' },
-  { img: 'ai-associate.png', name: 'AI Associate', sub: 'Certification' },
-  { img: 'Associate.png', name: 'Associate', sub: 'Certification' },
-  { big: '↗', name: 'Trailhead', sub: 'trailblazer/bharatkumar2002', href: links.trailhead },
-  { big: '↓', name: 'Résumé', sub: 'Download PDF', href: 'RESUME' },
+export const superbadges = [
   { img: 'apex-specialist.png', name: 'Apex Specialist', sub: 'Superbadge' },
   { img: 'lightning-web-components-specialist.webp', name: 'LWC Specialist', sub: 'Superbadge' },
   { img: 'apex-web-services-superbadge-unit.webp', name: 'Apex Web Services', sub: 'Superbadge unit' },
   { img: 'named-credentials-superbadge-unit.webp', name: 'Named Credentials', sub: 'Superbadge unit' },
-  { big: 'MCA', name: 'Artificial Intelligence', sub: 'Chandigarh University · pursuing' },
-  { big: 'BCA', name: 'Bon Maharaj Institute', sub: 'Mathura · Aug 2019 – Jul 2022' },
 ];
 
-export const scenes = {
-  headings: [
-    "Hi, I'm<br><em>Bharat Kumar</em>",
-    'Twelve tools, <em>one platform</em>',
-    'Work that <em>shipped</em>',
-    "Where I've <em>built</em>",
-    'Certified &amp; <em>proven</em>',
-    "Let's build <em>something great</em>",
-  ],
-  paragraphs: [
-    profile.summary,
-    'Closer to the core means used more. Also in my toolbox: Salesforce DX, Git, Copado, Jira, MongoDB, Agentforce.',
-    'Five client projects, from healthcare job chains to insurance UI migrations.',
-    'PCGI, Dec 2025 – Present · Fexle Services, May 2022 – Jun 2025',
-    'Issued by Salesforce and verifiable on my Trailhead profile, alongside an MCA in AI.',
-    `Open to new Salesforce roles. Based in ${profile.location}.<br><span class='mono'>${links.email}</span>`,
-  ],
-  pills: ['Verify on Trailhead ↗', 'Issued by Salesforce', 'Certifications', 'Superbadges', 'Education'],
-  contact: [
-    ['Email', links.email, `mailto:${links.email}`],
-    ['LinkedIn', 'in/kumar-bharat ↗', links.linkedin],
-    ['Trailhead', 'bharatkumar2002 ↗', links.trailhead],
-    ['GitHub', 'Bharat100-cpu ↗', links.github],
-    ['Résumé', 'download PDF ↓', 'RESUME'],
-  ],
-};
+export const education = [
+  { degree: 'MCA, Artificial Intelligence', school: 'Chandigarh University', when: 'Pursuing' },
+  { degree: 'BCA', school: 'Bon Maharaj Institute of Management & Technology, Mathura', when: 'Aug 2019 – Jul 2022' },
+];
+
+// Reusable solutions built independently of any client (generic, no client names).
+export const solutions = [
+  {
+    kicker: 'Developer tooling · Apex + LWC',
+    title: 'Transaction Inspector',
+    headline: 'An in-org profiler for what a record save really runs',
+    short:
+      'A native Salesforce tool that profiles a record insert or update and shows every SOQL query, DML statement, flow, trigger, callout and async job it starts, grouped per transaction with governor-limit usage. It flags risky patterns such as queries in loops and unbulkified code, and data never leaves the org.',
+    stack: ['Apex', 'Queueable', 'Scheduled Jobs', 'LWC', 'REST API'],
+    points: [
+      'Three capture modes: simulate a save inside an Apex test run started through the Tooling API and rolled back, trace real users live with TraceFlags, or commit in a sandbox and follow whole async chains.',
+      'A multi-step Queueable engine with a Transaction Finalizer and a scheduled sweeper calls the Tooling and REST APIs through a Named Credential, fetches debug logs and always switches logging back off.',
+      'An Apex log parser builds a tree of transactions (sync save, future, Queueable, batch chunks, platform events) and raises findings with a severity and a suggested fix.',
+      'LWC console with record and field pickers, a transaction map, query, findings and async-job tabs, and a dependency-free Excel export.',
+      'Configured through custom metadata and a permission set, with Apex tests and a Node.js companion tool for very large logs.',
+    ],
+  },
+  {
+    kicker: 'Platform operations · Apex + LWC',
+    title: 'Scheduled Jobs Manager',
+    headline: 'One orchestrator and console for every scheduled job',
+    short:
+      'A single hourly orchestrator replaces scattered System.schedule jobs. Schedules become records that admins can view, pause, edit and run from one tab without writing Apex, and every launch is checked against org async capacity first.',
+    stack: ['Apex', 'Batch Apex', 'Queueable', 'Scheduled Jobs', 'LWC'],
+    points: [
+      'One schedulable orchestrator closes finished runs from AsyncApexJob, launches due jobs by priority after dependency and capacity checks, and rolls the next run forward so missed windows never stack up.',
+      'A Queueable launcher starts batch, Queueable or Schedulable classes by name, but only those allow-listed in custom metadata, so editing a record can never run arbitrary Apex.',
+      'A cron engine in Apex and JavaScript parses and explains Salesforce cron syntax (L, W, #, named days and months, time zones) as the admin types.',
+      'A capacity service watches running and holding batches and the daily async limit to protect the flex queue.',
+      'The LWC console also lists standard scheduled Apex from CronTrigger and can adopt, release or run those jobs, gated by a custom permission checked in Apex.',
+    ],
+  },
+];
