@@ -5,6 +5,11 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Version to publish: a branch such as archive/v3-record-space (see VERSIONS.md). Leave empty for the current branch.'
+        required: false
+        default: ''
 
 concurrency:
   group: deploy-${{ github.ref }}
@@ -17,6 +22,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
