@@ -12,7 +12,7 @@ const industry = (k: string) => k.split(' · ')[0];
 
   <div class="rl-wrap">
     <div class="rl-head">Projects <span>({projects.length})</span></div>
-    <table class="rl">
+    <table class="rl" tabindex="0" aria-label="Projects">
       <caption class="sr-only">Projects: select a project name to show its record detail</caption>
       <thead><tr><th scope="col">Project</th><th scope="col">Industry</th><th scope="col">Stack</th><th scope="col">Impact</th></tr></thead>
       {projects.map((p, i) => (

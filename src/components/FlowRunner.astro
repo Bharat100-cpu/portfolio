@@ -6,7 +6,7 @@ const choices = [
   ['apex', 'Apex', 'Triggers, batch and queueable jobs'],
   ['lwc', 'LWC', 'Lightning Web Components and UI'],
   ['integ', 'Integration', 'REST / SOAP and Connected Apps'],
-  ['auto', 'Automation', 'Flows and scheduled processing'],
+  ['auto', 'Automation', 'Flows and scheduled jobs'],
 ];
 const all = [...projects, ...solutions];
 const results = Object.fromEntries(
@@ -28,7 +28,7 @@ const results = Object.fromEntries(
       <h2 id="flow-t">Hire_Bharat</h2>
       <p class="lv-sub">Screen Flow · Active · v1</p>
     </div>
-    <span class="flow-state" data-flow-state role="status">Waiting for input</span>
+    <span class="flow-state" data-flow-state role="status">Waiting for your pick</span>
   </header>
 
   <ol class="canvas">
@@ -88,14 +88,14 @@ const results = Object.fromEntries(
     <li class="node end" data-state="todo" data-node="end">
       <div class="nhead"><span class="ntype">End</span><span class="nname">Interview requested</span></div>
       <div class="nbody" hidden>
-        <p>Flow finished. Next element: you.</p>
+        <p>Flow finished. The next element is you.</p>
         <a class="lv-btn pri" href={`mailto:${links.email}`} data-flow-mail>Email Bharat</a>
       </div>
     </li>
   </ol>
   <footer class="lv-f">
     <button type="button" class="lv-link" data-flow-reset hidden>↺ Run again</button>
-    <span class="lv-hint">Tab / arrow keys to choose, Enter to continue</span>
+    <span class="lv-hint">Arrow keys to choose, Enter to continue</span>
   </footer>
   <script type="application/json" data-flow-labels set:html={JSON.stringify(Object.fromEntries(choices.map(([c, l]) => [c, l])))} />
 </section>

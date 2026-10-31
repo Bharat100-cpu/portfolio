@@ -1,0 +1,26 @@
+---
+// Scroll progress hairline + compact sticky path (desktop/tablet only; phones use the bottom tab bar).
+// Stage -> section mapping (truthful to the content):
+//   Learn     -> Files / credentials (#credentials): certifications and superbadges; also active while in the header area
+//   Build     -> Activity (#experience): the roles where the Apex/LWC was built
+//   Integrate -> Related (#work): the delivered projects and integrations
+//   Automate  -> Skills (#skills): Flow, scheduled jobs and tooling
+//   Ship      -> Contact (#contact): once past the content, the next step is shipping together
+const stages = [
+  { k: 'Learn', cat: 'cloud', to: 'credentials' },
+  { k: 'Build', cat: 'apex', to: 'experience' },
+  { k: 'Integrate', cat: 'integ', to: 'work' },
+  { k: 'Automate', cat: 'auto', to: 'skills' },
+  { k: 'Ship', cat: 'lwc', to: 'contact' },
+];
+---
+<div class="sp-progress" data-progress aria-hidden="true"></div>
+<nav class="sp" data-sticky-path aria-label="Page progress" aria-hidden="true">
+  <ol>
+    {stages.map((s, i) => (
+      <li data-cat={s.cat}>
+        <a href={`#${s.to}`} data-stage={i} tabindex="-1"><span class="sp-n" aria-hidden="true">{i + 1}</span>{s.k}</a>
+      </li>
+    ))}
+  </ol>
+</nav>

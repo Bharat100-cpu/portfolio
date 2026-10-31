@@ -1,6 +1,8 @@
 ---
 import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/motion.css';
+import StickyPath from '../components/StickyPath.astro';
 import RecordHeader from '../components/RecordHeader.astro';
 import DetailsPanel from '../components/DetailsPanel.astro';
 import Credentials from '../components/Credentials.astro';
@@ -17,7 +19,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const site = 'https://bharat100-cpu.github.io/portfolio/';
 const title = 'Bharat Kumar · Salesforce Developer';
 const description =
-  'Salesforce Developer with 4 years across Experience, Sales and Service Cloud. Apex, LWC, integrations and automation for Pinterest, Assurant, CleverTap and more.';
+  'Bharat Kumar, Salesforce Developer: 4 years on Experience, Sales and Service Cloud. Apex, LWC, integrations and automation for Pinterest, Assurant, CleverTap.';
 const ld = {
   '@context': 'https://schema.org',
   '@type': 'Person',
@@ -89,6 +91,7 @@ const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['wo
         </div>
       </div>
     </header>
+    <StickyPath />
     <main id="main" class="record">
       <RecordHeader />
       <aside class="col-l" aria-label="Details">

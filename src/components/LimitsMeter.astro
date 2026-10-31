@@ -13,7 +13,7 @@ const meters = [
     <span class="lv-ic" aria-hidden="true">◔</span>
     <div>
       <h2 id="lim-t">Governor Limits</h2>
-      <p class="lv-sub">Your session · counted in this browser only</p>
+      <p class="lv-sub">This visit · counted in your browser only</p>
     </div>
   </header>
   <ul class="meters">
@@ -25,11 +25,11 @@ const meters = [
     ))}
   </ul>
   <p class="lim-open">
-    Try the <button type="button" class="lv-link" data-open-console>Apex console</button> to fill the last meter.
+    Open the <button type="button" class="lv-link" data-open-console>Apex console</button> to fill the last meter.
   </p>
   <div class="lim-done" data-lim-done hidden role="status">
     <strong>System.LimitException: LIMIT.EXCEEDED</strong>
-    <p>You have seen it all: every section, every project, every theme, and the console. No real limits were harmed. Next step is an email.</p>
+    <p>That is every section, every project, every theme and the console. No real limits were harmed. The next step is an email.</p>
     <a class="lv-btn pri" href={`mailto:${links.email}?subject=${encodeURIComponent('Limit reached on your portfolio')}`}>Email Bharat</a>
   </div>
 </section>
