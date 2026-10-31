@@ -1,0 +1,55 @@
+---
+import '../styles/related.css';
+import { roles, skillCat } from '../data/site.js';
+const icons = ['★', '⚑'];
+---
+<section id="experience" class="panel rel rv" aria-labelledby="exp-h">
+  <div class="rel-h">
+    <span class="rel-ic" aria-hidden="true">⏱</span>
+    <h2 id="exp-h">Activity</h2>
+    <small>Past &amp; current roles</small>
+  </div>
+  <ol class="tl">
+    {roles.map((r, i) => (
+      <li class="tl-item">
+        <span class="tl-ic" aria-hidden="true">{icons[i % icons.length]}</span>
+        <div class="tl-card">
+          <div class="tl-top">
+            <h3>{r.company}</h3>
+            <span class="date-chip">{r.when}</span>
+          </div>
+          <p class="tl-kind">{r.title}</p>
+          <ul class="chips" aria-label={`Stack at ${r.company}`}>
+            {r.stack.map((s) => <li class="chip" data-cat={skillCat[s]}>{s}</li>)}
+          </ul>
+          <button type="button" class="xbtn" aria-expanded="true" aria-controls={`exp-d${i}`} data-x>
+            <span class="xl">Hide details</span>
+          </button>
+          <div id={`exp-d${i}`}>
+            <ul class="pts">{r.points.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+<script>
+  const sec = document.getElementById('experience');
+  if (sec) {
+    sec.querySelectorAll<HTMLButtonElement>('[data-x]').forEach((b, i) => {
+      const t = document.getElementById(b.getAttribute('aria-controls')!)!;
+      const set = (open: boolean) => {
+        b.setAttribute('aria-expanded', String(open));
+        t.hidden = !open;
+        b.querySelector('.xl')!.textContent = open ? 'Hide details' : 'Show details';
+      };
+      set(i === 0);
+      b.addEventListener('click', () => set(b.getAttribute('aria-expanded') !== 'true'));
+    });
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      sec.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sec.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+</script>

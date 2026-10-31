@@ -1,0 +1,48 @@
+---
+import '../styles/related.css';
+import { skills, skillCat, categories, skillGroups } from '../data/site.js';
+const cats = Object.entries(categories).map(([k, v]) => ({ key: k, label: v.label, items: skills.filter((s) => skillCat[s] === k) }));
+---
+<section id="skills" class="panel rel rv" aria-labelledby="sk-h">
+  <div class="rel-h">
+    <span class="rel-ic" aria-hidden="true">✦</span>
+    <h2 id="sk-h">Skills</h2>
+    <small>{skills.length} core skills</small>
+  </div>
+  <div class="sk-wrap" data-f="all">
+    <div class="sk-filter" role="group" aria-label="Filter skills by category">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      {cats.map((c) => <button type="button" data-f={c.key} data-cat={c.key} aria-pressed="false">{c.label}</button>)}
+    </div>
+    <div class="sk-sets">
+      {cats.map((c) => (
+        <fieldset class="sk-set" data-cat={c.key}>
+          <legend>{c.label}</legend>
+          <ul class="chips">{c.items.map((s) => <li class="chip" data-cat={c.key}>{s}</li>)}</ul>
+        </fieldset>
+      ))}
+    </div>
+  </div>
+  <h3 class="rel-sub">Everything else <span>(by area)</span></h3>
+  <dl class="sk-groups">
+    {skillGroups.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+  </dl>
+</section>
+<script>
+  const sec = document.getElementById('skills');
+  const wrap = sec?.querySelector<HTMLElement>('.sk-wrap');
+  if (sec && wrap) {
+    const btns = [...sec.querySelectorAll<HTMLButtonElement>('.sk-filter button')];
+    btns.forEach((b) => b.addEventListener('click', () => {
+      const f = b.dataset.f!;
+      const next = b.getAttribute('aria-pressed') === 'true' ? 'all' : f;
+      wrap.dataset.f = next;
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.f === next)));
+    }));
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      sec.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sec.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+</script>

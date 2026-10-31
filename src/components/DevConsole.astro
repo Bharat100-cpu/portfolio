@@ -1,0 +1,29 @@
+---
+import '../styles/live.css';
+import { profile, links, skills, roles, projects, solutions, certifications, superbadges, skillGroups, education } from '../data/site.js';
+const data = { profile, links, skills, roles, projects, solutions, certifications, superbadges, skillGroups, education };
+---
+<div class="dc" data-dc hidden data-json={JSON.stringify(data)}>
+  <div class="dc-back" data-dc-close></div>
+  <div class="dc-win" role="dialog" aria-modal="true" aria-labelledby="dc-t" tabindex="-1">
+    <header class="dc-bar">
+      <span class="dc-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <h2 id="dc-t">Developer Console <small>Execute Anonymous Apex</small></h2>
+      <button type="button" class="dc-x" data-dc-close aria-label="Close console (Esc)">✕</button>
+    </header>
+    <div class="dc-cols" aria-hidden="true"><span>Time</span><span>Event</span><span>Details</span></div>
+    <div class="dc-log" role="log" aria-live="polite" aria-label="Execution log" tabindex="0" data-dc-log></div>
+    <div class="dc-chips" role="group" aria-label="Quick commands">
+      {['help', 'whoami', 'skills', 'projects', 'certs', 'experience', 'contact', 'clear'].map((c) => <button type="button" data-dc-cmd={c}>{c}</button>)}
+    </div>
+    <form class="dc-form" data-dc-form autocomplete="off">
+      <label for="dc-in">Enter Apex Code</label>
+      <span class="dc-prompt" aria-hidden="true">&gt;</span>
+      <input id="dc-in" data-dc-in type="text" spellcheck="false" autocapitalize="off" autocorrect="off" placeholder="help" enterkeyhint="send" />
+      <button type="submit" class="lv-btn pri">Execute</button>
+    </form>
+  </div>
+</div>
+<script>
+  import '../scripts/live.js';
+</script>

@@ -1,0 +1,19 @@
+---
+import '../styles/record.css';
+import { profile } from '../data/site.js';
+---
+<section id="details" class="panel dp rv" aria-labelledby="dp-h">
+  <header class="rc-hd"><h2 id="dp-h"><span class="rc-ico" aria-hidden="true">▤</span>Details</h2></header>
+  <dl class="dp-list">
+    {profile.facts.map(([l, v]) => (
+      <div class="dp-row">
+        <dt>{l}</dt>
+        <dd><span>{v}</span><span class="dp-pen" aria-hidden="true" title="Inline edit (decorative)">✎</span></dd>
+      </div>
+    ))}
+  </dl>
+  <div class="dp-about">
+    <h3>About</h3>
+    {profile.about.map((p) => <p>{p}</p>)}
+  </div>
+</section>

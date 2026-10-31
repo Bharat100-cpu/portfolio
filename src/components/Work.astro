@@ -1,0 +1,84 @@
+---
+import '../styles/related.css';
+import { projects, solutions, skillCat } from '../data/site.js';
+const industry = (k: string) => k.split(' · ')[0];
+---
+<section id="work" class="panel rel rv" aria-labelledby="work-h">
+  <div class="rel-h">
+    <span class="rel-ic" aria-hidden="true">▤</span>
+    <h2 id="work-h">Related</h2>
+    <small>Projects &amp; solutions</small>
+  </div>
+
+  <div class="rl-wrap">
+    <div class="rl-head">Projects <span>({projects.length})</span></div>
+    <table class="rl">
+      <caption class="sr-only">Projects: select a project name to show its record detail</caption>
+      <thead><tr><th scope="col">Project</th><th scope="col">Industry</th><th scope="col">Stack</th><th scope="col">Impact</th></tr></thead>
+      {projects.map((p, i) => (
+        <tbody>
+          <tr class="row">
+            <td><span class="lbl">Project</span>
+              <button type="button" class="proj-btn" aria-expanded="false" aria-controls={`wk-d${i}`} data-x>{p.title}</button></td>
+            <td><span class="lbl">Industry</span>{industry(p.kicker)}</td>
+            <td class="stack-col"><span class="lbl">Stack</span>
+              <ul class="chips">{p.stack.map((s) => <li class="chip" data-cat={skillCat[s]}>{s}</li>)}</ul></td>
+            <td class="impact"><span class="lbl">Impact</span>{p.headline}</td>
+          </tr>
+          <tr class="detail" id={`wk-d${i}`} hidden>
+            <td colspan="4">
+              <div class="rec">
+                <dl><dt>Context</dt><dd>{p.kicker}</dd></dl>
+                <p>{p.short}</p>
+                <ul class="pts">{p.points.map((pt) => <li>{pt}</li>)}</ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      ))}
+    </table>
+    <p class="rl-hint" aria-hidden="true">Swipe for more projects →</p>
+  </div>
+
+  <h3 class="rel-sub">Reusable Solutions <span>({solutions.length})</span></h3>
+  <div class="sol-grid">
+    {solutions.map((s, i) => (
+      <article class="sol">
+        <div class="viz" aria-hidden="true">
+          {i === 0 ? (
+            <div class="tree"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          ) : (
+            <div class="cron">{Array.from({ length: 48 }).map((_, n) => <i class:list={[{ on: n % 5 === 0 || n % 7 === 3 }]} style={`--n:${n % 24}`}></i>)}</div>
+          )}
+        </div>
+        <p class="kick">{s.kicker}</p>
+        <h4>{s.title}</h4>
+        <p class="hl">{s.headline}</p>
+        <p class="short">{s.short}</p>
+        <ul class="chips">{s.stack.map((t) => <li class="chip" data-cat={skillCat[t]}>{t}</li>)}</ul>
+        <button type="button" class="xbtn" aria-expanded="false" aria-controls={`sol-d${i}`} data-x><span class="xl">Show details</span></button>
+        <div id={`sol-d${i}`} hidden><ul class="pts">{s.points.map((pt) => <li>{pt}</li>)}</ul></div>
+      </article>
+    ))}
+  </div>
+</section>
+<script>
+  const sec = document.getElementById('work');
+  if (sec) {
+    sec.querySelectorAll<HTMLButtonElement>('[data-x]').forEach((b) => {
+      const t = document.getElementById(b.getAttribute('aria-controls')!)!;
+      b.addEventListener('click', () => {
+        const open = b.getAttribute('aria-expanded') !== 'true';
+        b.setAttribute('aria-expanded', String(open));
+        t.hidden = !open;
+        const l = b.querySelector('.xl');
+        if (l) l.textContent = open ? 'Hide details' : 'Show details';
+      });
+    });
+    sec.addEventListener('pointermove', (e) => {
+      const r = sec.getBoundingClientRect();
+      sec.style.setProperty('--mx', e.clientX - r.left + 'px');
+      sec.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+</script>
