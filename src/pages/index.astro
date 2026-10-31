@@ -83,7 +83,7 @@ const ld = {
     <TraceRail />
     <div class="toast" role="status" aria-live="polite"></div>
     <script is:inline src={`${base}sc/scrollcraft.js`}></script>
-    <script is:inline>ScrollCraft.mount(document.body);</script>
+    <script is:inline>if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('[data-sc-count]').forEach(function(e){e.removeAttribute('data-sc-count')});ScrollCraft.mount(document.body);</script>
     <script>
       import '../scripts/trace.js';
     </script>

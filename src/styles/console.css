@@ -141,6 +141,7 @@ summary:hover { color: var(--sc-ink); }
   html.js .tools__pin .ev { padding-block: 5px; }
 }
 @media (max-width: 899px), (max-height: 739px), (prefers-reduced-motion: reduce) {
+  .quiet { min-height: 34svh; }
   .tools__pin { height: auto !important; }
   .tools__stage { position: static !important; height: auto !important; overflow: visible !important; }
   [data-sc-cue] { opacity: 1 !important; transform: none !important; pointer-events: auto !important; }

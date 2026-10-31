@@ -9,7 +9,7 @@ Every earlier design is kept as a branch under `archive/`, so any of them can be
 | `archive/v2-aurora` | Dark aurora, colour-coded skills, interactive org-graph hero |
 | `archive/v3-record-space` | Salesforce record page, four themes, true-black Space default, Apex console |
 | `archive/v4-concepts` | Same as v3 plus the `/terrain/` and `/globe/` concept pages |
-| `archive/v5-execution-log` | Current design: scroll replays an Apex execution log (added when v5 ships) |
+| `archive/v5-execution-log` | Scroll-craft design: scroll replays an Apex execution log, trace rail, command-line close (live after the update) |
 
 `main` is whatever is live. The archive branches never change.
 
