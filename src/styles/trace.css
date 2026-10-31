@@ -1,0 +1,206 @@
+/* TraceRail + Cmdline. Motion is transform/opacity only. One accent: --sc-accent (playhead + current state). */
+
+main { padding-bottom: calc(var(--rail-h) + env(safe-area-inset-bottom, 0px)); }
+
+/* ============================ rail ============================ */
+.trace {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  height: calc(var(--rail-h) + env(safe-area-inset-bottom, 0px));
+  background: var(--sc-surface);
+  border-top: 1px solid var(--line);
+  font-family: var(--sc-font-mono);
+  font-size: 10.5px; line-height: 1; letter-spacing: .04em;
+  color: var(--sc-ink-soft);
+}
+.trace__bar {
+  position: relative; display: flex; align-items: stretch;
+  height: var(--rail-h);
+}
+.trace__tag {
+  display: none; align-items: center; width: 62px; box-sizing: border-box; padding: 0 12px 0 16px;
+  color: var(--sc-ink-soft); border-right: 1px solid var(--line);
+}
+.trace__segs { list-style: none; margin: 0; padding: 0; display: flex; flex: 1 1 auto; min-width: 0; position: relative; }
+.trace__li { flex: 1 1 0; min-width: 0; border-left: 1px solid var(--line); }
+.trace__li:first-child { border-left: 0; }
+.trace__li[hidden] { display: none; }
+
+.trace__seg {
+  display: flex; flex-direction: column; justify-content: center; gap: 6px;
+  height: 100%; min-height: 44px; padding: 0 8px;
+  color: var(--sc-ink-soft); text-decoration: none; position: relative; overflow: hidden;
+}
+.trace__seg:hover { background: color-mix(in oklab, var(--sc-ink) 6%, transparent); color: var(--sc-ink); }
+.trace__seg:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: -3px; color: var(--sc-ink); }
+.seg__top { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.seg__flag {
+  flex: none; width: 7px; height: 7px; box-sizing: border-box;
+  border: 1.5px solid var(--c, var(--sc-ink-soft)); background: transparent; transform: rotate(45deg) scale(.9);
+}
+.seg__label { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seg__n { flex: none; margin-left: auto; padding-left: 4px; font-variant-numeric: tabular-nums; color: var(--sc-ink-soft); }
+.seg__n:empty { display: none; }
+.seg__track { display: block; height: 3px; background: color-mix(in oklab, var(--c, var(--sc-ink-soft)) 24%, transparent); overflow: hidden; }
+.seg__fill { display: block; height: 100%; background: var(--c, var(--sc-ink-soft)); transform-origin: 0 50%; transform: scaleX(0); }
+
+.trace__seg.is-stamped { color: var(--sc-ink); }
+.trace__seg.is-stamped .seg__flag { background: var(--c, var(--sc-ink-soft)); }
+.trace__seg.is-current::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--sc-accent);
+}
+.trace__seg.is-stamping .seg__flag { animation: seg-stamp .5s cubic-bezier(.2,.8,.2,1); }
+@keyframes seg-stamp { 0% { transform: rotate(45deg) scale(2.2); opacity: .2; } 100% { transform: rotate(45deg) scale(.9); opacity: 1; } }
+
+/* playhead */
+.trace__head {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 2px; margin-left: -1px;
+  background: var(--sc-accent); pointer-events: none; will-change: transform; z-index: 2;
+}
+.trace__head::before {
+  content: ""; position: absolute; left: -4px; top: 0; width: 10px; height: 5px; background: var(--sc-accent);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+/* the playhead is positioned within .trace__bar; offset by the tag width so it tracks the segments */
+.trace__bar { --tag-w: 0px; }
+.trace__head { left: var(--tag-w); }
+
+.trace__clock {
+  display: none; align-items: center; gap: 6px; padding: 0 14px; border-left: 1px solid var(--line);
+  font-variant-numeric: tabular-nums; color: var(--sc-ink); white-space: nowrap;
+}
+.trace__k { color: var(--sc-ink-soft); }
+.trace__clock .trace__k { margin-right: 2px; }
+
+.trace__toggle {
+  flex: none; display: flex; flex-direction: column; justify-content: center; gap: 6px; align-items: flex-start;
+  min-width: 84px; min-height: 44px; padding: 0 10px; margin: 0;
+  background: transparent; color: var(--sc-ink); border: 0; border-left: 1px solid var(--line);
+  font: inherit; letter-spacing: inherit; text-align: left; cursor: pointer;
+}
+.trace__toggle:hover { background: color-mix(in oklab, var(--sc-ink) 6%, transparent); }
+.trace__toggle:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: -3px; }
+.trace__toggle .trace__k { font-variant-numeric: tabular-nums; }
+.trace__rcpt { display: inline-flex; gap: 5px; align-items: center; color: var(--sc-ink-soft); text-transform: uppercase; }
+.trace__chev { display: inline-block; transition: transform .22s; }
+.trace.is-open .trace__chev { transform: rotate(180deg); }
+.trace.is-ready .trace__rcpt { color: var(--sc-accent); }
+.trace.is-ready .trace__rcpt::before { content: ""; width: 5px; height: 5px; background: var(--sc-accent); border-radius: 50%; }
+
+/* ============================ ledger ============================ */
+.trace__ledger {
+  position: absolute; left: 0; right: 0; bottom: 100%;
+  max-height: min(72vh, 540px); overflow: auto; overscroll-behavior: contain;
+  background: var(--sc-surface); border-top: 1px solid var(--line);
+  padding: 14px 16px 16px; font-size: 11.5px; line-height: 1.4; letter-spacing: .02em;
+  opacity: 0; visibility: hidden; transform: translateY(14px);
+  transition: opacity .22s ease, transform .22s ease, visibility 0s linear .22s;
+  box-shadow: 0 -1px 0 var(--line);
+}
+.trace.is-open .trace__ledger {
+  opacity: 1; visibility: visible; transform: none; transition-delay: 0s;
+}
+html:not(.js) .trace__ledger, html:not(.js) .trace__toggle, html:not(.js) .trace__clock, html:not(.js) .trace__head { display: none; }
+.ledger__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
+.ledger__title { margin: 0; font: 600 12px/1 var(--sc-font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sc-ink); }
+.ledger__sub { margin: 6px 0 0; color: var(--sc-ink-soft); }
+.ledger__close, .ledger__foot a {
+  font: inherit; color: var(--sc-ink); background: transparent; border: 1px solid var(--line);
+  padding: 0 12px; min-height: 44px; display: inline-flex; align-items: center; cursor: pointer; text-decoration: none;
+}
+.ledger__close:hover, .ledger__foot a:hover { background: color-mix(in oklab, var(--sc-ink) 8%, transparent); }
+.ledger__close:focus-visible, .ledger__foot a:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.ledger__rows { margin: 0; display: block; }
+.ledger__row {
+  display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: baseline;
+  padding: 6px 0; border-top: 1px dashed var(--line); position: relative;
+}
+.ledger__row dt { color: var(--sc-ink-soft); margin: 0; display: flex; align-items: center; gap: 8px; min-width: 0; }
+.ledger__row dd { margin: 0; color: var(--sc-ink); font-variant-numeric: tabular-nums; text-align: right; }
+.ledger__row dd b { font-weight: 600; }
+.ledger__of { color: var(--sc-ink-soft); }
+.ledger__row--cat { padding: 6px 0 9px 14px; }
+.ledger__sw { flex: none; width: 8px; height: 8px; background: var(--c, var(--sc-ink-soft)); }
+.ledger__bar { position: absolute; left: 14px; right: 0; bottom: 3px; display: block; height: 2px; background: color-mix(in oklab, var(--c, var(--sc-ink-soft)) 20%, transparent); overflow: hidden; }
+.ledger__bar i { display: block; height: 100%; background: var(--c, var(--sc-ink-soft)); transform-origin: 0 50%; transform: scaleX(0); }
+.ledger__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line); color: var(--sc-ink-soft); }
+
+/* ============================ responsive ============================ */
+@media (min-width: 720px) {
+  .trace { font-size: 11px; }
+  .trace__tag { display: flex; }
+  .trace__bar { --tag-w: 62px; }
+  .trace__clock { display: flex; }
+  .trace__toggle { min-width: 132px; padding: 0 14px; }
+  .seg__top { gap: 8px; }
+  .seg__label { letter-spacing: .06em; }
+  .trace__ledger { left: auto; width: 340px; right: 0; border-left: 1px solid var(--line); }
+}
+@media (max-width: 480px) {
+  .trace { font-size: 9.5px; letter-spacing: .02em; }
+  .trace__seg { padding: 0 5px; gap: 5px; }
+  .seg__top { gap: 4px; }
+  .seg__flag { width: 6px; height: 6px; }
+  .seg__n { display: none; }
+  .trace__toggle { min-width: 76px; padding: 0 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trace__ledger, .trace__chev { transition: none; }
+  .trace__seg.is-stamping .seg__flag { animation: none; }
+}
+@media (forced-colors: active) {
+  .trace__head { background: Highlight; }
+}
+
+/* ============================ command line ============================ */
+.cmd { padding: clamp(56px, 10vh, 120px) var(--sc-gutter, 20px) clamp(40px, 8vh, 96px); min-height: 70vh; }
+.cmd__wrap { max-width: 760px; margin: 0 auto; }
+.cmd__head { margin-bottom: 16px; }
+.cmd__title { margin: 0; font: 600 13px/1 var(--sc-font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--sc-ink); }
+.cmd__note { margin: 8px 0 0; font: 400 13px/1.5 var(--sc-font-text); color: var(--sc-ink-soft); }
+.cmd__win { border: 1px solid var(--line); background: var(--sc-surface); }
+.cmd__chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px; border-bottom: 1px solid var(--line); }
+.cmd__chip {
+  font: 500 12px/1 var(--sc-font-mono); color: var(--sc-ink); background: transparent;
+  border: 1px solid var(--line); border-left: 2px solid var(--c, var(--sc-ink-soft)); padding: 0 12px; min-height: 44px; cursor: pointer;
+}
+.cmd__chip:hover { background: color-mix(in oklab, var(--sc-ink) 8%, transparent); }
+.cmd__chip:active { transform: translateY(1px); }
+.cmd__chip:focus-visible, .cmd__run:focus-visible, .cmd__log:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.cmd__log {
+  height: clamp(180px, 34vh, 320px); overflow-y: auto; overscroll-behavior: contain; padding: 12px 14px;
+  font: 400 12.5px/1.6 var(--sc-font-mono); color: var(--sc-ink);
+}
+.cmd__line { white-space: pre-wrap; overflow-wrap: anywhere; }
+.cmd__line + .cmd__line.cmd__echo { margin-top: 10px; }
+.cmd__echo { color: var(--sc-ink); }
+.cmd__echo::first-letter { color: var(--c, var(--sc-ink-soft)); }
+.cmd__out { padding-left: 12px; border-left: 2px solid color-mix(in oklab, var(--c, var(--sc-ink-soft)) 55%, transparent); }
+.cmd__line--head { color: var(--sc-ink); font-weight: 600; }
+.cmd__line--dim { color: var(--sc-ink-soft); }
+.cmd__out:not(.cmd__line--head):not(.cmd__line--dim) { color: color-mix(in oklab, var(--sc-ink) 88%, var(--sc-surface)); }
+.cmd__err { color: var(--ev-integ); padding-left: 12px; border-left: 2px solid var(--ev-integ); }
+.cmd__log a { color: var(--sc-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c, var(--sc-ink-soft)); }
+.cmd__log a:hover { text-decoration-thickness: 2px; }
+.cmd__log a:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 2px; }
+.cmd__form { display: flex; align-items: stretch; border-top: 1px solid var(--line); }
+.cmd__prompt { display: flex; align-items: center; padding: 0 4px 0 14px; font: 600 14px/1 var(--sc-font-mono); color: var(--c, var(--sc-ink-soft)); }
+.cmd__input {
+  flex: 1 1 auto; min-width: 0; min-height: 48px; padding: 0 10px; background: transparent; border: 0; border-radius: 0;
+  font: 500 16px/1 var(--sc-font-mono); color: var(--sc-ink); caret-color: var(--sc-accent);
+}
+.cmd__input::placeholder { color: var(--sc-ink-soft); opacity: .8; }
+.cmd__input:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: -2px; }
+.cmd__run {
+  font: 500 12px/1 var(--sc-font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--sc-ink);
+  background: transparent; border: 0; border-left: 1px solid var(--line); padding: 0 16px; min-height: 48px; cursor: pointer;
+}
+.cmd__run:hover { background: color-mix(in oklab, var(--sc-ink) 8%, transparent); }
+.cmd__hint { margin: 0; padding: 8px 14px 10px; font: 400 11.5px/1.5 var(--sc-font-mono); color: var(--sc-ink-soft); border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.cmd__foot {
+  display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--line);
+  font: 400 12px/1.5 var(--sc-font-mono); color: var(--sc-ink-soft);
+}
+.cmd__built { flex-basis: 100%; }
+@media (min-width: 720px) { .cmd__log { font-size: 13px; } .cmd__built { flex-basis: auto; margin-left: auto; } }
+
+@media (min-width: 1200px) { .cmd__wrap { max-width: 720px; } }

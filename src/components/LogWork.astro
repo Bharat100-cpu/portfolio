@@ -1,0 +1,86 @@
+---
+import { projects, solutions, skillCat } from '../data/site.js';
+// Dominant category of a stack (ties go to the first skill listed).
+const catOf = (stack) => {
+  const n = {}; let best = 'apex', bn = 0;
+  for (const s of stack) { const c = skillCat[s]; if (!c) continue; n[c] = (n[c] || 0) + 1; if (n[c] > bn) { bn = n[c]; best = c; } }
+  return best;
+};
+const cuts = [[-0.05, 0.5, 0.1, 0.12], [0.5, 1.1, 0.12, 0.02]];
+---
+<section id="work" class="act" data-trace="METHOD_ENTRY" data-cat="lwc">
+  <div class="wrap">
+    <div class="frame-head"><span class="evn">METHOD_ENTRY</span><h2 class="frame-head__t">Client projects</h2><span class="mono dim">stack depth 2</span></div>
+    <ol class="log" data-sc-in data-sc-stagger="70">
+      {projects.map((p) => (
+        <li class="ev ev--unit" data-cat={catOf(p.stack)} style="--d:0">
+          <span class="ln" aria-hidden="true"></span><span class="ts">{p.kicker}</span>
+          <span class="evn">METHOD_ENTRY</span>
+          <div class="msg">
+            <p class="unit__t"><b>{p.title}</b> <span class="dim">/</span> {p.headline}</p>
+            <p class="unit__s">{p.short}</p>
+            <p class="tags">{p.stack.map((s) => <span class="tag" data-cat={skillCat[s] || catOf(p.stack)}>{s}</span>)}</p>
+            <details class="more">
+              <summary><span class="mono">{p.points.length} frames</span></summary>
+              <ol class="log log--sub">
+                {p.points.map((t) => (
+                  <li class="ev ev--sub" data-cat={catOf(p.stack)}><span class="evn">USER_DEBUG</span><span class="msg">{t}</span></li>
+                ))}
+              </ol>
+            </details>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section id="tools" class="act tools" data-trace="USER_DEBUG" data-cat="apex">
+  <div class="wrap quiet">
+    <ol class="log">
+      <li class="ev" data-cat="apex" style="--d:0">
+        <span class="ln" aria-hidden="true"></span><span class="ts">depth=1</span>
+        <span class="evn">USER_DEBUG</span>
+        <span class="msg">{solutions.length} reusable solutions, built independently of any client. Next.</span>
+      </li>
+    </ol>
+  </div>
+  <div class="tools__pin" data-sc-act="pin" data-sc-span="5.5">
+    <div class="tools__stage" data-sc-stage>
+      <div class="wrap tools__in">
+        <div class="frame-head"><span class="evn">USER_DEBUG</span><h2 class="frame-head__t">Self-built solutions</h2></div>
+        <ol class="stackline mono" aria-label="Call stack">
+          {solutions.map((s, i) => (
+            <li class={`stackline__f stackline__f--${i}`}><i class="mk" aria-hidden="true"></i>{s.title}</li>
+          ))}
+        </ol>
+        <div class="panes">
+          {solutions.map((s, i) => (
+            <ol class="log log--pane pane" data-sc-cue={cuts[i].join(' ')}>
+              <li class="ev ev--frame" data-cat="apex" style="--d:0">
+                <span class="ln" aria-hidden="true"></span>
+                <span class="evn">USER_DEBUG</span>
+                <span class="msg msg--lead"><b>{s.title}</b> <span class="dim">/</span> {s.headline}<span class="ts ts--in">{s.kicker}</span></span>
+              </li>
+              <li class="ev" data-cat="apex" style="--d:1">
+                <span class="ln" aria-hidden="true"></span><span class="evn">USER_DEBUG</span>
+                <span class="msg">{s.short}</span>
+              </li>
+              <li class="ev" data-cat="apex" style="--d:1">
+                <span class="ln" aria-hidden="true"></span><span class="evn">VARIABLE_ASSIGNMENT</span>
+                <span class="msg tags">{s.stack.map((t) => <span class="tag" data-cat={skillCat[t] || 'apex'}>{t}</span>)}</span>
+              </li>
+              {s.points.map((t, j) => (
+                <li class="ev" data-cat="apex" style="--d:1" data-sc-cue={`${(-0.1 + i * 0.5 + j * 0.07).toFixed(2)}`}>
+                  <span class="ln" aria-hidden="true"></span><span class="evn">USER_DEBUG</span>
+                  <span class="msg">{t}</span>
+                </li>
+              ))}
+            </ol>
+          ))}
+        </div>
+        <div class="tools__bar" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+---
+import { links } from '../data/site.js';
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const tabs = [
+  ['top', 'log', 'cloud'],
+  ['experience', 'experience', 'apex'],
+  ['work', 'work', 'lwc'],
+  ['tools', 'tools', 'apex'],
+  ['skills', 'skills', 'auto'],
+  ['credentials', 'credentials', 'cloud'],
+  ['exec', 'exec', 'integ'],
+];
+const ext = [
+  [`${base}Resume.pdf`, 'Résumé', { download: true }],
+  [links.linkedin, 'LinkedIn', { external: true }],
+  [links.github, 'GitHub', { external: true }],
+  [links.trailhead, 'Trailhead', { external: true }],
+  [`mailto:${links.email}`, 'Email', {}],
+];
+---
+<header class="chrome">
+  <nav class="chrome__strip" aria-label="Log sections and links">
+    <ul class="chrome__tabs">
+      {tabs.map(([id, label, cat]) => (
+        <li><a class="tab" href={`#${id}`} data-tab={id} data-cat={cat}><i class="tab__dot" aria-hidden="true"></i>{label}</a></li>
+      ))}
+    </ul>
+    <ul class="chrome__ext">
+      {ext.map(([href, label, o]) => (
+        <li>
+          <a class="tab tab--ext" href={href}
+            {...(o.download ? { download: 'Bharat-Kumar-Resume.pdf' } : {})}
+            {...(o.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{label}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+<script>
+  // Mark the tab whose section is under the reading line, and the log line nearest it.
+  const tabs = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-tab]'));
+  const secs = tabs.map((t) => document.getElementById(t.dataset.tab!)).filter(Boolean) as HTMLElement[];
+  const strip = document.querySelector<HTMLElement>('.chrome__strip');
+  let cur: HTMLElement | null = null, curTab: HTMLElement | null = null, tick = false;
+  const evs = () => Array.from(document.querySelectorAll<HTMLElement>('.ev'));
+  function update() {
+    tick = false;
+    const vh = innerHeight, line = vh * 0.42;
+    let active = secs[0];
+    for (const s of secs) if (s.getBoundingClientRect().top <= line) active = s;
+    const t = tabs.find((x) => x.dataset.tab === active.id) || null;
+    if (t !== curTab) {
+      curTab?.removeAttribute('aria-current');
+      t?.setAttribute('aria-current', 'location');
+      curTab = t;
+      if (t && strip && strip.scrollWidth > strip.clientWidth) {
+        const r = t.getBoundingClientRect(), s = strip.getBoundingClientRect();
+        if (r.left < s.left || r.right > s.right) strip.scrollTo({ left: strip.scrollLeft + r.left - s.left - 24, behavior: 'auto' });
+      }
+    }
+    let best: HTMLElement | null = null, bd = 1e9;
+    for (const e of evs()) {
+      if (e.hidden || e.closest('[hidden]')) continue;
+      const r = e.getBoundingClientRect();
+      if (r.height === 0 || r.bottom < 0 || r.top > vh) continue;
+      const d = Math.abs((r.top + Math.min(r.height, 40) / 2) - line);
+      if (d < bd) { bd = d; best = e; }
+    }
+    if (best !== cur) { cur?.classList.remove('is-cur'); best?.classList.add('is-cur'); cur = best; }
+  }
+  const req = () => { if (!tick) { tick = true; requestAnimationFrame(update); } };
+  addEventListener('scroll', req, { passive: true });
+  addEventListener('resize', req);
+  document.addEventListener('toggle', req, true);
+  update();
+</script>
