@@ -1,3 +1,76 @@
 ---
+import { skills, skillGroups, skillCat, categories } from '../data/site.js';
+const groupCat = { 'Salesforce clouds': 'cloud', Backend: 'apex', Frontend: 'lwc', Automation: 'auto', Integration: 'integ' };
+const total = skills.length + skillGroups.length;
+const keys = Object.keys(categories);
 ---
-<div data-stub="LogSkills"></div>
+<section id="skills" class="act" data-trace="SOQL_EXECUTE" data-cat="auto">
+  <div class="wrap">
+    <div class="frame-head"><span class="evn">SOQL_EXECUTE</span><h2 class="frame-head__t">Skills</h2><span class="mono dim">stack depth 1</span></div>
+
+    <div class="filter" role="group" aria-label="Filter skills by category" data-skill-filter>
+      <button type="button" class="chip" data-f="all" aria-pressed="true">All</button>
+      {keys.map((k) => (
+        <button type="button" class="chip" data-f={k} data-cat={k} aria-pressed="false"><i class="chip__dot" aria-hidden="true"></i>{categories[k].label}</button>
+      ))}
+    </div>
+
+    <ol class="log log--q">
+      <li class="ev" data-cat="auto" style="--d:0">
+        <span class="ln" aria-hidden="true"></span><span class="ts">Aggregations:0</span>
+        <span class="evn">SOQL_EXECUTE_BEGIN</span>
+        <span class="msg mono q" data-q>SELECT Name, Category FROM Skill</span>
+      </li>
+    </ol>
+
+    <ol class="log" data-rows data-sc-in data-sc-stagger="25">
+      {skills.map((s) => (
+        <li class="ev ev--row" data-cat={skillCat[s]} style="--d:1">
+          <span class="ln" aria-hidden="true"></span><span class="ts">{categories[skillCat[s]].label}</span>
+          <span class="evn">ROW</span>
+          <span class="msg"><b>{s}</b></span>
+        </li>
+      ))}
+      {skillGroups.map(([g, list]) => (
+        <li class="ev ev--row" data-cat={groupCat[g] || 'misc'} style="--d:1">
+          <span class="ln" aria-hidden="true"></span><span class="ts">{groupCat[g] ? categories[groupCat[g]].label : 'Other'}</span>
+          <span class="evn">ROW</span>
+          <span class="msg"><b>{g}</b><span class="dim">: </span>{list}</span>
+        </li>
+      ))}
+    </ol>
+
+    <ol class="log log--q">
+      <li class="ev" data-cat="auto" style="--d:0">
+        <span class="ln" aria-hidden="true"></span><span class="ts">Rows</span>
+        <span class="evn">SOQL_EXECUTE_END</span>
+        <span class="msg mono"><b data-n>{total}</b> of {total}</span>
+      </li>
+    </ol>
+    <p class="sr-only" role="status" aria-live="polite" data-announce></p>
+  </div>
+</section>
+<script>
+  const root = document.querySelector<HTMLElement>('[data-skill-filter]');
+  if (root) {
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-rows] > .ev--row'));
+    const q = document.querySelector<HTMLElement>('[data-q]')!;
+    const n = document.querySelector<HTMLElement>('[data-n]')!;
+    const say = document.querySelector<HTMLElement>('[data-announce]')!;
+    root.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-f]');
+      if (!b) return;
+      const f = b.dataset.f!;
+      root.querySelectorAll('button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      let c = 0;
+      rows.forEach((r) => {
+        const show = f === 'all' || r.dataset.cat === f;
+        r.hidden = !show;
+        if (show) c++;
+      });
+      q.textContent = f === 'all' ? 'SELECT Name, Category FROM Skill' : `SELECT Name, Category FROM Skill WHERE Category = '${f}'`;
+      n.textContent = String(c);
+      say.textContent = `${c} of ${rows.length} rows shown`;
+    });
+  }
+</script>

@@ -1,3 +1,36 @@
 ---
+import { roles, skillCat } from '../data/site.js';
 ---
-<div data-stub="LogExperience"></div>
+<section id="experience" class="act" data-trace="CODE_UNIT_STARTED" data-cat="apex">
+  <div class="wrap">
+    <div class="frame-head"><span class="evn">CODE_UNIT_STARTED</span><h2 class="frame-head__t">Experience</h2><span class="mono dim">stack depth 1</span></div>
+    {roles.map((r, i) => (
+      <ol class="log log--frame" data-sc-in data-sc-stagger="45">
+        <li class="ev ev--frame" data-cat={skillCat[r.stack[0]] || 'apex'} style="--d:1">
+          <span class="ln" aria-hidden="true"></span><span class="ts">{r.when}</span>
+          <span class="evn">CODE_UNIT_STARTED</span>
+          <span class="msg msg--lead"><b>{r.company}</b> <span class="dim">/</span> {r.title}{i === 0 && <span class="open"><i class="status__dot" aria-hidden="true"></i>open</span>}</span>
+        </li>
+        <li class="ev" data-cat="apex" style="--d:2">
+          <span class="ln" aria-hidden="true"></span><span class="ts">stack</span>
+          <span class="evn">VARIABLE_ASSIGNMENT</span>
+          <span class="msg tags">{r.stack.map((s) => <span class="tag" data-cat={skillCat[s] || 'apex'}>{s}</span>)}</span>
+        </li>
+        {r.points.map((p) => (
+          <li class="ev" data-cat={skillCat[r.stack[0]] || 'apex'} style="--d:2">
+            <span class="ln" aria-hidden="true"></span><span class="ts">depth=2</span>
+            <span class="evn">USER_DEBUG</span>
+            <span class="msg">{p}</span>
+          </li>
+        ))}
+        {i > 0 && (
+          <li class="ev" data-cat={skillCat[r.stack[0]] || 'apex'} style="--d:1">
+            <span class="ln" aria-hidden="true"></span><span class="ts">{r.when}</span>
+            <span class="evn">CODE_UNIT_FINISHED</span>
+            <span class="msg">{r.company}</span>
+          </li>
+        )}
+      </ol>
+    ))}
+  </div>
+</section>

@@ -1,3 +1,217 @@
 ---
+import { profile, links, roles, projects, solutions, skillGroups, certifications, superbadges } from '../data/site.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const resumeHref = `${base}Resume.pdf`;
+
+// Every output line is derived from site.js. {t: text, h?: href, k?: 'head' | 'dim'}
+const T = (t, k) => ({ t, k });
+const A = (t, h) => ({ t, h });
+
+const names = [
+  ['help', 'list commands'],
+  ['whoami', 'who this is'],
+  ['experience', 'roles and stacks'],
+  ['projects', 'client work'],
+  ['tools', 'self-built tools'],
+  ['skills', 'skills by group'],
+  ['certs', 'certifications and superbadges'],
+  ['resume', 'link to the resume PDF'],
+  ['email', 'email address'],
+  ['github', 'GitHub profile'],
+  ['linkedin', 'LinkedIn profile'],
+  ['trailhead', 'Trailblazer profile'],
+  ['open <target>', 'open email, resume, github, linkedin or trailhead'],
+  ['clear', 'clear this log'],
+];
+
+const out = {
+  help: [T('Commands', 'head'), ...names.map(([n, d]) => T(`${n.padEnd(14, ' ')}${d}`))],
+  whoami: [
+    T(`${profile.name}, ${profile.role}`, 'head'),
+    T(profile.location, 'dim'),
+    T(profile.pitch),
+    ...profile.facts.map(([k, v]) => T(`${k.padEnd(11, ' ')}${v}`)),
+  ],
+  experience: roles.flatMap((r) => [
+    T(`${r.company}, ${r.title}`, 'head'),
+    T(r.when, 'dim'),
+    T(`Stack: ${r.stack.join(', ')}`),
+  ]),
+  projects: projects.flatMap((p) => [T(`${p.title}: ${p.headline}`, 'head'), T(p.kicker, 'dim'), T(p.short)]),
+  tools: solutions.flatMap((s) => [T(`${s.title}: ${s.headline}`, 'head'), T(s.kicker, 'dim'), T(s.short)]),
+  skills: skillGroups.map(([k, v]) => T(`${k}: ${v}`)),
+  certs: [
+    T('Certifications', 'head'),
+    ...certifications.map((c) => T(`Salesforce Certified ${c.name}`)),
+    T('Superbadges', 'head'),
+    ...superbadges.map((s) => T(`${s.name} (${s.sub})`)),
+  ],
+  resume: [A('Resume.pdf', resumeHref), T('Run "open resume" to download it.', 'dim')],
+  email: [A(links.email, `mailto:${links.email}`), T('Run "open email" to compose a message.', 'dim')],
+  github: [A(links.github, links.github)],
+  linkedin: [A(links.linkedin, links.linkedin)],
+  trailhead: [A(links.trailhead, links.trailhead)],
+};
+
+const open = {
+  email: { href: `mailto:${links.email}`, say: `Opening a message to ${links.email}` },
+  resume: { href: resumeHref, say: 'Downloading Resume.pdf', download: true },
+  github: { href: links.github, say: 'Opening GitHub', blank: true },
+  linkedin: { href: links.linkedin, say: 'Opening LinkedIn', blank: true },
+  trailhead: { href: links.trailhead, say: 'Opening Trailhead', blank: true },
+};
+
+const data = JSON.stringify({ out, open, names: Object.keys(out).concat(['open', 'clear']) });
+const chips = ['help', 'whoami', 'experience', 'projects', 'tools', 'skills', 'certs', 'resume', 'email', 'github', 'linkedin'];
 ---
-<div data-stub="Cmdline"></div>
+<section id="exec" class="act cmd" data-trace="EXEC_ANONYMOUS" data-cat="apex" aria-labelledby="cmd-h" data-cmd={data}>
+  <div class="cmd__wrap">
+    <header class="cmd__head">
+      <h2 class="cmd__title" id="cmd-h">Execute Anonymous</h2>
+      <p class="cmd__note">Runs in your browser. Nothing is sent anywhere.</p>
+    </header>
+
+    <div class="cmd__win">
+      <div class="cmd__chips" role="group" aria-label="Commands to run">
+        {chips.map((c) => <button type="button" class="cmd__chip" data-run={c}>{c}</button>)}
+      </div>
+
+      <div class="cmd__log" role="log" aria-label="Command output" tabindex="0" data-log>
+        <div class="cmd__line cmd__line--dim">Window ready. Type help, or press a command above.</div>
+      </div>
+
+      <form class="cmd__form" data-form autocomplete="off" novalidate>
+        <span class="cmd__prompt" aria-hidden="true">&gt;</span>
+        <input class="cmd__input" type="text" name="cmd" aria-label="Command line" aria-describedby="cmd-hint"
+               autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="go"
+               placeholder="help" data-input />
+        <button type="submit" class="cmd__run">Run</button>
+      </form>
+      <p class="cmd__hint" id="cmd-hint" data-hint>Enter runs. Tab completes. Up and Down recall. Esc clears.</p>
+    </div>
+
+    <footer class="cmd__foot">
+      <span>{profile.name}</span><span aria-hidden="true">/</span><span>{profile.location}</span>
+      <span class="cmd__built">Built with Astro. Layout engine: scroll-craft (MIT)</span>
+    </footer>
+  </div>
+</section>
+
+<script>
+  const root = document.getElementById('exec');
+  if (root) {
+    const D = JSON.parse(root.dataset.cmd || '{}');
+    const log = root.querySelector('[data-log]') as HTMLElement;
+    const form = root.querySelector('[data-form]') as HTMLFormElement;
+    const input = root.querySelector('[data-input]') as HTMLInputElement;
+    const hint = root.querySelector('[data-hint]') as HTMLElement;
+    const HINT = hint.textContent;
+    const names: string[] = D.names;
+    const targets = Object.keys(D.open);
+    const history: string[] = [];
+    let hIdx = -1;
+    let draft = '';
+
+    const add = (text: string, cls = '', href?: string) => {
+      const d = document.createElement('div');
+      d.className = 'cmd__line ' + cls;
+      if (href) {
+        const a = document.createElement('a');
+        a.href = href; a.textContent = text;
+        if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
+        d.appendChild(a);
+      } else d.textContent = text;
+      log.appendChild(d);
+      return d;
+    };
+    const lev = (a: string, b: string) => {
+      const m = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+      for (let j = 1; j <= b.length; j++) m[0][j] = j;
+      for (let i = 1; i <= a.length; i++)
+        for (let j = 1; j <= b.length; j++)
+          m[i][j] = Math.min(m[i - 1][j] + 1, m[i][j - 1] + 1, m[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      return m[a.length][b.length];
+    };
+    const closest = (w: string, pool: string[]) => {
+      let best = '', d = 99;
+      for (const n of pool) {
+        const x = n.startsWith(w) || w.startsWith(n) ? 0.5 : lev(w, n);
+        if (x < d) { d = x; best = n; }
+      }
+      return d <= Math.max(2, Math.floor(w.length / 3)) ? best : '';
+    };
+    const done = (cmd: string, ok: boolean) =>
+      window.dispatchEvent(new CustomEvent('cmd-run', { detail: { cmd, ok } }));
+
+    const run = (raw: string) => {
+      const line = raw.trim().replace(/\s+/g, ' ');
+      if (!line) return;
+      history.push(line); hIdx = -1; draft = '';
+      add('> ' + line, 'cmd__echo');
+      const [name, arg] = line.toLowerCase().split(' ');
+      let ok = true;
+      if (name === 'clear') {
+        log.querySelectorAll('.cmd__line').forEach((n) => n.remove());
+        add('Log cleared.', 'cmd__line--dim');
+      } else if (name === 'open') {
+        const t = D.open[arg];
+        if (!arg) { add('Usage: open <' + targets.join('|') + '>', 'cmd__err'); ok = false; }
+        else if (!t) {
+          const s = closest(arg, targets);
+          add(`No such target: ${arg}.` + (s ? ` Did you mean "open ${s}"?` : ` Try: ${targets.join(', ')}.`), 'cmd__err'); ok = false;
+        } else {
+          add(t.say, 'cmd__line--dim');
+          if (t.blank) window.open(t.href, '_blank', 'noopener,noreferrer');
+          else if (t.download) { const a = document.createElement('a'); a.href = t.href; a.download = 'Resume.pdf'; document.body.appendChild(a); a.click(); a.remove(); }
+          else window.location.href = t.href;
+        }
+      } else if (D.out[name]) {
+        for (const l of D.out[name]) add(l.t, 'cmd__out' + (l.k ? ' cmd__line--' + l.k : ''), l.h);
+      } else {
+        const s = closest(name, names);
+        add(`Command not found: ${name}.` + (s ? ` Did you mean "${s}"?` : '') + ' Type help for the list.', 'cmd__err');
+        ok = false;
+      }
+      log.scrollTop = log.scrollHeight;
+      done(line, ok);
+    };
+
+    form.addEventListener('submit', (e) => { e.preventDefault(); const v = input.value; input.value = ''; hint.textContent = HINT; run(v); });
+
+    root.querySelectorAll('[data-run]').forEach((b) =>
+      b.addEventListener('click', () => {
+        run((b as HTMLElement).dataset.run!);
+        // do not summon the on-screen keyboard on touch
+        if (matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
+      }));
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { input.value = ''; hIdx = -1; hint.textContent = HINT; e.preventDefault(); }
+      else if (e.key === 'ArrowUp') {
+        if (!history.length) return;
+        if (hIdx === -1) { draft = input.value; hIdx = history.length; }
+        hIdx = Math.max(0, hIdx - 1); input.value = history[hIdx]; e.preventDefault();
+        queueMicrotask(() => input.setSelectionRange(input.value.length, input.value.length));
+      } else if (e.key === 'ArrowDown') {
+        if (hIdx === -1) return;
+        hIdx++; input.value = hIdx >= history.length ? ((hIdx = -1), draft) : history[hIdx]; e.preventDefault();
+      } else if (e.key === 'Tab' && !e.shiftKey) {
+        const v = input.value.replace(/^\s+/, '');
+        if (!v) return;
+        const parts = v.split(' ');
+        const second = parts.length > 1;
+        if (parts.length > 2) return;
+        const pool = second ? (parts[0].toLowerCase() === 'open' ? targets : []) : names;
+        const w = (second ? parts[1] : parts[0]).toLowerCase();
+        const m = pool.filter((n) => n.startsWith(w));
+        if (!m.length) return;
+        e.preventDefault();
+        let c = m[0];
+        for (const n of m) while (!n.startsWith(c)) c = c.slice(0, -1);
+        input.value = (second ? parts[0] + ' ' : '') + c + (m.length === 1 && !second && c === 'open' ? ' ' : '');
+        hint.textContent = m.length > 1 ? m.join('   ') : HINT;
+      }
+    });
+  }
+</script>
