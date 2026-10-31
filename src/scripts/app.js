@@ -28,7 +28,7 @@ document.querySelectorAll('.rv').forEach((el) => io.observe(el));
 const links = [...document.querySelectorAll('[data-nav]')];
 const secs = [...new Set(links.map((l) => l.dataset.nav))].map((id) => document.getElementById(id)).filter(Boolean);
 const navIo = new IntersectionObserver((es) => es.forEach((e) => {
-  if (e.isIntersecting) links.forEach((l) => l.classList.toggle('act', l.dataset.nav === e.target.id));
+  if (e.isIntersecting) links.forEach((l) => { const on = l.dataset.nav === e.target.id; l.classList.toggle('act', on); if (on) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current'); });
 }), { rootMargin: '-30% 0px -60% 0px' });
 secs.forEach((s) => navIo.observe(s));
 

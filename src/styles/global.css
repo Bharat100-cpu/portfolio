@@ -91,3 +91,86 @@ html[data-theme="space"] .gnav{background:rgba(0,0,0,.6)}
 }
 body{background:transparent}
 html[data-theme="space"] .panel{background:rgba(3,4,9,.58);backdrop-filter:none;-webkit-backdrop-filter:none}
+
+/* ===== Polish: touch targets, safe areas, small screens, a11y, perf ===== */
+.record{padding-left:max(clamp(12px,3vw,28px),env(safe-area-inset-left));padding-right:max(clamp(12px,3vw,28px),env(safe-area-inset-right))}
+.gnav{padding-left:max(clamp(12px,3vw,28px),env(safe-area-inset-left));padding-right:max(clamp(12px,3vw,28px),env(safe-area-inset-right));padding-top:max(10px,env(safe-area-inset-top))}
+.appname{display:inline-flex;align-items:center;min-height:44px}
+.gbtn{min-height:44px}
+.gbtn kbd{font-size:12px}
+.themes button{min-height:44px}
+.gnav nav a{display:inline-flex;align-items:center;min-height:44px}
+.tabbar{left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));bottom:max(10px,env(safe-area-inset-bottom))}
+.tabbar a{min-height:48px;font-size:12px;align-content:center}
+.toast{bottom:calc(96px + env(safe-area-inset-bottom));max-width:calc(100vw - 32px);text-align:center}
+.skip{padding:12px 16px}
+/* focus rings must survive overflow:hidden parents and clipped shapes */
+.rl-wrap :focus-visible,.dc-win :focus-visible,.rh-fields :focus-visible,.tabbar :focus-visible{outline-offset:-3px}
+.themes button:focus-visible{outline-offset:-3px;border-radius:0}
+@media (max-width:699px){
+  .record{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+  .launcher{display:none}
+  .gnav{gap:8px;padding-top:max(6px,env(safe-area-inset-top));padding-bottom:6px;scroll-margin-top:0}
+  .appname{min-width:0;line-height:1.1;white-space:normal}
+  .gbtn{min-width:44px;justify-content:center;padding:0 8px}
+  .themes button{min-width:44px}
+  html{scroll-padding-top:64px}
+  /* backdrop blur over a full-width fixed bar is costly on phones: swap for a near-opaque fill */
+  .gnav,.tabbar{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .gnav{background:color-mix(in srgb,var(--panel) 96%,transparent)}
+  .tabbar{background:color-mix(in srgb,var(--panel) 97%,transparent)}
+  html[data-theme="space"] .gnav{background:rgba(0,0,0,.88)}
+  html[data-theme="space"] .tabbar{background:rgba(6,7,12,.94)}
+  html[data-theme="space"]{--shadow:0 0 0 1px rgba(255,255,255,.04)}
+  .rh-deco{animation:none}
+}
+@media (max-width:379px){
+  .themes button{min-width:40px;padding-left:8px;padding-right:8px}
+  .gnav{gap:6px;padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right))}
+  .gtools{gap:4px}
+  .appname{font-size:14px}
+  .tabbar{padding:4px}.tabbar a{padding-left:0;padding-right:0}
+  .record{padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
+}
+@media (min-width:700px) and (max-width:1099px){
+  .themes button{min-width:44px}
+  .gbtn{min-width:44px;justify-content:center}
+}
+@media (min-width:700px) and (max-width:899px){.themes button{min-width:40px;padding-left:8px;padding-right:8px}.gnav nav a{padding-left:8px;padding-right:8px}.gnav{gap:6px}}
+/* short landscape screens: don't pin a tall header over a 390px viewport */
+@media (max-height:500px) and (orientation:landscape){
+  .gnav{position:static}
+  html{scroll-padding-top:12px}
+  .col-l,.col-r{position:static}
+}
+@media (hover:none){
+  .rh-btn:hover,.cr-tile:hover,.lv-btn:hover:not(:disabled){transform:none}
+  .rel:hover::before{opacity:0}
+}
+.rh-btn:active,.lv-btn:active:not(:disabled),.xbtn:active,.tabbar a:active{filter:brightness(.92)}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-iteration-count:1!important;scroll-behavior:auto!important}
+  .rh-deco,.rh-ok i,.tree i,.cron i,.node,.wire.flowing{animation:none!important}
+}
+@media (prefers-reduced-transparency:reduce){
+  .gnav,.tabbar,.sp,.dc-back,.panel{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  html[data-theme="space"] .panel{background:#05060a}
+  html[data-theme="space"] .gnav{background:#000}
+}
+@media (prefers-contrast:more){
+  :root,html[data-theme]{--mute:var(--ink);--line:color-mix(in srgb,var(--ink) 75%,transparent)}
+  html[data-theme="space"] .panel{background:#000}
+  .rh-deco,.rel::before{display:none}
+  .chip,.date-chip{border-color:var(--ink)}
+  a{text-decoration:underline}
+  .tabbar a,.gnav nav a,.themes button{text-decoration:none}
+}
+@media (forced-colors:active){
+  .panel,.rh-btn,.gbtn,.themes,.chip,.xbtn,.tabbar,.lv-btn,.cr-tile,.tl-card,.sol,.sk-set{border:1px solid CanvasText}
+  .rh-title,.rh-avatar span{background:none;color:CanvasText;-webkit-text-fill-color:CanvasText}
+  .themes button[aria-pressed="true"],.tabbar a.act,.sk-filter button[aria-pressed="true"],.rh-step.on{forced-color-adjust:none;background:Highlight;color:HighlightText;border-color:HighlightText}
+  :focus-visible{outline:3px solid Highlight}
+  .bar i,.wire::after{background:Highlight}
+  .rh-deco,body::before,#stars{display:none}
+  .opt input:checked+.optface{outline:3px solid Highlight}
+}
