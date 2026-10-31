@@ -1,15 +1,16 @@
 ---
 import '../styles/tokens.css';
-import '../styles/console.css';
-import '../styles/trace.css';
-import Chrome from '../components/Chrome.astro';
-import LogHero from '../components/LogHero.astro';
-import LogExperience from '../components/LogExperience.astro';
-import LogWork from '../components/LogWork.astro';
-import LogSkills from '../components/LogSkills.astro';
-import LogCreds from '../components/LogCreds.astro';
-import Cmdline from '../components/Cmdline.astro';
-import TraceRail from '../components/TraceRail.astro';
+import '../styles/global.css';
+import RecordHeader from '../components/RecordHeader.astro';
+import DetailsPanel from '../components/DetailsPanel.astro';
+import Credentials from '../components/Credentials.astro';
+import Contact from '../components/Contact.astro';
+import Experience from '../components/Experience.astro';
+import Work from '../components/Work.astro';
+import Skills from '../components/Skills.astro';
+import FlowRunner from '../components/FlowRunner.astro';
+import LimitsMeter from '../components/LimitsMeter.astro';
+import DevConsole from '../components/DevConsole.astro';
 import { profile, links, skills, certifications } from '../data/site.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
@@ -33,20 +34,20 @@ const ld = {
     { '@type': 'CollegeOrUniversity', name: 'Bon Maharaj Institute of Management & Technology' },
   ],
 };
+const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['work', 'Related', '▤'], ['skills', 'Skills', '✦'], ['contact', 'Contact', '✉']];
 ---
 <!doctype html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <script is:inline>if(location.hostname.endsWith('github.io'))addEventListener('load',function(){setTimeout(function(){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NZNLNPV2')},1500)});</script>
-    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script is:inline>(function(d){d.classList.add('js');var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t||t==="dreamforce"&&0)t="space";d.dataset.theme=t})(document.documentElement)</script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#0a0b0d" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href={site} />
-    <link rel="stylesheet" href={`${base}sc/scrollcraft.css`} />
     <link rel="icon" href={`${base}favicon.png`} type="image/png" />
     <meta property="og:type" content="profile" />
     <meta property="og:title" content={title} />
@@ -65,27 +66,53 @@ const ld = {
     <meta name="twitter:image" content={`${site}og.png`} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   </head>
   <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZNLNPV2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <canvas id="stars" aria-hidden="true"></canvas>
     <a class="skip" href="#main">Skip to content</a>
-    <Chrome />
-    <main id="main">
-      <LogHero />
-      <LogExperience />
-      <LogWork />
-      <LogSkills />
-      <LogCreds />
-      <Cmdline />
+    <header class="gnav">
+      <span class="launcher" aria-hidden="true">{Array.from({ length: 9 }).map(() => <i />)}</span>
+      <a class="appname" href="#top">Bharat Kumar <span class="sr-only">Salesforce Developer</span></a>
+      <nav aria-label="Sections">
+        {nav.map(([id, label]) => <a href={`#${id}`} data-nav={id}>{label}</a>)}
+      </nav>
+      <div class="gtools">
+        <button class="gbtn" type="button" data-open-console aria-label="Open Apex console"><span>Search or run Apex…</span><kbd>⌘K</kbd></button>
+        <div class="themes" role="group" aria-label="Theme">
+          <button type="button" data-set-theme="space" aria-pressed="false" title="Space (black)">Space</button>
+          <button type="button" data-set-theme="lightning" aria-pressed="false" title="Lightning (light)">Lightning</button>
+          <button type="button" data-set-theme="dreamforce" aria-pressed="false" title="Dreamforce (dark)">Dreamforce</button>
+          <button type="button" data-set-theme="trailhead" aria-pressed="false" title="Trailhead (playful)">Trailhead</button>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="record">
+      <RecordHeader />
+      <aside class="col-l" aria-label="Details">
+        <DetailsPanel />
+        <Credentials />
+      </aside>
+      <div class="col-c">
+        <Experience />
+        <Work />
+        <Skills />
+      </div>
+      <aside class="col-r" aria-label="Interactive">
+        <FlowRunner />
+        <LimitsMeter />
+        <Contact />
+      </aside>
     </main>
-    <TraceRail />
+    <nav class="tabbar" aria-label="Sections (mobile)">
+      {nav.map(([id, label, ic]) => <a href={`#${id}`} data-nav={id}><b aria-hidden="true">{ic}</b>{label}</a>)}
+    </nav>
+    <DevConsole />
     <div class="toast" role="status" aria-live="polite"></div>
-    <script is:inline src={`${base}sc/scrollcraft.js`}></script>
-    <script is:inline>if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.querySelectorAll('[data-sc-count]').forEach(function(e){e.removeAttribute('data-sc-count')});ScrollCraft.mount(document.body);</script>
     <script>
-      import '../scripts/trace.js';
+      import '../scripts/app.js';
     </script>
   </body>
 </html>
