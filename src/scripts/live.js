@@ -33,7 +33,7 @@ function initFlow() {
     next.disabled = true; next.hidden = false; reset.hidden = true;
     $('[data-flow-dec]', f).textContent = 'Matches?';
     $('[data-flow-dec]', f).className = 'dec';
-    setState('Waiting for input', 'idle');
+    setState('Waiting for your pick', 'idle');
   };
 
   radios.forEach((r) => r.addEventListener('change', () => {
@@ -53,7 +53,7 @@ function initFlow() {
     const matches = $$(`[data-res="${cat}"] .reslist li`, f).length;
     const dec = $('[data-flow-dec]', f);
     dec.textContent = `Checking ${labels[cat]} work…`; await wait(700);
-    dec.textContent = matches ? `Yes · ${matches} match${matches > 1 ? 'es' : ''} found` : 'No exact match · showing skills';
+    dec.textContent = matches ? `Yes · ${matches} match${matches > 1 ? 'es' : ''} found` : 'No exact match, showing skills instead';
     dec.className = 'dec yes';
     nodes.decision.dataset.state = 'done';
     wires[2].classList.add('flowing'); await wait(600); wire(2, true);
@@ -156,7 +156,7 @@ function initConsole() {
   const commands = {
     help: () => {
       row('USER_INFO', 'Available commands:');
-      [['whoami', 'who is this record'], ['skills', 'skills by group'], ['certs', 'certifications and superbadges'], ['projects', 'projects and solutions'], ['experience', 'roles'], ['contact', 'ways to reach me'], ['theme <lightning|dreamforce|trailhead>', 'switch theme'], ['clear', 'empty the log']].forEach(([c, d]) => row('', `${c.padEnd(40)} ${d}`));
+      [['whoami', 'who I am'], ['skills', 'skills by group'], ['certs', 'certifications and superbadges'], ['projects', 'projects and solutions'], ['experience', 'my roles'], ['contact', 'ways to reach me'], ['theme <lightning|dreamforce|trailhead>', 'switch theme'], ['clear', 'clear the log']].forEach(([c, d]) => row('', `${c.padEnd(40)} ${d}`));
       row('', "Also try: System.debug('hi');  Database.executeBatch(new Hire());");
     },
     whoami: () => { dbg(`${D.profile.name} · ${D.profile.role}`); dbg(D.profile.location); D.profile.about.slice(0, 1).forEach((a) => dbg(a, 2)); },
@@ -213,7 +213,7 @@ function initConsole() {
         dbg(`finish(): interview invitation queued. Draft it at ${mail}`, 3);
         row('CODE_UNIT_FINISHED', 'Hire.finish()', 'ok');
       } else {
-        dbg(`${c}.start(): no class named ${c} in this org, but the batch was very enthusiastic.`);
+        dbg(`${c}.start(): no class named ${c} in this org. Simulated anyway.`);
         row('CODE_UNIT_FINISHED', `${c} (simulated)`, 'ok');
       }
       row('EXECUTION_FINISHED', 'Success', 'ok'); return;

@@ -1,0 +1,53 @@
+/* Scroll-driven polish. Only transform/opacity/translate; all of it static under prefers-reduced-motion. */
+
+/* 1. Progress hairline */
+.sp-progress{position:fixed;left:0;top:0;right:0;height:3px;z-index:100;pointer-events:none;transform-origin:0 50%;transform:scaleX(var(--p,0));
+  background:linear-gradient(90deg,var(--brand),var(--brand2),var(--pop))}
+html[data-theme="space"] .sp-progress{box-shadow:0 0 10px rgba(169,196,255,.6)}
+
+/* 2. Sticky mini-path under the global nav */
+.sp{position:fixed;left:0;right:0;top:var(--gnav-h,57px);z-index:55;display:flex;justify-content:center;padding:6px clamp(12px,3vw,28px);
+  background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+  transform:translateY(-100%);opacity:0;visibility:hidden;pointer-events:none;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s,visibility 0s .35s}
+html[data-theme="space"] .sp{background:rgba(0,0,0,.6)}
+.sp.on{transform:none;opacity:1;visibility:visible;pointer-events:auto;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .25s,visibility 0s}
+.sp ol{display:flex;gap:4px;margin:0;padding:0;list-style:none}
+.sp li{display:flex;align-items:center}
+.sp li+li::before{content:"";width:clamp(14px,3vw,36px);height:2px;margin-right:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.sp li.done+li::before,.sp li.cur+li::before{background:color-mix(in srgb,var(--c) 60%,var(--line))}
+.sp a{display:inline-flex;align-items:center;gap:7px;padding:4px 11px 4px 5px;border-radius:999px;font:600 12.5px/1 var(--f-head);color:var(--mute);border:1px solid transparent;transition:color .3s,background .3s,border-color .3s}
+.sp a:hover{color:var(--ink)}
+.sp-n{display:grid;place-items:center;width:20px;height:20px;border-radius:50%;font-size:11px;border:1.5px solid var(--line);transition:background .3s,border-color .3s,color .3s,transform .3s}
+.sp li.done a{color:var(--ink)}
+.sp li.done .sp-n{border-color:var(--c);color:var(--c)}
+.sp li.cur a{color:var(--ink);background:color-mix(in srgb,var(--c) 18%,transparent);border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+.sp li.cur .sp-n{background:var(--c);border-color:var(--c);color:#fff;transform:scale(1.1)}
+html[data-theme="space"] .sp li.cur .sp-n,html[data-theme="dreamforce"] .sp li.cur .sp-n{color:#020b24}
+@media (min-width:700px){html{scroll-padding-top:118px}}
+@media (max-width:699px){.sp{display:none}}
+
+/* 4. Hero parallax (individual transform properties so the avatar's rotate stays intact) */
+.rh-avatar{translate:0 calc(var(--hp-a,0) * 1px);will-change:translate}
+.rh-title{translate:0 calc(var(--hp-t,0) * 1px)}
+
+/* 5. Direction-aware, staggered reveals. Hidden only with html.js. */
+html.js .rv:not(.in){transform:translateY(16px)}
+html.js[data-sdir="up"] .rv:not(.in){transform:translateY(-14px)}
+html.js .rv.st-host:not(.done){transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+html.js .rv:not(.in) .st{opacity:0;translate:0 14px}
+html.js[data-sdir="up"] .rv:not(.in) .st{translate:0 -10px}
+html.js .rv:not(.done) .st{transition:opacity .55s cubic-bezier(.2,.7,.2,1),translate .55s cubic-bezier(.2,.7,.2,1)}
+html.js .rv.in:not(.done) .st{transition-delay:calc(var(--i,0) * 70ms + 120ms)}
+
+/* 6. Count-up numerals */
+.cu{font-variant-numeric:tabular-nums}
+
+@media (prefers-reduced-motion:reduce){
+  .sp,.sp.on{transition:none}
+  .sp-progress{transition:none}
+  .rh-avatar,.rh-title{translate:none;will-change:auto}
+  html.js .rv:not(.in),html.js[data-sdir] .rv:not(.in){transform:none}
+  html.js .rv:not(.in) .st{opacity:1;translate:none}
+  html.js .rv .st{transition:none!important}
+}

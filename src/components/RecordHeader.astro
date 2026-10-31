@@ -3,11 +3,11 @@ import '../styles/record.css';
 import { profile, links } from '../data/site.js';
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const stages = [
-  { k: 'Learn', cat: 'cloud', d: 'Four active Salesforce certifications, Trailhead superbadges, and an MCA in Artificial Intelligence in progress.' },
-  { k: 'Build', sub: 'Apex / LWC', cat: 'apex', d: 'Production-grade Apex, batch and queueable chains, and reusable LWC component libraries.' },
+  { k: 'Learn', cat: 'cloud', d: 'Four active Salesforce certifications, Trailhead superbadges, and an MCA in Artificial Intelligence under way.' },
+  { k: 'Build', sub: 'Apex / LWC', cat: 'apex', d: 'Apex for production: batch and queueable chains and reusable LWC component libraries.' },
   { k: 'Integrate', cat: 'integ', d: 'REST and SOAP integrations, Connected Apps and OAuth 2.0, from Quip to the ClearTax GST Portal.' },
-  { k: 'Automate', cat: 'auto', d: 'Flows replacing Process Builder, scheduled jobs, and tooling that retires manual, error-prone processes.' },
-  { k: 'Ship', cat: 'lwc', d: 'Salesforce DX, Git, Copado and Change Sets for deployments across sandboxes to production.' },
+  { k: 'Automate', cat: 'auto', d: 'Flows in place of Process Builder, scheduled jobs, and tools that replace manual, error-prone work.' },
+  { k: 'Ship', cat: 'lwc', d: 'Salesforce DX, Git, Copado and Change Sets, moving changes from sandboxes to production.' },
 ];
 const fields = [
   ['Location', profile.location],
@@ -35,7 +35,7 @@ const fields = [
 
   <dl class="rh-fields">
     {fields.map(([l, v]) => <div><dt>{l}</dt><dd>{v}</dd></div>)}
-    <div><dt>Open to roles</dt><dd class="rh-ok"><i aria-hidden="true"></i>Open to roles</dd></div>
+    <div><dt>Status</dt><dd class="rh-ok"><i aria-hidden="true"></i>Open to new roles</dd></div>
   </dl>
 
   <div class="rh-path" data-path>

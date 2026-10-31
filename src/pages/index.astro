@@ -1,6 +1,8 @@
 ---
 import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/motion.css';
+import StickyPath from '../components/StickyPath.astro';
 import RecordHeader from '../components/RecordHeader.astro';
 import DetailsPanel from '../components/DetailsPanel.astro';
 import Credentials from '../components/Credentials.astro';
@@ -89,6 +91,7 @@ const nav = [['top', 'Overview', '◎'], ['experience', 'Activity', '⏱'], ['wo
         </div>
       </div>
     </header>
+    <StickyPath />
     <main id="main" class="record">
       <RecordHeader />
       <aside class="col-l" aria-label="Details">
