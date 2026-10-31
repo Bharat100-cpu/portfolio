@@ -118,9 +118,10 @@ document.addEventListener('click', async (e) => {
     kids.forEach((k, i) => { k.classList.add('st'); k.style.setProperty('--i', Math.min(i, 9)); });
     el.classList.add('st-host');
   });
-  document.querySelectorAll('.rv').forEach((el) => el.addEventListener('transitionend', function f(e) {
-    if (e.target === el && e.propertyName === 'opacity' && el.classList.contains('in')) { setTimeout(() => el.classList.add('done'), 1100); el.removeEventListener('transitionend', f); }
-  }));
+  const doneIo = new IntersectionObserver((es) => es.forEach((e) => {
+    if (e.isIntersecting) { doneIo.unobserve(e.target); setTimeout(() => e.target.classList.add('done'), 1600); }
+  }), { threshold: 0.08 });
+  document.querySelectorAll('.rv').forEach((el) => doneIo.observe(el));
   if (reduce) document.querySelectorAll('.rv').forEach((el) => el.classList.add('in', 'done'));
 
   // Count-up for real numerals ("4 yrs", "4 years on Salesforce"): final text is already in the HTML.
@@ -163,8 +164,8 @@ document.addEventListener('click', async (e) => {
     if (bar) bar.style.setProperty('--p', Math.min(1, y / max).toFixed(4));
     if (Math.abs(y - prevY) > 2) { root.dataset.sdir = y < prevY ? 'up' : 'down'; prevY = y; }
     if (!reduce && hero && heroBottom > -200) {
-      hero.style.setProperty('--hp-a', (Math.min(y, 600) * -0.08).toFixed(2));
-      hero.style.setProperty('--hp-t', (Math.min(y, 600) * -0.04).toFixed(2));
+      hero.style.setProperty('--hp-a', (Math.min(y, 400) * 0.08).toFixed(2));
+      hero.style.setProperty('--hp-t', (Math.min(y, 400) * 0.04).toFixed(2));
     }
     if (sp) {
       const show = pathBottom < gh;
